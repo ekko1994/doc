@@ -727,3 +727,479 @@ for select * from B where B.id = A.id
 注意：A表与B表的ID字段应建立索引
 ```
 
+## 2、order by关键字优化
+
+### 2.1、ORDER BY子句，尽量使用Index方式排序，避免使用FileSort方式排序
+
+```mysql
+mysql> explain select * from tblA where age>20 order by age;
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+| id | select_type | table | type  | possible_keys  | key            | key_len | ref  | rows | Extra                    |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+|  1 | SIMPLE      | tblA  | index | idx_A_ageBirth | idx_A_ageBirth | 9       | NULL |    3 | Using where; Using index |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+```
+
+```mysql
+mysql> explain select * from tblA where age>20 order by age,birth;
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+| id | select_type | table | type  | possible_keys  | key            | key_len | ref  | rows | Extra                    |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+|  1 | SIMPLE      | tblA  | index | idx_A_ageBirth | idx_A_ageBirth | 9       | NULL |    3 | Using where; Using index |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+--------------------------+
+```
+
+```mysql
+mysql> explain select * from tblA where age>20 order by birth;
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+| id | select_type | table | type  | possible_keys  | key            | key_len | ref  | rows | Extra                                    |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+|  1 | SIMPLE      | tblA  | index | idx_A_ageBirth | idx_A_ageBirth | 9       | NULL |    3 | Using where; Using index; Using filesort |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+```
+
+```mysql
+mysql> explain select * from tblA where age>20 order by birth,age;
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+| id | select_type | table | type  | possible_keys  | key            | key_len | ref  | rows | Extra                                    |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+|  1 | SIMPLE      | tblA  | index | idx_A_ageBirth | idx_A_ageBirth | 9       | NULL |    3 | Using where; Using index; Using filesort |
++----+-------------+-------+-------+----------------+----------------+---------+------+------+------------------------------------------+
+```
+
+```mysql
+mysql> explain select * from tblA order by birth;
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+| id | select_type | table | type  | possible_keys | key            | key_len | ref  | rows | Extra                       |
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+|  1 | SIMPLE      | tblA  | index | NULL          | idx_A_ageBirth | 9       | NULL |    3 | Using index; Using filesort |
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+```
+
+```mysql
+mysql> explain select * from tblA order by age ASC,birth DESC;
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+| id | select_type | table | type  | possible_keys | key            | key_len | ref  | rows | Extra                       |
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+|  1 | SIMPLE      | tblA  | index | NULL          | idx_A_ageBirth | 9       | NULL |    3 | Using index; Using filesort |
++----+-------------+-------+-------+---------------+----------------+---------+------+------+-----------------------------+
+```
+
+**MySQL支持二种方式的排序，FileSort和Index,Index效率高。它指MySQL扫描索引本身完成排序。FileSort方式效率较低。**
+
+**ORDER BY满足两情况，会使用Index方式排序**：
+
+- ORDER BY语句使用索引最左前列
+- 使用where子句与OrderBy子句条件列组合满足索引最左前列
+
+### 2.2、如果不在索引列上，filesort有两种算法：mysql就要启动双路排序和单路排序
+#### 2.2.1、双路排序
+
+MySQL4.1之前是使用双路排序，字面意思是**两次扫描磁盘**，最终得到数据。读取行指针和orderby列，对他们进行排序，然后扫描已经排序好的列表，按照列表中的值重新从列表中读取对应的数据传输。
+
+从磁盘取排序字段，在buffer进行排序，再从磁盘取其他字段。
+
+取一批数据，要对磁盘进行两次扫描，众所周知，I\O是很耗时的，所以在mysql4.1之后，出现了第二张改进的算法，就是单路排序。
+
+#### 2.2.2、单路排序
+
+从磁盘读取查询需要的所有列，按照orderby列在buffer对它们进行排序，然后扫描排序后的列表进行输出，它的效率更快一些，避免了第二次读取数据，并且把随机IO变成顺序IO，但是它会使用更多的空间，因为它把每一行都保存在内存中了。
+
+#### 2.2.3、结论及引申出的问题
+
+由于单路是后出来的，总体而言好过双路。但是用单路有问题。
+
+由于是把排序操作放到了一个buffer里面，就会导致buffer的容量如果比较小，数据一次读不完，就会继续读。甚至需要不止两次`I/O`。
+
+**优化策略：增大`sort_buffer_size`参数的设置；增大`max_length_for_sort_data`参数的设置。**
+
+提高order by的速度：
+
+- `order by`时`select *` 是一个大忌只query需要的字段，这点非常重要。
+  - 当`query`的字段大小总和小于`max_length_for_sort_data`而且排序字段不是`TEXT|BLOB`类型时，会用改进后的算法——单路排序，否则用——多路排序。
+  - 两种算法的数据都有可能超出sort_buffer的容量，超出之后，会创建tmp文件进行合并排序，导致多次`I/O`，但是用单路排序算法的风险会更大一些，所以要提高`sort_buffer_size`。
+- 尝试提高`sort_buffer_size`：不管用哪种算法，提高这个参数都会提高效率，当然，要根据系统的能力去提高，因为这个参数是针对每个进程的。
+- 尝试提高`max_length_for_sort_data`：提高这个参数，会增加用改进算法的概率。但是如果设的太高，数据总容量超出`sort_buffer_size`的概率就增大，明显症状高的磁盘`I/O`活动和低的处理器使用率。
+
+#### 2.2.4、小总结
+
+`mysql`两种排序方式：文件排序或扫描有序索引排序。
+
+`mysql`能为排序与查询使用相同的索引。
+
+索引 `key a_b_c(a,b,c)`，`order by`能使用索引最左前缀：
+
+```mysql
+ order by a
+ order by a,b
+ order by a,b,c
+ order by a DESC,b DESC,c DESC (同升或同降)
+```
+
+如果`where`使用索引的最左前缀定义为常量，则`order by`能使用索引：
+
+```mysql
+where a = const order by b,c
+where a = const and b = const order by c
+where a = const and b > const oder by b,c
+```
+
+不能使用索引进行排序：
+
+```mysql
+order by a ASC,b DESC, c DESC (排序不一致)
+where g = const order by b,c (丢失a索引)
+where a = const order by c (丢失b索引)
+where a = const order by a,d (d不是索引的一部分)
+where a in(...) order by b,c (对于排序来说，多个相等条件也是范围查询)
+```
+
+## 3、GROUP BY关键字优化
+
+- group by实质是先排序后进行分组，遵照索引建的最佳左前缀
+
+- 当无法使用索引列，增大max_length_for_sort_data参数的设置+增大sort_buffer_size参数的设置
+- where高于having,能写在where限定的条件就不要去having限定了。
+
+## 4、慢查询日志
+
+`MySQL`的慢查询日志是`MySQL`提供的一种日志记录，它用来记录在`MySQL`中响应时间超过阀值的语句，具体指运行时间超过`long_query_time`值的`SQL`，则会被记录到慢查询日志中。`long_query_time`的默认值为10，意思是运行10S以上的语句。默认情况下，`Mysql`数据库并不启动慢查询日志，需要我们手动来设置这个参数，当然，如果不是调优需要的话，一般不建议启动该参数，因为开启慢查询日志会或多或少带来一定的性能影响。慢查询日志支持将日志记录写入文件，也支持将日志记录写入数据库表。
+
+### 4.1、怎么用？
+
+#### 4.1.1、查看是否开启？默认是关闭的。
+
+```mysql
+mysql> show variables like '%slow_query_log%'; #查看慢日志状态
++---------------------+--------------------------------+
+| Variable_name       | Value                          |
++---------------------+--------------------------------+
+| slow_query_log      | OFF                            |
+| slow_query_log_file | /var/lib/mysql/master-slow.log |
++---------------------+--------------------------------+
+```
+
+开启功能：**set global slow_query_log = 1**，开启慢日志,只对本次有效,重启之后还是关闭的。
+
+如果想要永久生效的话,就需要修改my.cnf文件。
+
+#### 4.1.2、那么开启慢查询日志后，什么样的SQL参会记录到慢查询里面？
+
+```mysql
+mysql> SHOW VARIABLES LIKE 'long_query_time%'; #查看设置的时间阈值
++-----------------+-----------+
+| Variable_name   | Value     |
++-----------------+-----------+
+| long_query_time | 10.000000 |
++-----------------+-----------+
+```
+
+```mysql
+set global long_query_time=3; #设置慢查询时间的阈值为3秒
+```
+
+需要重新连接或新开一个会话才能看到修改值。
+
+```mysql
+mysql> show global variables like 'long_query_time';
++-----------------+----------+
+| Variable_name   | Value    |
++-----------------+----------+
+| long_query_time | 3.000000 |
++-----------------+----------+
+```
+
+```mysql
+select sleep(4);#在这条sql执行期间,睡眠4秒
+```
+
+查看日志
+
+```shell
+[root@master mysql]# cat /var/lib/mysql/master-slow.log 
+
+/usr/sbin/mysqld, Version: 5.5.48-log (MySQL Community Server (GPL)). started with:
+Tcp port: 3306  Unix socket: /var/lib/mysql/mysql.sock
+Time                 Id Command    Argument
+# Time: 200208 10:03:20
+# User@Host: root[root] @ localhost []
+# Query_time: 4.000249  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 0
+use db01;
+SET timestamp=1581127400;
+select sleep(4);
+```
+
+查看慢日志中有多少条sql
+
+```mysql
+mysql> show global status like '%Slow_queries%';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| Slow_queries  | 1     |
++---------------+-------+
+```
+
+### 4.2、日志分析工具mysqldumpshow
+
+`mysqldumpslow --help`
+
+```shell
+s:表示按照何种方式排序
+c:访问次数
+l:锁定时间
+r:返回记录
+t:查询时间
+al:平均锁定时间
+ar:平均返回记录数
+at:平均查询时间
+t:即为返回前面多少条的数据:
+g:后边搭配一个正则匹配模式,大小写不敏感的
+```
+
+工作中常用参考：
+
+```shell
+#得到返回记录集最多的10个sql
+mysqldumpslow -s r -t 10 /var/lib/mysql/master-slow.log
+#得到访问次数最多的10个sql
+mysqldumpslow -s c -t 10 /var/lib/mysql/master-slow.log 
+#得到按照时间排序的前10条里面含有左连接的查询语句
+mysqldumpslow -s t -t 10 -g "left join" /var/lib/mysql/master-slow.log
+#另外建议在使用这些命令时结合|more使用，否则可能出现爆屏情况
+mysqldumpslow -s r -t 10 /var/lib/mysql/master-slow.log | more
+```
+
+## 5、批量数据脚本
+
+### 5.1、建表sql
+
+```mysql
+CREATE TABLE `dept`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `deptno` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `dname` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `loc` varchar(13) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+CREATE TABLE `emp`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `empno` mediumint(9) NOT NULL DEFAULT 0,
+  `ename` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `job` varchar(9) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `mgr` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  `hiredate` date NOT NULL,
+  `sal` decimal(7, 2) NOT NULL,
+  `comm` decimal(7, 2) NOT NULL,
+  `deptno` mediumint(8) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 500001 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+```
+
+往表里插入1000W数据，创建函数假如报错：This function has none of DETERMINISTIC......
+
+优于开启过慢查询日志，因为开启了bin-log，就必须为function指定一个参数，**set global log_bin_trust_function_creators=1**。
+
+```mysql
+mysql> show variables like 'log_bin_trust_function_creators';
++---------------------------------+-------+
+| Variable_name                   | Value |
++---------------------------------+-------+
+| log_bin_trust_function_creators | OFF   |
++---------------------------------+-------+
+```
+
+### 5.2、创建函数保证每条数据都不同
+
+```mysql
+#随机产生字符串
+CREATE DEFINER=`root`@`%` FUNCTION `rand_string`(n INT) RETURNS varchar(255) CHARSET utf8
+BEGIN
+		DECLARE chars_str VARCHAR(100) DEFAULT 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		DECLARE return_str VARCHAR(255) DEFAULT '';
+		DECLARE i INT DEFAULT 0;
+		while i < n DO
+			set return_str = concat(return_str,substring(chars_str,floor(1+rand()*52),1));
+			set i =  i + 1;
+		END while;
+		return return_str;
+END
+```
+
+```mysql
+#随机产生部门编号
+CREATE DEFINER=`root`@`%` FUNCTION `rand_num`() RETURNS int(5)
+BEGIN 
+		DECLARE i INT DEFAULT 0;
+		set i = floor(100+rand()*10);
+		return i;
+END
+```
+
+### 5.3、创建存储过程
+
+```mysql
+#创建往dept表中插入数据的存储过程
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_dept`(IN START INT(10),IN max_num INT(10))
+BEGIN
+	DECLARE i INT DEFAULT 0;
+	set autocommit=0;
+	REPEAT
+	set i = i+1;
+	insert into dept(deptno,dname,loc) VALUES((START+i),rand_string(10),rand_string(8));
+UNTIL i=max_num END REPEAT;
+commit;
+END
+```
+
+```mysql
+#创建往emp表中插入数据的存储过程
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_emp`(in start int(10),in max_num int(10))
+BEGIN
+	DECLARE i int DEFAULT 0;
+	set autocommit=0;
+	REPEAT
+	set i = i+1;
+	insert into emp(empno,ename,job,mgr,hiredate,sal,comm,deptno) VALUES((start+i)
+	,rand_string(6),'SALESMAN',0001,CURDATE(),2000,400,rand_num());
+	
+UNTIL i=max_num END REPEAT;
+commit;
+END
+```
+
+### 5.4、调用存储过程
+
+```mysql
+call CALL insert_emp(100001,500000);
+call CALL insert_dept(100,10);
+```
+
+## 6、Show profiles
+
+是什么：是`mysql`提供可以用来分析当前会话中语句执行的资源消耗情况。可以用于`SQL`的调优测量。
+
+默认情况下，参数处于关闭状态，并保存最近15次的运行结果.
+
+```mysql
+#查看状态
+mysql> show variables like 'profiling';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| profiling     | OFF   |
++---------------+-------+
+```
+
+```mysql
+#开启功能
+mysql> set profiling=on;
+```
+
+```mysql
+#查看结果
+mysql> show profiles;
++----------+------------+-----------------------------------------------+
+| Query_ID | Duration   | Query                                         |
++----------+------------+-----------------------------------------------+
+|        1 | 0.00034075 | show variables like 'profiling'               |
+|        2 | 0.00040100 | show variables like 'profiling'               |
+|        3 | 0.00017125 | select * from emp group by id%10 limit 150000 |
+|        4 | 0.00027450 | SELECT DATABASE()                             |
+|        5 | 0.00009275 | select * from emp group by id%10 limit 150000 |
+|        6 | 0.00005025 | select * from emp group by id%20 order by 5   |
++----------+------------+-----------------------------------------------+
+```
+
+### 6.1、诊断SQL
+
+**show profile cpu,block io for query Query_ID；**
+
+```mysql
+mysql> show profile cpu,block io for query 5;
++--------------------------------+----------+----------+------------+--------------+---------------+
+| Status                         | Duration | CPU_user | CPU_system | Block_ops_in | Block_ops_out |
++--------------------------------+----------+----------+------------+--------------+---------------+
+| starting                       | 0.000029 | 0.000000 |   0.000000 |            0 |             0 |
+| Waiting for query cache lock   | 0.000002 | 0.000000 |   0.000000 |            0 |             0 |
+| checking query cache for query | 0.000004 | 0.000000 |   0.000000 |            0 |             0 |
+| checking privileges on cached  | 0.000002 | 0.000000 |   0.000000 |            0 |             0 |
+| checking permissions           | 0.000031 | 0.000000 |   0.000000 |            0 |             0 |
+| sending cached result to clien | 0.000023 | 0.000000 |   0.000000 |            0 |             0 |
+| logging slow query             | 0.000001 | 0.000000 |   0.000000 |            0 |             0 |
+| cleaning up                    | 0.000002 | 0.000000 |   0.000000 |            0 |             0 |
++--------------------------------+----------+----------+------------+--------------+---------------+
+8 rows in set (0.00 sec)
+```
+
+> type:
+>
+> ALL：显示所有的开销信息
+>
+> BLOCK IO：显示块IO相关开销
+>
+> CONTEXT SWITCHES：上线文切换相关开销
+>
+> CPU：显示CPU相关开销信息
+>
+> IPC：显示发送和接收相关开销信息
+>
+> MEMORY：显示内存相关开销信息
+>
+> PAGE FAULTS：显示页面错误相关开销信息
+>
+> SOURCE：显示和Source_function, Source_file, Source_line相关开销信息
+>
+> SWAPS：显示交换次数相关开销信息
+
+### 6.2、日常开发需要注意的结论
+
+- converting HEAP to MyISAM 查询结果太大，内存都不够用了往磁盘上搬了。
+- Creating tmp table 创建临时表
+- Copying to tmp table on disk 把内存中临时表复制到磁盘，危险！！！
+- locked
+
+## 7、全局查询日志
+
+**永远不要在生产环境开启这个功能。**
+
+```mysql
+mysql> set global general_log=1;
+mysql> set global log_output='TABLE';
+mysql> select * from mysql.general_log;
+```
+
+## 8、Mysql锁机制
+
+### 8.1、建表sql
+
+```mysql
+CREATE TABLE `mylock`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+```
+
+查看表的锁状态
+
+```mysql
+mysql> show open tables;
+```
+
+### 8.2、加读锁
+
+```mysql
+mysql> lock table mylock read;
+```
+
+| session-1                                                    | session-2                                                    |
+| :----------------------------------------------------------- | ------------------------------------------------------------ |
+| 获得表mylock的READ锁定<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1-获得表READ锁定.png) | 连接终端                                                     |
+| 当前session可以查询表记录<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1查询本表.png) | 其他session也可以查询该表的记录<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2查看表记录.png) |
+| 当前session不能查询其他没有锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1查看其他表.png) | 其他session可以查询或者更新未锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2查询更新其它没锁定的表.png) |
+| 当前session中插入或者更新锁定的表都会提示错误<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1修改锁定的表.png) | 其他session插入插入或者更新锁定的表会一直等待获得锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2修改锁定表.png) |
+| 释放锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1释放锁.png) | session-2获得锁，插入操作完成<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2插入数据.png) |
+
