@@ -1,4 +1,4 @@
-# 一、索引优化分析
+一、索引优化分析
 
 ## 1、性能下降SQL慢，执行时间长，等待时间长？
 
@@ -1173,7 +1173,11 @@ mysql> select * from mysql.general_log;
 
 ## 8、Mysql锁机制
 
-### 8.1、建表sql
+### 8.1、表锁（偏读）
+
+偏向MyISAM存储引擎，开销小，加锁快，无死锁，锁定粒度大，发生锁冲突的概率最高，并发最低
+
+#### 8.1.1、建表sql
 
 ```mysql
 CREATE TABLE `mylock`  (
@@ -1189,7 +1193,7 @@ CREATE TABLE `mylock`  (
 mysql> show open tables;
 ```
 
-### 8.2、加读锁
+#### 8.1.2、加读锁
 
 ```mysql
 mysql> lock table mylock read;
@@ -1202,4 +1206,115 @@ mysql> lock table mylock read;
 | 当前session不能查询其他没有锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1查看其他表.png) | 其他session可以查询或者更新未锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2查询更新其它没锁定的表.png) |
 | 当前session中插入或者更新锁定的表都会提示错误<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1修改锁定的表.png) | 其他session插入插入或者更新锁定的表会一直等待获得锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2修改锁定表.png) |
 | 释放锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1释放锁.png) | session-2获得锁，插入操作完成<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2插入数据.png) |
+
+#### 8.1.3、加写锁
+
+```mysql
+mysql> lock table mylock write;
+```
+
+| session-1                                                    | session-2                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 获得表mylock的WRITE锁定<br />![](https://github.com/jackhusky/doc/tree/master/mysql/images/session-1加写锁.png) | 待session-1开启写锁后，session-2再连接终端                   |
+| 当前session对锁定表的查询+更新+插入语操作都可执行<br />![](https://github.com/jackhusky/doc/tree/master/mysql/images/session-1对锁定表的更新+查询.png) | 其他session对锁定表的查询被阻塞，需要等待锁释放<br />![](https://github.com/jackhusky/doc/tree/master/mysql/images/session-2查询写锁的表.png) |
+| 释放锁<br />![](https://github.com/jackhusky/doc/tree/master/mysql/images/session-1释放写锁.png) | session-2获得，查询返回<br />![](https://github.com/jackhusky/doc/tree/master/mysql/images/session-2获得锁查询返回.png) |
+
+#### 8.1.4、案例结论
+
+`mysql`的表级锁有两种模式：
+
+- 表共享读锁（Table Read Lock）
+- 表独占写锁（Table Write Lock）
+
+| 锁类型 | 可否兼容 | 读锁 | 写锁 |
+| ------ | -------- | ---- | ---- |
+| 读锁   | 是       | 是   | 否   |
+| 写锁   | 是       | 否   | 否   |
+
+结论：
+
+结合上表，所以对`MyISAM`表进行操作，会有以下情况：
+
+1、对`MyISAM`表的读操作（加读锁），不会阻塞其他进程对同一表的读请求，但会阻塞对同一表的写请求。只有当读锁释放后，才会执行其他进程的写操作。
+
+2、对`MyISAM`表的写操作（加写锁），会阻塞其他进程对同一表的读和写操作，只有当写锁释放后，才会执行其他进程的读写操作。
+
+**简而言之，就是读锁会阻塞写，但是不会堵塞读。而写锁则会把读和写都阻塞。**
+
+#### 8.1.5、表锁分析
+
+`Table_locks_immediate`：产生表级锁定的次数，表示可以立即获取锁的查询次数，每次获取锁+1；
+
+`Table_locks_waited`：出现表级锁定争用而发生等待的次数（不能立即获取锁的次数，每等待一次+1），此值高则说明存在着较严重的表级锁争用情况
+
+```mysql
+mysql> show status like'table%';
++-----------------------+---------+
+| Variable_name         | Value   |
++-----------------------+---------+
+| Table_locks_immediate | 2500752 |
+| Table_locks_waited    | 2       |
++-----------------------+---------+
+```
+
+**此外，`MyISAM`的读写锁调度是写优先，这也是`MyISAM`不适合做写为主表的引擎。因为写锁后，其他线程不能做任何操作，大量的更新会使查询很难得到锁，从而造成永远阻塞。**
+
+### 8.2、行锁（偏写）
+
+偏向InnoDB存储引擎，开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。
+
+InnoDB与MyISAM的最大不同有两点：一是支持事务（TRANSACTION）;二是采用了行级锁
+
+#### 8.2.1、事务
+
+**是由一组SQL语句组成的逻辑处理单元，事务具有以下4个属性，通常简称为事务的ACID属性。**
+
+- **原子性（Atomicity）：**事务是一个原子操作单元，其对数据的修改，要么全都执行，要么全都不执行。
+- **一致性（Consistent）：**在事务开始和完成时，数据都必须保持一致状态。这意味着所有相关的数据规则都必须应用于事务的修改，以保持数据的完整性；事务结束时，所有的内部数据结构（如B树索引或双向链表）也都必须正确。（比如：10个人的账号金额总数不变。A账号往B账号里转5000，这时候数据库要执行两行代码：A：减去5000，B：加上5000。在执行完A的时候，这时候数据是不满足一致性条件的！必须要执行完第二行代码，数据才恢复到一致性的状态！）
+- **隔离性（Isolation）：**数据库系统提供一定的隔离机制，保证事务在不受外部并发操作影响的“独立”环境执行。这意味着事务处理过程中的中间状态对外部是不可见的，反之亦然。
+- **持久性（Durable）：**事务完成之后，它对于数据的修改是永久性的，即使出现系统故障也能够保持。
+
+**并发事务处理带来的问题：**
+
+- **更新丢失（Lost Update）：**当两个或者多个事务选择同一行，然后基于最初选定的值进行更新操作时，由于每个事务都不知道其他事务的存在，则会发生丢失更新问题，即最后的更新并覆盖了前一个程序员所做的更改。
+
+- **脏读（Dirty Reads）：**一个事务正在对一条记录做修改，在这个事务完成并提交之前，这条记录的数据处于不一致状态；此时，另一个事务也来读取同一条记录，如果不加控制，第二个事务读取了这些“脏”数据，并做进一步的处理，就会产生未提交的数据依赖。
+
+  一句话：事务A读取到了事务B已修改但尚未提交的数据，还在这个数据基础上做了操作。此时，如果事务B回滚，A读取到的数据无效，不符合一致性要求。
+
+- **不可重复读（Non-Repeatable Reads）：**不可重复读是指在事务1内，读取了一个数据，事务1还没有结束时，事务2也访问了这个数据，修改了这个数据，并提交。紧接着，事务1又读这个数据。由于事务2的修改，那么事务1两次读到的的数据可能是不一样的，因此称为是不可重复读。
+- **幻读（Phantom Reads）：**所谓幻读，指的是当某个事务在读取某个范围内的记录时，另外一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行。
+
+**事务隔离级别：**show variables like 'tx_isolation'
+
+| 读数据一致性及允许的并发副作用隔离级别 | 读数据一致性                             | 脏读 | 不可重复读 | 幻读 |
+| -------------------------------------- | ---------------------------------------- | ---- | ---------- | ---- |
+| 读未提交（read-uncommitted）           | 最低级别，只能保证不读取物理上损坏的数据 | 是   | 是         | 是   |
+| 读已提交（read-committed）             | 语句级                                   | 否   | 是         | 是   |
+| 可重复读（repeatable-read）            | 事务级                                   | 否   | 否         | 是   |
+| 串行化（serializable）                 | 最高级别，事务级                         | 否   | 否         | 否   |
+
+### 8.2.2、建表sql
+
+```mysql
+CREATE TABLE `test_innodb_lock`  (
+  `a` int(11) NULL DEFAULT NULL,
+  `b` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  INDEX `test_innodb_a_ind`(`a`) USING BTREE,
+  INDEX `test_innodb_lock_b_ind`(`b`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of test_innodb_lock
+-- ----------------------------
+INSERT INTO `test_innodb_lock` VALUES (1, 'b2');
+INSERT INTO `test_innodb_lock` VALUES (3, '3');
+INSERT INTO `test_innodb_lock` VALUES (4, '4000');
+INSERT INTO `test_innodb_lock` VALUES (5, '5000');
+INSERT INTO `test_innodb_lock` VALUES (6, '6000');
+INSERT INTO `test_innodb_lock` VALUES (7, '7000');
+INSERT INTO `test_innodb_lock` VALUES (8, '8000');
+INSERT INTO `test_innodb_lock` VALUES (9, '9000');
+INSERT INTO `test_innodb_lock` VALUES (1, 'b1');
+```
 
