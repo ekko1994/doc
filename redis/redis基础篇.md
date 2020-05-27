@@ -1,4 +1,4 @@
-# ```一、NoSql概述
+# 一、NoSql概述
 
 NoSQL(NoSQL = Not Only SQL )，作为关系型数据库的补充。
 
