@@ -35,7 +35,7 @@ root     42485 41663  0 18:21 pts/2    00:00:00 grep --color=auto redis-
 - 将当前数据状态进行保存，快照形式，存储数据结果，存储格式简单，关注点在数据
 - 将数据的操作过程进行保存，日志形式，存储操作过程，存储格式复杂，关注点在数据的操作过程
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/rdb持久化方式.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/rdb%E6%8C%81%E4%B9%85%E5%8C%96%E6%96%B9%E5%BC%8F.png)
 
 ## 2、RDB
 
@@ -78,7 +78,7 @@ OK
 
 #### save指令工作原理
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/save指令工作原理.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/save%E6%8C%87%E4%BB%A4%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png)
 
 **注意：save指令的执行会阻塞当前redis服务器，直到当前RDB过程完成为止，有可能会造成长时间阻塞，线上环境不建议使用**
 
@@ -95,9 +95,9 @@ OK
 Background saving started
 ```
 
-####bgsave指令工作原理
+#### bgsave指令工作原理
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/bgsave指令工作原理.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/bgsave%E6%8C%87%E4%BB%A4%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png)
 
 **注意：bgsave命令是针对save阻塞问题做的优化。redis内部所有涉及到RDB操作都采用bgsave的方式，save命令可以放弃使用。**
 
@@ -141,7 +141,7 @@ Background saving started
 
 #### save配置原理
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/save配置原理.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/save%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86.png)
 
 **注意：save配置要根据实际业务情况进行配置，频度过高或过低都会出现性能问题，结果可能是灾难性的**
 
@@ -217,7 +217,7 @@ Background saving started
 
 ### 3.2、AOF写数据过程
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/AOF写数据过程.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/AOF%E5%86%99%E6%95%B0%E6%8D%AE%E8%BF%87%E7%A8%8B.png)
 
 **AOF写数据三种策略（appendfsync）**
 
@@ -320,7 +320,7 @@ Background saving started
 
 #### bgrewriteaof指令工作原理
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/AOF手动重写_bgrewriteaof指令工作原理.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/AOF%E6%89%8B%E5%8A%A8%E9%87%8D%E5%86%99_bgrewriteaof%E6%8C%87%E4%BB%A4%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png)
 
 #### AOF自动重写方式
 
@@ -347,9 +347,9 @@ Background saving started
 
 #### AOF重写工作原理
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/AOF重写流程.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/AOF%E9%87%8D%E5%86%99%E6%B5%81%E7%A8%8B.png)
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/AOF重写工作原理.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/AOF%E9%87%8D%E5%86%99%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png)
 
 ## 4、RDB与AOF区别
 
@@ -381,7 +381,7 @@ Background saving started
 
 ### 4.2、持久化应用场景
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/持久化应用场景.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E6%8C%81%E4%B9%85%E5%8C%96%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png)
 
 ## 5、redis 的事务
 
@@ -395,13 +395,13 @@ Background saving started
 
 一个队列中，一次性、顺序性、排他性的执行一系列命令
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/redis事务.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/redis%E4%BA%8B%E5%8A%A1.png)
 
 ### 5.2、事务基本操作
 
 **事务的边界**
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/事务的边界.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E4%BA%8B%E5%8A%A1%E7%9A%84%E8%BE%B9%E7%95%8C.png)
 
 - 开启事务
 
@@ -440,7 +440,7 @@ Background saving started
 
 ### 5.3、事务的工作流程
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/事务的工作流程.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E4%BA%8B%E5%8A%A1%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png)
 
 ### 5.4、事务的注意事项
 
@@ -653,7 +653,7 @@ Background saving started
 
 **时效性数据的存储结构**
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/时效性数据的数据结构.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E6%97%B6%E6%95%88%E6%80%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.png)
 
 **数据删除策略的目标**
 
@@ -662,11 +662,14 @@ Background saving started
 ### 6.1、定时删除
 
 - 创建一个定时器，当`key`设置有过期时间，且过期时间到达时，由定时器任务立即执行对键的删除操作
+
 - 优点：节约内存，到时就删除，快速释放掉不必要的内存占用
+
 - 缺点：`CPU`压力很大，无论`CPU`此时负载量多高，均占用`CPU`，会影响`redis`服务器响应时间和指令吞吐量
+
 - 总结：用处理器性能换取存储空间（时间换空间）
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/定时删除策略1.png)![](https://github.com/jackhusky/doc/tree/master/redis/images/定时删除策略2.png)![](https://github.com/jackhusky/doc/tree/master/redis/images/定时删除策略3.png)
+  ![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%AE%9A%E6%97%B6%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A51.png)![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%AE%9A%E6%97%B6%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A52.png)![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%AE%9A%E6%97%B6%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A53.png)
 
 ### 6.2、惰性删除
 
@@ -677,13 +680,13 @@ Background saving started
 - 缺点：内存压力很大，出现长期占用内存的数据
 - 总结：用存储空间换取处理器性能（空间换时间）
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/惰性删除1.png)![](https://github.com/jackhusky/doc/tree/master/redis/images/惰性删除2.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E6%83%B0%E6%80%A7%E5%88%A0%E9%99%A41.png)![](https://github.com/jackhusky/doc/blob/master/redis/images/%E6%83%B0%E6%80%A7%E5%88%A0%E9%99%A42.png)
 
 ### 6.3、定期删除
 
 两种方案都太极端，有没有折中方案？
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/定期删除策略.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%AE%9A%E6%9C%9F%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5.png)
 
 - 周期轮训`redis`库中的时效性数据，采用随机抽取的策略，利用过期数据占比的方式控制删除频度
 
@@ -695,7 +698,7 @@ Background saving started
 
 当新数据进入`redis`时，如果内存不足怎么办？
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/逐出算法.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E9%80%90%E5%87%BA%E7%AE%97%E6%B3%95.png)
 
 #### 影响数据逐出的相关配置
 
@@ -732,7 +735,7 @@ Background saving started
   - volatile-ttl：挑选将要过期的数据淘汰
   - volatile-random：任意选择数据淘汰
 
-  ![](https://github.com/jackhusky/doc/tree/master/redis/images/LRU和LFU的意思.png)
+  ![](https://github.com/jackhusky/doc/blob/master/redis/images/LRU%E5%92%8CLFU%E7%9A%84%E6%84%8F%E6%80%9D.png)
 
 - 检测全库数据（所有数据集server.db[i].dict）
 
@@ -833,7 +836,7 @@ Background saving started
 
 存储需求
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/引出Bitmaps的存储需求.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%BC%95%E5%87%BABitmaps%E7%9A%84%E5%AD%98%E5%82%A8%E9%9C%80%E6%B1%82.png)
 
 #### 基本操作
 
@@ -862,7 +865,7 @@ Background saving started
 
 业务分析
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/Bitmaps扩展操作业务场景.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/Bitmaps%E6%89%A9%E5%B1%95%E6%93%8D%E4%BD%9C%E4%B8%9A%E5%8A%A1%E5%9C%BA%E6%99%AF.png)
 
 - 对指定key按位进行交、并、非、异或操作，并将结果保存到destKey中
 
@@ -917,7 +920,7 @@ Background saving started
 - 基数是数据集去重后元素个数
 - `HyperLoglog`是用来做基数统计的，运用了`LogLog`算法
 
-![](https://github.com/jackhusky/doc/tree/master/redis/images/基数.png)
+![](https://github.com/jackhusky/doc/blob/master/redis/images/%E5%9F%BA%E6%95%B0.png)
 
 #### 基本操作
 
