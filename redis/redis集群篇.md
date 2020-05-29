@@ -652,4 +652,22 @@ slave-serve-stale-data yes|no
   cluster failover
   ```
 
-  
+
+**设置数据**
+
+```shell
+[root@centos7 redis-4.0.0]# redis-cli -c -p 6379
+127.0.0.1:6379> set name jack
+-> Redirected to slot [5798] located at 127.0.0.1:6380
+OK
+```
+
+**获取数据**
+
+```shell
+[root@centos7 ~]# redis-cli -c -p 6383
+127.0.0.1:6383> get name
+-> Redirected to slot [5798] located at 127.0.0.1:6380
+"jack"
+```
+
