@@ -57,7 +57,7 @@
 
 - 为了解决由于数据量过大而早晨数据库性能降低问题
 
-  ![](https://github.com/jackhusky/doc/ShadingSphere/images/分库分表.png)
+  ![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/分库分表.png)
 
 ## 分库分表的方式
 
@@ -71,21 +71,21 @@
 
 - 操作数据库中的某张表，把这张表的一部分字段数据存放到一张新表里面，再把这张表另一部分字段数据存放到另一表中
 
-  ![](https://github.com/jackhusky/doc/ShadingSphere/images/垂直分表.png)
+  ![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/垂直分表.png)
 
 ### 垂直分库
 
 - 把单一数据库按照业务进行划分，专库专表
 
-  ![](https://github.com/jackhusky/doc/ShadingSphere/images/垂直分库.png)
+  ![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/垂直分库.png)
 
 ### 水平分库
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/水平分库.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/水平分库.png)
 
 ### 水平分表
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/水平分表.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/水平分表.png)
 
 ## 分库分表应用和问题
 
@@ -107,7 +107,7 @@
 
 - 主要目的：简化对分库分表之后数据相关操作
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/Sharding-JDBC.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/Sharding-JDBC.png)
 
 ## Sharding-JDBC实现水平分表
 
@@ -287,7 +287,7 @@ class ShardingjdbcdemoApplicationTests {
 
 ### 需求
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/水平分库需求.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/水平分库需求.png)
 
 ### 在SpringBoot配置文件配置数据库分片规则
 
@@ -382,13 +382,13 @@ class ShardingjdbcdemoApplicationTests {
 
 ### 需求
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/垂直分库需求.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/垂直分库需求.png)
 
 
 
 ### 创建数据库数据表
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/垂直分库新建的库和表.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/垂直分库新建的库和表.png)
 
 ### 编写操作代码
 
@@ -824,7 +824,7 @@ class ShardingjdbcdemoApplicationTests {
 
 1、透明的数据库代理端
 
-![](https://github.com/jackhusky/doc/ShadingSphere/images/Sharding-proxy.png)
+![](https://github.com/jackhusky/doc/blob/master/ShadingSphere/images/Sharding-proxy.png)
 
 2、Sharding-Proxy独立应用，使用安装服务，进行分库分表或者读写分离配置，启动使用
 
