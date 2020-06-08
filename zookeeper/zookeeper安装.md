@@ -94,3 +94,54 @@ Mode: standalone
 # 查看状态 zkServer.sh status
 ```
 
+# zookeeper集群搭建
+
+单机环境下，jdk、zookeeper安装完，基于一台虚拟机，进行zookeeper伪集群搭建，zookeeper集群中包含3个节点，节点对外提供服务端口号分别为2181、2182、2183
+
+[官网集群搭建](https://zookeeper.apache.org/doc/r3.4.14/zookeeperAdmin.html#sc_zkMulitServerSetup)
+
+1、基于zookeeper-3.4.14复制三份zookeeper安装好的服务器文件，目录名称分别为zookeeper2181、zookeeper2182、zookeeper2183
+
+```shell
+[zookeeper@localhost ~]$ cp -r zookeeper-3.4.14 zookeeper2181
+[zookeeper@localhost ~]$ cp -r zookeeper-3.4.14 zookeeper2182
+[zookeeper@localhost ~]$ cp -r zookeeper-3.4.14 zookeeper2183
+```
+
+2、修改zookeeper2181服务器对应配置文件
+
+```cfg
+dataDir=/home/zookeeper/zookeeper2181/data
+# the port at which the clients will connect
+clientPort=2181
+
+server.1=192.168.44.139:2888:3888
+server.2=192.168.44.139:2889:3889
+server.3=192.168.44.139:2890:3890
+
+# server.A=B:C:D
+# A:是一个数字，表示服务器的编号
+# B:服务器的IP
+# C:zookeeper服务器之间的通信端口
+# D:Leader选举的端口
+```
+
+3、在上一步dataDir指定的目录下，创建myid文件，然后在改文件添加上游server配置的对应A数字
+
+```shell
+# 在/home/zookeeper/zookeeper2181/data执行命令
+echo "1" > myid
+```
+
+4、zookeeper2182、zookeeper2183参照上面步骤进行配置
+
+5、分别启动三台服务器，检查集群状态
+
+​	客户端连接
+
+```shell
+./zkCli.sh -server 192.168.44.139:2181
+./zkCli.sh -server 192.168.44.139:2182
+./zkCli.sh -server 192.168.44.139:2183
+```
+
