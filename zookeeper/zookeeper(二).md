@@ -1,3 +1,26 @@
+* [zookeeper事件监听机制](#zookeeper%E4%BA%8B%E4%BB%B6%E7%9B%91%E5%90%AC%E6%9C%BA%E5%88%B6)
+  * [watcher概念](#watcher%E6%A6%82%E5%BF%B5)
+  * [watcher架构](#watcher%E6%9E%B6%E6%9E%84)
+  * [watcher特性](#watcher%E7%89%B9%E6%80%A7)
+  * [watcher接口设计](#watcher%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1)
+  * [捕获相应的事件](#%E6%8D%95%E8%8E%B7%E7%9B%B8%E5%BA%94%E7%9A%84%E4%BA%8B%E4%BB%B6)
+  * [注册watcher的方法](#%E6%B3%A8%E5%86%8Cwatcher%E7%9A%84%E6%96%B9%E6%B3%95)
+    * [客户端与服务器的连接状态](#%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E8%BF%9E%E6%8E%A5%E7%8A%B6%E6%80%81)
+    * [检查节点是否存在](#%E6%A3%80%E6%9F%A5%E8%8A%82%E7%82%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8)
+    * [查看节点](#%E6%9F%A5%E7%9C%8B%E8%8A%82%E7%82%B9)
+    * [查看子节点](#%E6%9F%A5%E7%9C%8B%E5%AD%90%E8%8A%82%E7%82%B9)
+  * [配置中心案例](#%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83%E6%A1%88%E4%BE%8B)
+  * [生成分布式唯一ID](#%E7%94%9F%E6%88%90%E5%88%86%E5%B8%83%E5%BC%8F%E5%94%AF%E4%B8%80id)
+  * [分布式锁](#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81)
+* [zookeeper集群搭建](#zookeeper%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA)
+* [一致性协议：zab协议](#%E4%B8%80%E8%87%B4%E6%80%A7%E5%8D%8F%E8%AE%AEzab%E5%8D%8F%E8%AE%AE)
+* [zookeeper的leader选举](#zookeeper%E7%9A%84leader%E9%80%89%E4%B8%BE)
+  * [服务器状态](#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%8A%B6%E6%80%81)
+  * [服务器启动时期的leader选举](#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E6%97%B6%E6%9C%9F%E7%9A%84leader%E9%80%89%E4%B8%BE)
+  * [服务器运行时期的leader选举](#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%9C%9F%E7%9A%84leader%E9%80%89%E4%B8%BE)
+* [observer角色及其配置](#observer%E8%A7%92%E8%89%B2%E5%8F%8A%E5%85%B6%E9%85%8D%E7%BD%AE)
+* [zookeeperAPI连接集群](#zookeeperapi%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4)
+
 # zookeeper事件监听机制
 
 ## watcher概念
@@ -25,7 +48,7 @@ watcher机制实际上与观察者模式类似，也可看做是一种观察者�
 
 ## watcher接口设计
 
-watcher是一个接口，任何实现了watcher接口的类型就是衣蛾新的watcher。watcher内部包含两个枚举类：KeeperState、EventType
+watcher是一个接口，任何实现了watcher接口的类型就是衣蛾新的watcher。watcher内部包含两个枚举类：`KeeperState`、`EventType`
 
 ![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/watcher接口设计.png)
 
