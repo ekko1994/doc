@@ -2,11 +2,9 @@
 
 ## 虚拟机网络配置
 
-![](E:\doc\linux\images\虚拟机网络编辑器.png)
+![]([虚拟机网络编辑器](https://github.com/jackhusky/doc/blob/master/linux/images/虚拟机网络编辑器.png))
 
-
-
-![](E:\doc\linux\images\NAT设置.png)
+![]([NAT设置](https://github.com/jackhusky/doc/blob/master/linux/images/NAT设置.png))
 
 ```shell
 # 查看MAC地址
