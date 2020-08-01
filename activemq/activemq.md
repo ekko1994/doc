@@ -144,7 +144,11 @@ java    53729 root  131u  IPv6  91271      0t0  TCP *:61616 (LISTEN)
 
 ## ActiveMQ控制台
 
-访问activemq管理页面地址：http://192.168.44.151:8161/admin/ 
+访问activemq管理页面地址：
+
+```java
+http://192.168.44.151:8161/admin/ 
+```
 
 账户：admin，密码：admin
 
