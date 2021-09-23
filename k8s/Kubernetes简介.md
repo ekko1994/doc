@@ -39,9 +39,7 @@ Kubernetes 是一个轻便的和可扩展的开源平台，用于管理容器化
 
 当容器未通过监控检查时，会关闭此容器直到容器正常运行时，才会对外提供服务
 
-![](https://github.com/ekko1994/doc/blob/master/linux/images/自我修复能力.png)
-
-[doc/自我修复能力.png at master · ekko1994/doc (github.com)](https://github.com/ekko1994/doc/blob/master/k8s/images/自我修复能力.png)
+![](https://github.com/ekko1994/doc/raw/master/linux/images/自我修复能力.png)
 
 #### 水平扩展
 
