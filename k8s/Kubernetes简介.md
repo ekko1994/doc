@@ -92,7 +92,7 @@ Worker Node：集群工作节点，运行用户业务应用容器；
 - kube-proxy：提供网络代理，负载均衡等操作
 - Container Runtime：比如Docker
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/组件架构.jpg)
+[](https://github.com/ekko1994/doc/blob/master/k8s/images/组件架构.jpg)
 
 ## K8S核心概念
 
