@@ -39,7 +39,7 @@ Kubernetes 是一个轻便的和可扩展的开源平台，用于管理容器化
 
 当容器未通过监控检查时，会关闭此容器直到容器正常运行时，才会对外提供服务
 
-![](https://github.com/ekko1994/doc/raw/master/linux/images/自我修复能力.png)
+![](images/自我修复能力.png)
 
 #### 水平扩展
 
@@ -75,7 +75,7 @@ Kubernetes 是一个轻便的和可扩展的开源平台，用于管理容器化
 
 ## K8S架构组件
 
-![](https://github.com/ekko1994/doc/blob/master/linux/images/集群架构.jpg)
+![](images/集群架构.jpg)
 
 K8S架构主要包含两部分：Master（主控节点）和 node（工作节点）
 
@@ -92,7 +92,7 @@ Worker Node：集群工作节点，运行用户业务应用容器；
 - kube-proxy：提供网络代理，负载均衡等操作
 - Container Runtime：比如Docker
 
-![](https://github.com/ekko1994/doc/blob/master/linux/images/组件架构.jpg)
+![](images/组件架构.jpg)
 
 ## K8S核心概念
 
