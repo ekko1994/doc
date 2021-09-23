@@ -29,7 +29,7 @@ kubectl get po pod1
 kubectl get pods
 ```
 
-![](E:\doc\k8s\images\kubectl命令1.png)
+![](images\kubectl命令1.png)
 
 - flags：指定可选的参数，例如，可用 -s 或者 -server参数指定Kubernetes API server的地址和端口
 

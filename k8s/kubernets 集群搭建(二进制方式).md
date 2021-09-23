@@ -77,15 +77,15 @@ ntpdate time.windows.com
 
 在k8s集群中，也是有证书的，如果不带证书，那么访问就会受限
 
-![](E:\doc\k8s\images\二进制搭建集群中集群内部证书问题.png)
+![](images\二进制搭建集群中集群内部证书问题.png)
 
 集群外部也需要签发证书
 
-![](E:\doc\k8s\images\二进制搭建集群中集群外部访问证书问题.png)
+![](images\二进制搭建集群中集群外部访问证书问题.png)
 
 自签证书：一般门禁卡有两种，一个是内部员工的门禁卡，和外部访客门禁卡。这两种门禁卡的权限可能不同，员工的门禁卡可以进入公司的任何地方，而访客的门禁卡是受限的，这个门禁卡其实就是自签证书。
 
-![](E:\doc\k8s\images\自签证书.png)
+![](images\自签证书.png)
 
 ### 准备 cfssl 证书生成工具
 
@@ -582,7 +582,7 @@ TLS Bootstraping：Master apiserver 启用 TLS 认证后，Node 节点 kubelet �
 
 TLS bootstraping 工作流程：
 
-![](E:\doc\k8s\images\TLSbotsraping工作流程.jpg)
+![](images\TLSbotsraping工作流程.jpg)
 
 创建上述配置文件中token文件：
 

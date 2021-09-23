@@ -6,13 +6,13 @@
 
 一个master节点管理多个node节点
 
-![](E:\doc\k8s\images\单master集群.png)
+![](images/单master集群.png)
 
 ### 多master集群
 
 多个master节点管理多个node节点，中间多了一个负载均衡的过程
 
-![](E:\doc\k8s\images\多master集群.png)
+![](images/多master集群.png)
 
 ## 服务器硬件配置要求
 
