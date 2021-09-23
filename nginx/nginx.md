@@ -40,23 +40,23 @@ Nginx 是高性能的 HTTP 和反向代理的服务器，处理高并发能力�
 
 需要在客户端配置代理服务器进行指定网站访问
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/正向代理.png)
+![](images/正向代理.png)
 
 ## 反向代理
 
 暴露的是代理服务器地址,隐藏了真实服务器IP地址
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/反向代理.png)
+![](images/反向代理.png)
 
 ## 负载均衡
 
 增加服务器的数量,然后将请求分发到各个服务器上,将原先请求集中到单个服务器上的情况改为将请求分发到多个服务器上,将负载分发到不同的服务器,也就是我们所说的负载均衡
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/负载均衡.png)
+![](images/负载均衡.png)
 
 ## 动静分离
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/动静分离.png)
+![](images/动静分离.png)
 
 # nginx的安装
 
@@ -453,11 +453,11 @@ root     12007     1  0 12:53 ?        00:00:00 nginx: master process ./nginx
 nobody   12008 12007  0 12:53 ?        00:00:00 nginx: worker process
 ```
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/master和worker.png)
+![](images/master和worker.png)
 
 ## worker如何进行工作的
 
-![](https://github.com/jackhusky/doc/blob/master/nginx/images/worker工作.png)
+![](images/worker工作.png)
 
 ## 一个 master 和多个 woker 的好处 
 

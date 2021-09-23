@@ -48,7 +48,7 @@ zookeeper是一个经典的分布式数据一致性解决方案，致力于为�
 
 # zookeeper的数据模型
 
-![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/zookeeper%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.png)
+![](images/zookeeper%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.png)
 
 zookeeper的数据节点可以视为树状结构（或目录），书中的各节点被称为znode，一个znode可以有多个子节点。一个znode大体上分为3部分：
 

@@ -127,14 +127,14 @@ select
 
 ### 2.2、七大Join图
 
-![sql-join](https://github.com/jackhusky/doc/blob/master/mysql/images/sql-join.png)
+![sql-join](images/sql-join.png)
 
 ## 3、索引简介
 
 MySQL官方对索引的定义为：索引(Index)是帮助MySQL高效获取数据的**数据结构**。
 你可以简单理解为"排好序的快速查找数据结构"。
 
-![mysql_索引简介](https://github.com/jackhusky/doc/blob/master/mysql/images/mysql_索引简介.bmp)
+![mysql_索引简介](images/mysql_索引简介.bmp)
 
 我们平时所说的索引，如果没有特别指明，都是指B树(多路搜索树，并不一定是二叉树)结构组织的索引。其中聚集索引，次要索引，覆盖索引，复合索引，前缀索引，唯一索引默认都是使用B+树索引，统称索引。当然,除了B+树这种类型的索引之外，还有哈希索引(hash index)等。
 
@@ -181,7 +181,7 @@ MySQL官方对索引的定义为：索引(Index)是帮助MySQL高效获取数据
 
 **BTree索引**
 
-![B-Tree](https://github.com/jackhusky/doc/blob/master/mysql/images/B-Tree.jpg)
+![B-Tree](images/B-Tree.jpg)
 
 每个节点占用一个盘块的磁盘空间，一个节点上有两个升序排序的关键字和三个指向子树根节点的指针，指针存储的是子节点所在磁盘块的地址。
 
@@ -220,7 +220,7 @@ B+Tree 是在 B-Tree 基础上的一种优化，使其更适合实现外存储�
 
 由于 B+Tree 的非叶子节点只存储键值信息，假设每个磁盘块能存储 4 个键值及指针信息，则变成 B+Tree 后其结构如下图所示：
 
-![B+Tree](https://github.com/jackhusky/doc/blob/master/mysql/images/B+Tree.jpg)
+![B+Tree](images/B+Tree.jpg)
 
 通常在B+Tree上有两个头指针，一个指向根节点，另一个指向关键字最小的叶子节点，而且所有叶子节点（即数据节点）之间是一种链式环结构。因此可以对B+Tree进行两种查找运算：一种是对于主键的范围查找和分页查找，另一种是从根节点开始，进行随机查找。
 
@@ -1285,11 +1285,11 @@ mysql> lock table mylock read;
 
 | session-1                                                    | session-2                                                    |
 | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| 获得表mylock的READ锁定<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1-获得表READ锁定.png) | 连接终端                                                     |
-| 当前session可以查询表记录<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1查询本表.png) | 其他session也可以查询该表的记录<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2查看表记录.png) |
-| 当前session不能查询其他没有锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1查看其他表.png) | 其他session可以查询或者更新未锁定的表<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2查询更新其它没锁定的表.png) |
-| 当前session中插入或者更新锁定的表都会提示错误<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1修改锁定的表.png) | 其他session插入插入或者更新锁定的表会一直等待获得锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2修改锁定表.png) |
-| 释放锁<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-1释放锁.png) | session-2获得锁，插入操作完成<br />![](https://github.com/jackhusky/doc/blob/master/mysql/images/session-2插入数据.png) |
+| 获得表mylock的READ锁定<br />![](images/session-1-获得表READ锁定.png) | 连接终端                                                     |
+| 当前session可以查询表记录<br />![](images/session-1查询本表.png) | 其他session也可以查询该表的记录<br />![](images/session-2查看表记录.png) |
+| 当前session不能查询其他没有锁定的表<br />![](images/session-1查看其他表.png) | 其他session可以查询或者更新未锁定的表<br />![](images/session-2查询更新其它没锁定的表.png) |
+| 当前session中插入或者更新锁定的表都会提示错误<br />![](images/session-1修改锁定的表.png) | 其他session插入插入或者更新锁定的表会一直等待获得锁<br />![](images/session-2修改锁定表.png) |
+| 释放锁<br />![](images/session-1释放锁.png)                  | session-2获得锁，插入操作完成<br />![](images/session-2插入数据.png) |
 
 ### 1.3、加写锁
 

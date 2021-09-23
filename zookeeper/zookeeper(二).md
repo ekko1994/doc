@@ -35,7 +35,7 @@ watcher机制实际上与观察者模式类似，也可看做是一种观察者�
 
 客户端首先将Watcher注册到服务端，同时将Watcher对象保存到客户端的Watch管理器中。当zookeeper服务端监听的数据状态发生变化时，服务端会主动通知客户端，接着客户端的Watch管理器会出发相关Watcher来回调相应处理逻辑，从而完成整体的数据发布/订阅流程
 
-![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/watcher架构.png)
+![](images/watcher架构.png)
 
 ## watcher特性
 
@@ -50,7 +50,7 @@ watcher机制实际上与观察者模式类似，也可看做是一种观察者�
 
 watcher是一个接口，任何实现了watcher接口的类型就是衣蛾新的watcher。watcher内部包含两个枚举类：`KeeperState`、`EventType`
 
-![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/watcher接口设计.png)
+![](images/watcher接口设计.png)
 
 ## 捕获相应的事件
 
@@ -951,11 +951,11 @@ zab协议的全称是Zookeeper Atomic Broadcast（zookeeper原子广播）。zoo
 
 基于zab协议，zookeeper集群中的角色主要有以下三类，如下表所示
 
-![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/zookeeper集群中的三个角色.png)
+![](images/zookeeper集群中的三个角色.png)
 
 zab广播模式工作原理，通过类似两阶段提交协议的方式解决数据一致性：
 
-![](https://github.com/jackhusky/doc/blob/master/zookeeper/images/zab广播模式工作原理.png)
+![](images/zab广播模式工作原理.png)
 
 # zookeeper的leader选举
 

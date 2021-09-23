@@ -402,7 +402,7 @@ OK
 
 电商网站购物车设计与实现
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/hash%E7%BB%93%E6%9E%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png)
+![](images/hash%E7%BB%93%E6%9E%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png)
 
 - 仅分析购物车的`redis`存储模型：添加、浏览、更改数量、删除、清空
 
@@ -1269,7 +1269,7 @@ key的重复问题？
 - `redis`为每个服务提供16个数据库，编号0到15
 - 每个数据库之间的数据相互独立
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/redis%E6%95%B0%E6%8D%AE%E5%BA%93.png)
+![](images/redis%E6%95%B0%E6%8D%AE%E5%BA%93.png)
 
 #### 7.1、基本操作
 

@@ -81,7 +81,7 @@
 
   ​	master的数据复制到slave中
 
-  ![](https://github.com/jackhusky/doc/blob/master/redis/images/多台服务器连接方案.png)
+  ![](images/多台服务器连接方案.png)
 
 ### 1.1、主从复制
 
@@ -117,7 +117,7 @@
   - 数据同步阶段
   - 命令传播阶段
 
-  ![](https://github.com/jackhusky/doc/blob/master/redis/images/主从复制大体过程.png)
+  ![](images/主从复制大体过程.png)
 
 ### 2.1、阶段一：建立连接阶段
 
@@ -137,7 +137,7 @@
 
 至此，主从连接成功！
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/建立连接阶段工作流程.png)
+![](images/建立连接阶段工作流程.png)
 
 #### 主从连接（slave连接master）
 
@@ -211,7 +211,7 @@
 
 至此，数据同步工作完成
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/数据同步阶段工作流程.png)
+![](images/数据同步阶段工作流程.png)
 
 **数据同步阶段master说明**
 
@@ -274,7 +274,7 @@ slave-serve-stale-data yes|no
 
   - 复制缓冲区默认数据存储空间大小是1M，由于存储空间大小是固定的，当入队元素的数量大于队列长度时，最先入队的元素会被弹出，而新元素会被放入队列
 
-  ![](https://github.com/jackhusky/doc/blob/master/redis/images/复制缓冲区.png)
+  ![](images/复制缓冲区.png)
 
 - 由来：每台服务器启动时，如果开启有AOF或被连接成为master节点，即创建复制缓冲区
 
@@ -284,7 +284,7 @@ slave-serve-stale-data yes|no
 
 **复制缓冲区内部工作原理**
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/复制缓冲区内部工作原理.png)
+![](images/复制缓冲区内部工作原理.png)
 
 #### 主从服务器复制偏移量（offset）
 
@@ -299,7 +299,7 @@ slave-serve-stale-data yes|no
 
 ### 2.4、数据同步+命令传播阶段工作流程
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/数据同步+命令传播工作流程.png)
+![](images/数据同步+命令传播工作流程.png)
 
 ### 2.5、心跳机制
 
@@ -330,7 +330,7 @@ slave-serve-stale-data yes|no
 
 - slave延迟由slave发送REPLICATION ACK命令做确认
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/主从复制工作流程（完整）.png)
+![](images/主从复制工作流程（完整）.png)
 
 ## 3、主从复制常见问题
 
@@ -338,7 +338,7 @@ slave-serve-stale-data yes|no
 
 #### 频繁的全量复制（1）
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/频繁的全量复制（1）.png)
+![](images/频繁的全量复制（1）.png)
 
 #### 频繁的全量复制（2）
 
@@ -446,13 +446,13 @@ slave-serve-stale-data yes|no
 
 **主机宕机**
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/主机宕机的问题.png)
+![](images/主机宕机的问题.png)
 
 ### 1.1、哨兵
 
 哨兵（sentinel）是一个分布式系统，用于对主从结构中的每台服务器进行**监控**，当出现故障时通过投票机制**选择**新的master并将所有slave连接到新的master
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/哨兵简介.png)
+![](images/哨兵简介.png)
 
 ### 1.2、哨兵的作用
 
@@ -517,19 +517,19 @@ slave-serve-stale-data yes|no
     - offset
     - ......
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/sentinel监控阶段.png)
+![](images/sentinel监控阶段.png)
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/sentinel监控阶段详细.png)
+![](images/sentinel监控阶段详细.png)
 
 ### 3.2、阶段二：通知阶段
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/通知阶段.png)
+![](images/通知阶段.png)
 
 ### 3.3、阶段三：故障转移阶段
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/故障转移阶段1.png)
+![](images/故障转移阶段1.png)
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/sentinel内部选举.png)
+![](images/sentinel内部选举.png)
 
 - 服务器列表中挑选备选master
 
@@ -547,7 +547,7 @@ slave-serve-stale-data yes|no
   - 向新的master发送slaveof no one
   - 向其他slave发送slaveof新master ip端口
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/sentinel选出新的master.png)
+![](images/sentinel选出新的master.png)
 
 # 三、集群
 
@@ -582,7 +582,7 @@ slave-serve-stale-data yes|no
 
 - 将key按照计算出的结果放到对应的存储空间
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/数据存储设计.png)
+![](images/数据存储设计.png)
 
 ### 集群内部通讯设计
 
@@ -590,7 +590,7 @@ slave-serve-stale-data yes|no
 - 一次命中，直接返回
 - 一次未命中，告知具体位置
 
-![](https://github.com/jackhusky/doc/blob/master/redis/images/集群内部通讯设计.png)
+![](images/集群内部通讯设计.png)
 
 ## 3、Cluster集群构建搭建
 

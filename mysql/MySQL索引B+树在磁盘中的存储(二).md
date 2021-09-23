@@ -15,7 +15,7 @@ MySQL为什么选择用B+树来作为底层存储结构，提了两个知识点�
 
 从磁盘读取数据时，系统会将逻辑地址发给磁盘，磁盘将逻辑地址转换为物理地址（哪个磁道，哪个扇区）。 磁头进行机械运动，先找到相应磁道，再找该磁道的对应扇区，扇区是磁盘的最小存储单元
 
-![](https://github.com/jackhusky/doc/blob/master/mysql/images/磁盘结构.jpg)
+![](images/磁盘结构.jpg)
 
 ### 1.2 性能对比
 
@@ -39,7 +39,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
 
-![](https://github.com/jackhusky/doc/blob/master/mysql/images/表数据.jpg)
+![](images/表数据.jpg)
 
 ### 2.1 聚集索引（Clustered index ）
 
@@ -47,7 +47,7 @@ CREATE TABLE `user` (
 
 根据示例数据构建如图所示聚集索引：
 
-![](https://github.com/jackhusky/doc/blob/master/mysql/images/B+树聚集索引.jpg)
+![](images/B+树聚集索引.jpg)
 
 #### 2.1.1 知识点
 
@@ -78,7 +78,7 @@ CREATE TABLE `user` (
 
 根据示例数据（`idx_name`索引）构建如图2-2所示辅助索引：
 
-![](https://github.com/jackhusky/doc/blob/master/mysql/images/B+树非聚集索引.jpg)
+![](images/B+树非聚集索引.jpg)
 
 #### 2.2.1 知识点
 

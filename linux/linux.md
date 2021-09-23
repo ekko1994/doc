@@ -2,7 +2,7 @@
 
 ## 基本介绍
 
-![](E:\doc\linux\images\linux目录结构.png)
+![](images\linux目录结构.png)
 
 ## 具体的目录结构
 
@@ -84,7 +84,7 @@
 
 # vi和vim
 
-![](E:\doc\linux\images\vim键盘图.png)
+![](images\vim键盘图.png)
 
 ## 一般模式
 

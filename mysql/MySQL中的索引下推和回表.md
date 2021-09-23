@@ -6,7 +6,7 @@
 
 回表是一种数据库检索过程。通常发生在使用二级索引检索非主索引数据的过程中。
 
-![usertest表](https://github.com/jackhusky/doc/blob/master/mysql/images/usertest表.png)
+![usertest表](images/usertest表.png)
 
 假设有上面一张表（数据库是MYSQL，存储引擎是Innodb），上面的ID字段是主键索引，age是普通索引。
 
@@ -18,7 +18,7 @@ select name from usertest where age = 10;
 
 第一条SQL语句不会产生回表：普通索引存储的值是主键的值。也就是说age索引里面存储的结构是下面的情况
 
-![age索引](https://github.com/jackhusky/doc/blob/master/mysql/images/age索引.png)
+![age索引](images/age索引.png)
 
 根据age查询id的时候，索引中的值完全可以覆盖查询结果集字段时，不会产生回表操作。
 
@@ -34,7 +34,7 @@ select * from usertest where name like 'a%' and age = 10;
 
 1.根据最左前缀原则，执行name like 'a%'可以快速检索出id的值为1，5。
 
-![sql结果集1](https://github.com/jackhusky/doc/blob/master/mysql/images/sql结果集1.png)
+![sql结果集1](images/sql结果集1.png)
 
 2.然后根据id的值进行回表操作，再次进行过滤age=10的数据。
 
