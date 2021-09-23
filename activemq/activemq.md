@@ -2,7 +2,7 @@
 
 ## MQ的产品种类和对比
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/消息队列对比.png)
+![](images/消息队列对比.png)
 
 - Kafka：scala编程语言，大数据领域的主流MQ
 - rabbitmq：erlang编程语言，不好修改底层
@@ -23,7 +23,7 @@
 
 当代吗上线后又新增了一个需求：把数据也发送给D，新上了一个D系统也要接受A系统的数据，此时就需要修改A系统，让他感知到D系统的存在，同时把数据处理好再给D。在这个过程你会看到，每接入一个下游系统，都要对系统A进行代码改造，开发联调的效率很低。其整体架构如下图：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/系统耦合.png)
+![](images/系统耦合.png)
 
 （2）面对大流量并发时，容易被冲垮
 
@@ -33,7 +33,7 @@
 
 RPC接口上基本都是同步调用，整体的服务性能遵循“木桶理论”，即整体系统的耗时取决于链路中最慢的那个接口。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/等待同步.png)
+![](images/等待同步.png)
 
 根据上述的问题，在设计系统时可以明确要达到的目标：
 
@@ -55,7 +55,7 @@ RPC接口上基本都是同步调用，整体的服务性能遵循“木桶理�
 
 大致的过程是这样的：发送者把消息发送给消息服务器，消息服务器将消息存放在若干队列/主题topic中，在合适的时候，消息服务器回将消息转发给接受者。在这个过程中，发送和接收是异步的，也就是发送无需等待，而且发送者和接受者的生命周期也没有必然的关系；尤其在发布pub/订阅sub模式下，也可以完成一对多的通信，即让一个消息有多个接受者。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/MQ定义.png)
+![](images/MQ定义.png)
 
 ## MQ的特点
 
@@ -77,7 +77,7 @@ RPC接口上基本都是同步调用，整体的服务性能遵循“木桶理�
 
 （3）整体架构
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/订单系统&仓储系统.png)
+![](images/订单系统&仓储系统.png)
 
 （4）MQ的缺点
 
@@ -91,7 +91,7 @@ RPC接口上基本都是同步调用，整体的服务性能遵循“木桶理�
 
 官网地址：https://activemq.apache.org/
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/activemq官网下载.png)                                                 
+![](images/activemq官网下载.png)                                                 
 
 （2）安装
 
@@ -172,19 +172,19 @@ http://192.168.44.151:8161/admin/
 
 ## JMS编码总体规范
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JMS编码总体规范.png)
+![](images/JMS编码总体规范.png)
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JMS开发步骤.png)
+![](images/JMS开发步骤.png)
 
 ## Destination简介
 
 Destination是目的地。下面拿jvm和mq，做个对比。目的地，我们可以理解为是数据存储的地方。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/destination简介.png)
+![](images/destination简介.png)
 
 Destination分为两种：队列和主题。下图介绍：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/队列和主题.png)
+![](images/队列和主题.png)
 
 ## 队列消息生产者的入门案例
 
@@ -233,7 +233,7 @@ public class JmsProduce {
 
 运行上面代码，控制台显示如下：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/控制台之队列.png)
+![](images/控制台之队列.png)
 
 Number Of Pending Messages：等待消费的消息，这个是未出队列的数量，公式=总接收数-总出队列数。
 
@@ -297,7 +297,7 @@ public class JmsConsumer {
 
 控制台显示：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/控制台之队列消费.png)
+![](images/控制台之队列消费.png)
 
 ## 异步监听式消费者（MessageListener）
 
@@ -367,11 +367,11 @@ public class JmsConsumer_MessageListener {
 
 （2）队列的特点
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/点对点消息传递域特点.png)
+![](images/点对点消息传递域特点.png)
 
 （3）消息消费者情况
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/队列方式示图.png)
+![](images/队列方式示图.png)
 
 情况1：只启动消费者1。
 
@@ -401,7 +401,7 @@ public class JmsConsumer_MessageListener {
 
 ​    默认情况下如上所述，但是JMS规范允许客户创建持久订阅，这在一定程度上放松了时间上的相关性要求。持久订阅允许消费者消费它在未处于激活状态时发送的消息。一句话，好比我们的微信公众号订阅
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/topic介绍.png)
+![](images/topic介绍.png)
 
 ### 生产者案例
 
@@ -491,7 +491,7 @@ topic有多个消费者时，消费消息的数量 ≈ 在线消费者数量*生
 
 下图展示了：我们先启动了3个消费者，再启动一个生产者，并生产了3条消息。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/控制台之topic.png)
+![](images/控制台之topic.png)
 
 ## topic和queue对比
 
@@ -505,9 +505,9 @@ topic有多个消费者时，消费消息的数量 ≈ 在线消费者数量*生
 
 Java消息服务指的是两个应用程序之间进行异步通信的API，它为标准协议和消息服务提供了一组通用接口，包括创建、发送、读取消息等，用于支持Java应用程序开发。在JavaEE中，当两个应用程序使用JMS进行通信时，它们之间不是直接相连的，而是通过一个共同的消息收发服务组件关联起来以达到解耦/异步削峰的效果。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JMS规范.png)
+![](images/JMS规范.png)
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JMS的组成结构和特点.png)
+![](images/JMS的组成结构和特点.png)
 
 ## 消息头
 
@@ -527,11 +527,11 @@ JMSMessageID：消息的唯一标识符。后面我们会介绍如何解决幂�
 
 ## 消息体
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/消息体介绍.png)
+![](images/消息体介绍.png)
 
 5种消息体格式：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/五种消息体.png)
+![](images/五种消息体.png)
 
 ### 消息生产者
 
@@ -735,7 +735,7 @@ public class JmsConsumer_topic_MessageProperty {
 
 在消息生产者将消息成功发送给MQ消息中间件之后。无论是出现任何问题，如：MQ服务器宕机、消费者掉线等。都保证（topic要之前注册过，queue不用）消息消费者，能够成功消费消息。如果消息生产者发送消息就失败了，那么消费者也不会消费到该消息。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/消息持久和非持久.png)
+![](images/消息持久和非持久.png)
 
 ### queue消息非持久和持久
 
@@ -947,11 +947,11 @@ public class JmsConsumer_topic_delivery {
 
 topic页面还是和之前的一样。另外在subscribers页面也会显示。如下：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/topic持久化控制台.png)
+![](images/topic持久化控制台.png)
 
 ## 消息的事务性
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/消息的事务性.png)
+![](images/消息的事务性.png)
 
 (1) 生产者开启事务后，执行commit方法，这批消息才真正的被提交。不执行commit方法，这批消息不会提交。执行rollback方法，之前的消息会回滚掉。生产者的事务机制，要高于签收机制，当生产者开启事务，签收机制不再重要。
 
@@ -1234,7 +1234,7 @@ JMS Pub/Sub 模型定义了如何向一个内容节点发布和订阅消息，�
 
 启动broker时指定配置文件，可以帮助我们在一台服务器上启动多个broker。实际工作中一般一台服务器只启动一个broker。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/启动broker.png)
+![](images/启动broker.png)
 
 （3）嵌入式的broker启动
 
@@ -1807,7 +1807,7 @@ activemq传输协议的官方文档：http://activemq.apache.org/configuring-ver
 
 注意：协议不同，我们的代码都会不同。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/activemq支持的协议.png)
+![](images/activemq支持的协议.png)
 
 ### TCP协议
 
@@ -1843,19 +1843,19 @@ activemq传输协议的官方文档：http://activemq.apache.org/configuring-ver
 
 (5) 关于Transport协议的可选配置参数可以参考官网http://activemq.apache.org/configuring-version-5-transports.html
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/nio协议.png)
+![](images/nio协议.png)
 
 ### AMQP协议
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/AMQP协议.png)
+![](images/AMQP协议.png)
 
 ### STOMP协议
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/stomp协议.png)
+![](images/stomp协议.png)
 
 ### MQTT协议
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/MQTT协议.png)
+![](images/MQTT协议.png)
 
 ## NIO协议案例
 
@@ -1863,7 +1863,7 @@ ActiveMQ这些协议传输的底层默认都是使用BIO网络的IO模型。只�
 
 （1）修改配置文件
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/修改activemq.xml.png)
+![](images/修改activemq.xml.png)
 
 ①　修改配置文件activemq.xml在 <transportConnectors>节点下添加如下内容：
 
@@ -1873,7 +1873,7 @@ ActiveMQ这些协议传输的底层默认都是使用BIO网络的IO模型。只�
 
 ③　查看管理后台，可以看到页面多了nio
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/nio之控制台.png)
+![](images/nio之控制台.png)
 
 （2）代码
 
@@ -1960,7 +1960,7 @@ public class Jms_NIO_Consumer {
 
 上面是Openwire协议传输底层使用NIO网络IO模型。 如何让其他协议传输底层也使用NIO网络IO模型呢？
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/nio2.png)
+![](images/nio2.png)
 
 （2）修改配置文件activemq.xml
 
@@ -1996,7 +1996,7 @@ public static final String ACTIVEMQ_URL = "tcp://192.168.44.151:61608";
 
 （1）**此处持久化和之前的持久化的区别**
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/持久化.png)
+![](images/持久化.png)
 
 MQ高可用：事务、可持久、签收，是属于MQ自身特性，自带的。这里的持久化是外力，是外部插件。之前讲的持久化是MQ的外在表现，现在讲的的持久是是底层实现。
 
@@ -2028,7 +2028,7 @@ AMQ是一种文件存储形式，它具有写入速度快和容易恢复的特�
 
 过于新兴的技术，现在有些不确定。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/LevelDB消息存储.png)
+![](images/LevelDB消息存储.png)
 
 （5）DBC Message Store with ActiveMQ Journal
 
@@ -2056,11 +2056,11 @@ AMQ是一种文件存储形式，它具有写入速度快和容易恢复的特�
 
 （2）说明
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/KahaDB说明.png)
+![](images/KahaDB说明.png)
 
 （3）KahaDB的存储原理
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/KahaDB存储原理.png)
+![](images/KahaDB存储原理.png)
 
 ## JDBC消息存储
 
@@ -2068,15 +2068,15 @@ AMQ是一种文件存储形式，它具有写入速度快和容易恢复的特�
 
 （1）原理图
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JDBC消息存储原理图.png)
+![](images/JDBC消息存储原理图.png)
 
 （2）添加mysql数据库的驱动包到lib文件夹
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/添加mysql数据库的驱动包到lib文件夹.png)
+![](images/添加mysql数据库的驱动包到lib文件夹.png)
 
 （3）jdbcPersistenceAdapter配置
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/jdbcPersistenceAdapter配置.png)
+![](images/jdbcPersistenceAdapter配置.png)
 
 修改配置文件activemq.xml。将之前的替换为jdbc的配置。如下：
 
@@ -2098,7 +2098,7 @@ AMQ是一种文件存储形式，它具有写入速度快和容易恢复的特�
 
 需要我们准备一个mysql数据库，并创建一个名为activemq的数据库。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/数据库连接池配置.png)
+![](images/数据库连接池配置.png)
 
 在</broker>标签和<import>标签之间插入数据库连接池配置
 
@@ -2188,15 +2188,15 @@ create index ACTIVEMQ_MSGS_XIDX
 
 ACTIVEMQ_MSGS数据表
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/ACTIVEMQ_MSGS数据表.png)
+![](images/ACTIVEMQ_MSGS数据表.png)
 
 ACTIVEMQ_ACKS数据表
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/ACTIVEMQ_ACKS数据表.png)
+![](images/ACTIVEMQ_ACKS数据表.png)
 
 ACTIVEMQ_LOCK数据表
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/ACTIVEMQ_LOCK数据表.png)
+![](images/ACTIVEMQ_LOCK数据表.png)
 
 ### queue验证和数据表变化
 
@@ -2243,7 +2243,7 @@ public class JmsProduce {
 }
 ```
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/数据库持久化消息.png)
+![](images/数据库持久化消息.png)
 
 启动消费者，消费了所有的消息后，发现数据表的数据消失了。
 
@@ -2288,17 +2288,17 @@ public class JmsConsumer_topic_delivery {
 }
 ```
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/topic持久化数据库.png)
+![](images/topic持久化数据库.png)
 
 ACTIVEMQ_ACKS数据表，多了一个消费者的身份信息。一条记录代表：一个持久化topic消费者
 
 我们启动持久化生产者发布3个数据，ACTIVEMQ_MSGS数据表新增3条数据，消费者消费所有的数据后，ACTIVEMQ_MSGS数据表的数据并没有消失。持久化topic的消息不管是否被消费，是否有消费者，产生的数据永远都存在，且只存储一条。这个是要注意的，持久化的topic大量数据后可能导致性能下降。这里就像公总号一样，消费者消费完后，消息还会保留。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/topic持久化保存消息到数据库.png)
+![](images/topic持久化保存消息到数据库.png)
 
 ### 总结
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JDBC持久化总结.png)
+![](images/JDBC持久化总结.png)
 
 ## JDBC Message Store with ActiveMQ Journal
 
@@ -2314,7 +2314,7 @@ ACTIVEMQ_ACKS数据表，多了一个消费者的身份信息。一条记录代�
 
 下面是基于上面JDBC配置，再做一点修改：
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/JDBC&journal.png)
+![](images/JDBC&journal.png)
 
 
 
@@ -2347,7 +2347,7 @@ ACTIVEMQ_ACKS数据表，多了一个消费者的身份信息。一条记录代�
 
 集群仅提供主备方式的高可用集群功能，避免单点故障。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/官网集群方式介绍.png)
+![](images/官网集群方式介绍.png)
 
 LevelDB，5.6版本后退出LevelDB的持久化引擎，它使用了自定义的索引代替常用的BTree索引，其持久化性能高于KanhaDB，虽然默认的持久化方式还是KahaDB，但是LevelDB可能会是趋势。
 
@@ -2355,9 +2355,9 @@ LevelDB，5.6版本后退出LevelDB的持久化引擎，它使用了自定义的
 
 ## 集群原理
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/官网集群原理图.png)
+![](images/官网集群原理图.png)
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/activemq集群原理说明.png)
+![](images/activemq集群原理说明.png)
 
 ## 集群部署规划列表
 
@@ -2566,7 +2566,7 @@ numChildren = 0
 
 访问activemq的控制台，根据官网的集群原理图，只有一个可以访问
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/集群访问控制台.png)
+![](images/集群访问控制台.png)
 
 集群可用性测试
 
@@ -2601,7 +2601,7 @@ ActiveMQ默认使用异步发送的模式：除非明确指定使用同步发送
 
 https://activemq.apache.org/async-sends
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/异步投送3种实现方式.png)
+![](images/异步投送3种实现方式.png)
 
 ### 异步发送如何确认消息发送成功
 
@@ -2677,7 +2677,7 @@ public class JmsProduce {
 
 https://activemq.apache.org/delay-and-schedule-message-delivery
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/延时投递和定时投递.png)
+![](images/延时投递和定时投递.png)
 
 修改配置activemq.xml并重启
 
@@ -2759,7 +2759,7 @@ http://activemq.apache.org/redelivery-policy
 
 （5）属性书名
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/消息重试属性说明.png)
+![](images/消息重试属性说明.png)
 
 （6）代码验证
 
@@ -2806,11 +2806,11 @@ public class JmsConsumer_Redelivery {
 
 activemq管理后台，多了一个名为ActiveMQ.DLQ队列。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/重复消费控制台.png)
+![](images/重复消费控制台.png)
 
 （2）整合Spring
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/重试机制整合Spring.png)
+![](images/重试机制整合Spring.png)
 
 ## 死信队列
 
@@ -2820,11 +2820,11 @@ http://activemq.apache.org/redelivery-policy
 
 ### 死信队列是什么
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/死信队列是什么.png)
+![](images/死信队列是什么.png)
 
 ### 死信队列的使用：处理失败的消息
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/死信队列的使用.png)
+![](images/死信队列的使用.png)
 
 ### 死信队列的配置（一般默认）
 
@@ -2832,23 +2832,23 @@ http://activemq.apache.org/redelivery-policy
 
 不管是queue还是topic，失败的消息都放到这个队列中。下面修改activemq.xml的配置，可以达到修改队列的名字。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/sharedDeadLetterStrategy.png)
+![](images/sharedDeadLetterStrategy.png)
 
 2、individualDeadLetterStrategy
 
 可以为queue和topic单独指定两个死信队列。还可以为某个话题，单独指定一个死信队列。
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/individualDeadLetterStrategy.png)
+![](images/individualDeadLetterStrategy.png)
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/individualDeadLetterStrategy配置案例.png)
+![](images/individualDeadLetterStrategy配置案例.png)
 
 ### 自动删除过期消息
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/自动删除过期消息.png)
+![](images/自动删除过期消息.png)
 
 ### 存放非持久消息到死信队列中
 
-![](https://github.com/jackhusky/doc/blob/master/activemq/images/存放非持久消息到死信队列中.png)
+![](images/存放非持久消息到死信队列中.png)
 
 ## 消息不被重复消费，幂等性
 
