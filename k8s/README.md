@@ -6,3 +6,7 @@
 - [kubernets 集群搭建(二进制方式)](https://github.com/ekko1994/doc/blob/master/k8s/kubernets%20%E9%9B%86%E7%BE%A4%E6%90%AD%E5%BB%BA(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%B9%E5%BC%8F).md)
 - [Kubernetes集群命令行工具kubectl](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes%E9%9B%86%E7%BE%A4%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7kubectl.md)
 - [Kubernetes集群YAML文件详解](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes集群YAML文件详解.md)
+- [Kubernetes核心技术Pod](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Pod.md)
+- [Kubernetes核心技术Controller](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Controller.md)
+- [Kubernetes核心技术Service](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Service.md)
+
