@@ -10,3 +10,4 @@
 - [Kubernetes核心技术Controller](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Controller.md)
 - [Kubernetes核心技术Service](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Service.md)
 
+- [Kubernetes控制器Controller详解](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes控制器Controller详解.md)
