@@ -15,3 +15,6 @@
 - [Kubernetes核心技术Ingress](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Ingress.md)
 
 - [Kubernetes核心技术Helm](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Helm.md)
+
+- [Kubernetes持久化存储](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes持久化存储.md)
+
