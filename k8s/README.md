@@ -12,3 +12,4 @@
 - [Kubernetes控制器Controller详解](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes控制器Controller详解.md)
 - [Kubernetes配置管理](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes配置管理.md)
 - [Kubernetes集群安全机制](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes集群安全机制.md)
+- [Kubernetes核心技术Ingress](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes核心技术Ingress.md)
