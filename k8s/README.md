@@ -19,3 +19,5 @@
 - [Kubernetes持久化存储](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes持久化存储.md)
 
 - [Kubernetes集群资源监控](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes集群资源监控.md)
+
+- [Kubernetes搭建高可用集群](https://github.com/ekko1994/doc/blob/master/k8s/Kubernetes搭建高可用集群.md)
