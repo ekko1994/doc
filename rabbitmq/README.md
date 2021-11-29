@@ -1,4 +1,6 @@
 # 目录
 
-- helloworld
-- Work Queues
+- [helloworld](https://github.com/ekko1994/doc/blob/master/rabbitmq/HelloWorld.md)
+- [Work Queues](https://github.com/ekko1994/doc/blob/master/rabbitmq/WorkQueues.md)
+- [发布确认](https://github.com/ekko1994/doc/blob/master/rabbitmq/发布确认.md)
+
