@@ -10,5 +10,7 @@
 
 - [死信队列](https://github.com/ekko1994/doc/blob/master/rabbitmq/死信队列.md)
 
+- [延迟队列](https://github.com/ekko1994/doc/blob/master/rabbitmq/延迟队列.md)
+
   
 
