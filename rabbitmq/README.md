@@ -12,5 +12,9 @@
 
 - [延迟队列](https://github.com/ekko1994/doc/blob/master/rabbitmq/延迟队列.md)
 
+- [发布确认高级](https://github.com/ekko1994/doc/blob/master/rabbitmq/发布确认高级.md)
+
+- [其他知识](https://github.com/ekko1994/doc/blob/master/rabbitmq/其他知识.md)
+
   
 
