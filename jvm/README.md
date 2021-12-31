@@ -7,6 +7,7 @@
 
 - [01_类加载子系统](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/01_类加载子系统.md)
 - [02_运行时数据区概述及线程](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/02_运行时数据区概述及线程.md)
+
 - [03_程序计数器](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/03_程序计数器.md)
 - [04_虚拟机栈](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/04_虚拟机栈.md)
 - [05_本地方法接口](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/05_本地方法接口.md)
@@ -17,7 +18,10 @@
 - [10_直接内存](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/10_直接内存.md)
 - [11_执行引擎](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/11_执行引擎.md)
 - [12_StringTable](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/12_StringTable.md)
-- [13_垃圾回收](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/13_垃圾回收.md)
+- [13_垃圾回收概述](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/13_垃圾回收概述.md)
+- [14_垃圾回收相关算法](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/14_垃圾回收相关算法.md)
+- [15_垃圾回收相关概念](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/15_垃圾回收相关概念.md)
+- [16_垃圾回收器](https://github.com/ekko1994/doc/tree/master/jvm/docs/内存与垃圾回收/16_垃圾回收器.md)
 
 ## 字节码与类的加载
 
@@ -31,8 +35,6 @@
 
 - [01_概述](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/01_概述.md)
 - [02_JVM监控及诊断工具-命令行](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/02_JVM监控及诊断工具-命令行.md)
-
 - [03_JVM监控及诊断工具-GUI](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/04_JVM监控及诊断工具-GUI.md)
-
 - [04_JVM运行时参数](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/04_JVM运行时参数.md)
 
