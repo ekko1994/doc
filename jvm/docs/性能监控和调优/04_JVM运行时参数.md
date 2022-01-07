@@ -32,6 +32,10 @@
 
 子类型2：非数值型格式`-XX:<option>=<string>`
 
+#### 特别的
+
+`-XX:+PrintFlagsFinal`：输出所有参数的名称和默认值、默认不包括Diagnostic和Experimental的参数、可以配合`-XX:+UnlockDiagnosticVMOptions`和`-XX:UnlockExperimentalVMOptions`使用
+
 ## 添加JVM参数
 
 ### 运行jar包
@@ -130,6 +134,8 @@ Windows：catalina.bat中添加，set”JAVA_OPTS=-Xms100m -Xmx100m”
 
 `-XX:OnOutOfMemoryError=/opt/Server/restart.sh`：指定一个可行性程序或者脚本的路径，当发生OOM的时候，去执行这个脚本
 
+![image-20220107124057098](images/image-20220107124057098.png)
+
 ### 垃圾收集器相关选项
 
 #### 查看默认垃圾收集器
@@ -195,6 +201,8 @@ Windows：catalina.bat中添加，set”JAVA_OPTS=-Xms100m -Xmx100m”
 
 `-XX:ParallelCMSThreads`：设置CMS的线程数量。默认启动的线程数时(ParallelGCThreads+3)/4。
 
+***
+
 `-XX:ConcGCThreads`：设置并发垃圾收集的线程数，默认值是基于`ParallelGCThreads`计算出来的。
 
 `-XX:+UseCMSInitiatingOccupancyOnly`：是否动态可调，用于这个参数可以使CMS一直按CMSInitiatingOccupancyOnly设置的值启动。
@@ -210,6 +218,8 @@ Windows：catalina.bat中添加，set”JAVA_OPTS=-Xms100m -Xmx100m”
 `-XX:+ExplicitGCInvokesConcurrent`、`-XX:+ExplicitGCInvokesConcurrentAndUnloadsClasses`这两个参数用于指定Hotspot虚拟机在执行`System.gc()`时使用CMS周期。
 
 `-XX:+CMSPrecleaningEnabled`：指定CMS是否需要进行pre cleaning这个阶段。
+
+![image-20220107131241829](images/image-20220107131241829.png)
 
 > JDK9中CMS已被标记过时了，JDK14中删除了CMS收集器
 
@@ -231,7 +241,25 @@ Windows：catalina.bat中添加，set”JAVA_OPTS=-Xms100m -Xmx100m”
 
 `-XX:G1ReservePercent=10`：保留内存区域，防止to space（Survivor中的to区）溢出。
 
+***
+
+注意：G1收集器主要涉及到Mixed GC，Mixed GC会回收young区和部分old区。
+
+G1关于Mixed GC调优常用参数：
+
+- `-XX:InitiatingHeapOccupancyPercent`：设置堆占用率的百分比（0到100）达到这个数值的时候触发global concurrent marking（全局并发标记），默认为45%。值为0表示间断进行全局并发标记。
+
+- `-XX:G1MixedGCLiveThresholdPercent`：设置old区的region被回收时候的对象占比，默认占用率为85%。只有0ld区的region中存活的对象占用达到了这个百分比，才会在Mixed GC中被回收。
+
+- `-XX:G1HeaplastePercent`：在global concurrent marking（全局并发标记）结束之后，可以知道所有的区有多少空间要被回收，在每次youngGC之后和再次发生Mixed GC之前，会检查垃圾占比是否达到此参数，只有达到了，下次才会发生Mixed GC。
+
+- `-XX:G1MixedGCCountTarget`：一次global concurrent marking（全局并发标记）之后，最多执行MixedGC的次数，默认是8。
+
+- `-XX:G1OldCSetRegionThresholdPercent`：设置Mixed GC收集周期中要收集的old region数的上限。默认值是Java堆的10%
+
 #### 怎么选择垃圾回收器
+
+
 
 ### GC日志相关选项
 
