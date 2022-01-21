@@ -39,7 +39,7 @@
 
 - 如果不存在mysql-lib的版本，显示如下：
 
-![image-20220121202345160](images/image-20220121202345160.png)
+  ![image-20220121202345160](images/image-20220121202345160.png)
 
 ### 1.3 MySQL的卸载
 
@@ -194,11 +194,11 @@ rpm -qa|grep libaio
 
 - 如果存在libaio包如下：
 
-![image-20220121204644172](images/image-20220121204644172.png)
+  ![image-20220121204644172](images/image-20220121204644172.png)
 
-```sh
-rpm -qa|grep net-tools
-```
+  ```sh
+  rpm -qa|grep net-tools
+  ```
 
 - 如果存在net-tools包如下：
 
@@ -242,11 +242,11 @@ rpm -ivh mysql-community-server-8.0.25-1.el7.x86_64.rpm
 
 #### 2. 安装过程截图
 
-![image-20220121205329366](images/image-20220121205329366.png)
+​	![image-20220121205329366](images/image-20220121205329366.png)
 
 安装过程中可能的报错信息：
 
-![image-20220121205341777](images/image-20220121205341777.png)
+​	![image-20220121205341777](images/image-20220121205341777.png)
 
 > 一个命令：**yum remove mysql-libs** 解决，清除之前安装过的依赖即可  
 
@@ -1038,7 +1038,7 @@ SHOW VARIABLES LIKE '%lower_case_table_names%'
 
 - Windows系统下：
 
-![image-20220121215511830](images/image-20220121215511830.png)
+  ![image-20220121215511830](images/image-20220121215511830.png)
 
 - Linux系统下：
 
