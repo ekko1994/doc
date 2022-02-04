@@ -1,4 +1,4 @@
-# 第 01 章_Linux下MySQL的安装与使用
+# 第01章_Linux下MySQL的安装与使用
 
 ## 1. 安装前说明
 
@@ -749,7 +749,7 @@ vim /etc/my.cnf
 在MySQL 5. 7 或之前的版本中，在文件最后加上中文字符集配置：
 
 ```cnf
-character_set_server=utf
+character_set_server=utf8
 ```
 
 ![image-20220121213023535](images/image-20220121213023535.png)
@@ -902,7 +902,7 @@ mysql> SELECT * FROM t;
 
 ### 5. 3 字符集与比较规则(了解)
 
-#### 1. utf 8 与 utf 8 mb 4
+#### 1. utf 8 与 utf8mb4
 
 `utf8`字符集表示一个字符需要使用 1 ～ 4 个字节，但是我们常用的一些字符使用 1 ～ 3 个字节就可以表示了。而字符集表示一个字符所用的最大字节长度，在某些方面会影响系统的存储和性能，所以设计MySQL的设计者偷偷的定义了两个概念：
 
@@ -1021,6 +1021,30 @@ SELECT * FROM t WHERE s = '我';
 
 ![image-20220121215410355](images/image-20220121215410355.png)
 
+**经验：**
+开发中通常把 `character_set_client`、`character_set_connection`、`character_set_results` 这三个系统变量设置成和客户端使用的字符集一致的情况，这样减少了很多无谓的字符集转换。为了方便我们设置，MySQL提供了一条非常简便的语句：
+
+```mysql
+SET NAMES字符集名;
+```
+
+这一条语句产生的效果和我们执行这3条的效果是一样的：
+
+```mysql
+SET character_set_client=字符集名；
+SET character_set_connection=字符集名；
+SET character_set_results=字符集名；
+```
+
+另外，如果你想在启动客户端的时候就把`character_set_client`、`character_set_connection`、`character_set_results`这三个系统变量的值设置成一样的，那我们可以在启动客户端的时候指定一个叫`default-character-set`的启动选项，比如在配置文件里可以这么写：
+
+```mysql
+[client]
+default-character-set=utf8
+```
+
+它起到的效果和执行一遍 `SET NAMES utf`8是一样一样的，都会将那三个系统变量的值设置成`utf8`。
+
 ## 6. SQL大小写规范
 
 
@@ -1045,7 +1069,7 @@ SHOW VARIABLES LIKE '%lower_case_table_names%'
   ![image-20220121215527063](images/image-20220121215527063.png)
 
 - lower_case_table_names参数值的设置：
-  - 默认为 0 ，大小写敏感。
+  - `默认为 0 ，大小写敏感`。
   - 设置 1 ，大小写不敏感。创建的表，数据库都是以小写形式存放在磁盘上，对于sql语句都是转换为小写对表和数据库进行查找。
   - 设置 2 ，创建的表和数据库依据语句上格式存放，凡是查找都是转换为小写进行。
 - 两个平台上SQL大小写的区别具体来说：
