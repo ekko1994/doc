@@ -6,7 +6,7 @@
 
 - [第01章_Linux下MySQL的安装与使用](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC01%E7%AB%A0_Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
 
-- 第02章_MySQL的数据目录
+- [第02章_MySQL的数据目录](https://github.com/ekko1994/doc/blob/master/mysql/第02章_MySQL的数据目录.md)
 
 - 第03章_用户与权限管理
 
