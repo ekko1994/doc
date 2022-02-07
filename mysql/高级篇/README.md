@@ -6,7 +6,7 @@
 
 - [第01章_Linux下MySQL的安装与使用](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC01%E7%AB%A0_Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
 - [第02章_MySQL的数据目录](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC02%E7%AB%A0_MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95.md)
-- [第03章_用户与权限管理](https://github.com/ekko1994/doc/blob/master/mysql/第03章_用户与权限管理.md)
+- [第03章_用户与权限管理](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC03%E7%AB%A0_%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.md)
 - 第04章_逻辑架构
 - 第05章_存储引擎
 - 第06章_InnoDB数据页结构
