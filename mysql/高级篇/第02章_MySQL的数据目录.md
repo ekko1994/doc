@@ -268,6 +268,22 @@ mysql> show variables like 'innodb_file_per_table';
 
 随着MySQL的发展，除了上述两种老牌表空间之外，现在还新提出了一些不同类型的表空间，比如通用表空间（general tablespace）、临时表空间（temporary tablespace）等。
 
+**3.疑问**
+
+**.frm在MySQL8中不存在了。那去哪里了呢？**
+
+这就需要解析ibd文件。Oracle 官方将frm文件的信息及更多信息移动到叫做序列化字典信息（Serialized Dictionary Information，SDI），SDl被写在ibd文件内部。MySQL 8.0属于Oracle旗下，同理。
+
+为了从IBD文件中提取SDl信息，Oracle提供了一个应用程序ibd2sdi。
+ibd2sdi官方文档
+这个工具不需要下载，MySQL8自带的有，只要你配好环境变量就能到处用。
+（1）查看表结构
+到存储ibd文件的目录下，执行下面的命令：
+
+```mysql
+ibd2sdi--dump-file=student.txt student.ibd
+```
+
 
 
 #### 2. 3. 2 MyISAM存储引擎模式
@@ -324,7 +340,7 @@ PRIMARY KEY (`id`)
 
 - MySQL5.7 中：`b.frm`：描述表结构文件，字段长度等。
 
-- MySQL8.0 中 `b.xxx.sdi`：描述表结构文件，字段长度等
+  MySQL8.0 中 `b.xxx.sdi`：描述表结构文件，字段长度等
 
 - `b.MYD`(MYData)：数据信息文件，存储数据信息(如果采用独立表存储模式)
 
