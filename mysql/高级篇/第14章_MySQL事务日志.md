@@ -10,7 +10,7 @@
 
 有的DBA或许会认为 UNDO 是 REDO 的逆过程，其实不然。REDO和UNDO都可以视为是一种`恢复操作`，但是：
 
-- redo log：是存储引擎层（innodb）生成的日志，记录的是“`物理级别`“上的页修改操作，比如页号xxx、偏移量yyy写入了zzz数据。主要为了保证数据的可靠性；、
+- redo log：是存储引擎层（innodb）生成的日志，记录的是“`物理级别`“上的页修改操作，比如页号xxx、偏移量yyy写入了zzz数据。主要为了保证数据的可靠性；
 - undo log：是存储引擎层（innodb）生成的日志，记录的是`逻辑操作`日志，比如对某一行数据进行了INSERT语句操作，那么undo log就记录一条与之相反的DELETE操作。主要用于`事务的回滚`（undo log记录的是每个修改操作的`逆操作`）和`一致性非锁定读`（undo log回滚行记录到某种特定的版本--MVCC，即多版本并发控制）。
 
 ## 1. redo日志
@@ -60,7 +60,7 @@ Redo log可以简单分为以下两个部分：
 
 - `重做日志的缓冲 (redo log buffer)`，保存在内存中，是易失的。
 
-在服务器启动时就向操作系统申请了一大片称之为redo log buffer的连续内存空间，翻译成中文就是redo日志缓冲区。这片内存空间被划分成若干个连续的redo log block。一个`redo log block`占用`512字节`大小。
+在服务器启动时就向操作系统申请了一大片称之为redo log buffer的`连续内存`空间，翻译成中文就是redo日志缓冲区。这片内存空间被划分成若干个连续的redo log block。一个`redo log block`占用`512字节`大小。
 
 ![image-20220219115441859](images/image-20220219115441859.png)
 
@@ -77,15 +77,15 @@ mysql> show variables like '%innodb_log_buffer_size%';
 +------------------------+----------+
 ```
 
-- 重做日志文件 (redo log file)，保存在硬盘中，是持久的。
+- `重做日志文件 (redo log file)`，保存在硬盘中，是持久的。
 
-REDO日志，其中的ib_logfile0和ib_logfile1即为REDO日志。
+REDO日志，其中的`ib_logfile0`和`ib_logfile1`即为REDO日志。
 
 ```sh
 var/lib/mysql
 ```
 
-
+<img src="images/image-20220314155542551.png" alt="image-20220314155542551" style="zoom:67%;" />
 
 ### 1.4 redo的整体流程
 
@@ -120,6 +120,18 @@ redo log的写入并不是直接写入磁盘的，InnoDB引擎会在写redo log�
 
 - `设置为 2` ：表示每次事务提交时都只把 redo log buffer 内容写入 page cache，不进行同步。由os自己决定什么时候同步到磁盘文件。
 
+![image-20220314160417700](images/image-20220314160417700.png)
+
+另外，InnoDB存储引擎有一个后台线程，每隔`1秒`，就会把`redo log buffer`中的内容写到文件系统缓存（`page cache`），然后调用刷盘操作。
+
+![image-20220314160505467](images/image-20220314160505467.png)
+
+也就是说，一个没有提交事务的`redo log`记录，也可能会刷盘。因为在事务执行过程 redo log记录是会写入`redo log buffer`中，这些redo log 记录会被`后台线程`刷盘。
+
+![image-20220314160751405](images/image-20220314160751405.png)
+
+除了后台线程每秒1次的轮询操作，还有一种情况，当`redo log buffer`占用的空间即将达到`innodb_log_buffer_size`（这个参数默认是16M）的一半的时候，后台线程会主动刷盘。
+
 ### 1. 6 不同刷盘策略演示
 
 #### 1. 流程图
@@ -149,9 +161,74 @@ redo log的写入并不是直接写入磁盘的，InnoDB引擎会在写redo log�
 > 为0时，master thread中每1秒进行一次重做日志的fsync操作，因此实例crash最多丢失1秒钟内的事务。
 > （master thread是负责将缓冲池中的数据异步刷新到磁盘，保证数据的一致性）
 >
-> 数值o的话，是一种折中的做法，它的IO效率理论是高于1的，低于2的，这种策略也有丢失数据的风险，也无法保证D。
+> 数值0的话，是一种折中的做法，它的IO效率理论是高于1的，低于2的，这种策略也有丢失数据的风险，也无法保证D。
 
 #### 2. 举例
+
+比较innodb_flush_log_at_trx_commit对事务的影响。
+
+```mysql
+CREATE TABLE test_load(
+a INT, b CHAR(80)
+)ENGINE=INNODB;
+```
+
+```mysql
+#创建存储过程，用于向test_load中添加数据
+DELIMITER//
+CREATE PROCEDURE p_load(COUNT INT UNSIGNED)
+BEGIN
+DECLARE s INT UNSIGNED DEFAULT 1;
+DECLARE c CHAR(80)DEFAULT REPEAT('a',80);
+WHILE s<=COUNT DO
+INSERT INTO test_load SELECT NULL,c;
+COMMIT;
+SET s=s+1;
+END WHILE;
+END //
+DELIMITER;
+```
+
+存储过程代码中，每插入一条数据就进行一次显式的COMMIT操作。在默认的设置下，即参数innodb_flush_log_at_trx_commit为1的情况下，InnoDB存储引擎会将重做日志缓冲中的日志写入文件，并调用一次sync操作。
+执行命令CALL  p_load（30000），向表中插入3万行的记录，并执行3万次的fsync操作。在默认情况下所需的时间：
+
+```mysql
+#测试1：
+#设置并查看：innodb_flush_log_at_trx_commit
+
+SHOW VARIABLES LIKE 'innodb_flush_log_at_trx_commit';
+
+#set GLOBAL innodb_flush_log_at_trx_commit = 1;
+
+#调用存储过程
+CALL p_load(30000); #1min 28sec
+
+#测试2：
+TRUNCATE TABLE test_load;
+
+SELECT COUNT(*) FROM test_load;
+
+SET GLOBAL innodb_flush_log_at_trx_commit = 0;
+
+SHOW VARIABLES LIKE 'innodb_flush_log_at_trx_commit';
+
+#调用存储过程
+CALL p_load(30000); #37.945 sec
+
+#测试3：
+TRUNCATE TABLE test_load;
+
+SELECT COUNT(*) FROM test_load;
+
+SET GLOBAL innodb_flush_log_at_trx_commit = 2;
+
+SHOW VARIABLES LIKE 'innodb_flush_log_at_trx_commit';
+
+#调用存储过程
+CALL p_load(30000); #45.173 sec
+```
+
+
 
 ### 1.7 写入redo log buffer 过程
 
@@ -161,7 +238,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
 一个事务可以包含若干条语句，每一条语句其实是由若干个`mtr`组成，每一个`mtr`又可以包含若干条redo日志，画个图表示它们的关系就是这样：
 
-![image-20220210175901189](images/image-20220210175901189.png)
+<img src="images/image-20220210175901189.png" alt="image-20220210175901189" style="zoom: 67%;" />
 
 #### 2. redo 日志写入log buffer
 
@@ -172,7 +249,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 一个mtr执行过程中可能产生若干条redo日志，`这些redo日志是一个不可分割的组`，所以其实并不是每生成一条redo日志，就将其插入到log buffer中，而是每个mtr运行过程中产生的日志先暂时存到一个地方，当该mtr结束的时候，将过程中产生的一组redo日志再全部复制到log buffer中。我们现在假设有两个名为T1、T2的事务，每个事务都包含2个mtr，我们给这几个mtr命名一下：
 
 - 事务T1的两个mtr分别称为mtr_T1-1和mtr_T1-2。
-- 事务T2的两个mtr分别称为mtr-T2-1和mtr_T22。
+- 事务T2的两个mtr分别称为mtr-T2-1和mtr_T2_2。
 
 每个mtr都会产生一组redo日志，用示意图来描述一下这些mtr产生的日志情况：
 
@@ -196,6 +273,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
 ![image-20220210180003562](images/image-20220210180003562.png)
 
+![image-20220314163320518](images/image-20220314163320518.png)
 
 ### 1.8 redo log file
 
@@ -233,10 +311,10 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
   ```sh
   [root@localhost ~]# vim /etc/my.cnf
-  innodb_log_file_size= 200 M
+  innodb_log_file_size= 200M
   ```
 
-  
+  > 在数据库实例更新比较频繁的情况下，可以适当加大redo log组数和大小。但也不推荐redo log设置过大，在MySQL崩溃恢复时会重新执行REDO日志中的记录。
 
 #### 2. 日志文件组
 
@@ -244,7 +322,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
 在将redo日志写入日志文件组时，是从`ib_logfile0`开始写，如果`ib_logfile0`写满了，就接着`ib_1ogfile1`写。同理，`ib1ogfile1`写满了就去写`ib_logfile2`，依此类推。如果写到最后一个文件该咋办？那就重新转到`ib_logfile0`继续写，所以整个过程如下图所示：
 
-![image-20220210180215761](images/image-20220210180215761.png)
+<img src="images/image-20220210180215761.png" alt="image-20220210180215761" style="zoom: 67%;" />
 
 总共的redo日志文件大小其实就是：`innodb_log_file_size × innodb_log_files_in_group`。
 
@@ -259,11 +337,11 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
 每次刷盘 redo log 记录到日志文件组中，write pos 位置就会后移更新。每次MySQL加载日志文件组恢复数据时，会清空加载过的redo log记录，并把checkpoint后移更新。write pos和checkpoint之间的还空着的部分可以用来写入新的redo log记录。
 
-![image-20220210180229942](images/image-20220210180229942.png)
+<img src="images/image-20220210180229942.png" alt="image-20220210180229942" style="zoom:67%;" />
 
 如果 write pos 追上 checkpoint ，表示 **日志文件组** 满了，这时候不能再写入新的 redo log记录，MySQL 得停下来，清空一些记录，把 checkpoint 推进一下。
 
-![image-20220210180250480](images/image-20220210180250480.png)
+<img src="images/image-20220210180250480.png" alt="image-20220210180250480" style="zoom:67%;" />
 
 ![image-20220219124602535](images/image-20220219124602535.png)
 
@@ -287,11 +365,14 @@ redo log是事务持久性的保证，undo log是事务原子性的保证。在�
 
 - **作用 1 ：回滚数据**
 
-![image-20220219125051051](images/image-20220219125051051.png)
+  用户对undo日志可能有误解：undo用于将数据库物理地恢复到执行语句或事务之前的样子。但事实并非如此。
+  undo是逻辑日志，因此只是将数据库逻辑地恢复到原来的样子。所有修改都被逻辑地取消了，但是数据结构和页本身在回滚之后可能大不相同。
+
+  这是因为在多用户并发系统中，可能会有数十、数百甚至数干个并发事务。数据库的主要任务就是协调对数据记录的并发访问。比如，一个事务在修改当前一个页中某几条记录，同时还有别的事务在对同一个页中另几条记录进行修改。因此，不能将一个页回滚到事务开始的样子，因为这样会影响其他事务正在进行的工作。
 
 - **作用 2 ：MVCC**
 
-undo的另一个作用是MVCC，即在InnoDB存储引擎中MVCC的实现是通过undo来完成。当用户读取一行记录时，若该记录已经被其他事务占用，当前事务可以通过undo读取之前的行版本信息，以此实现非锁定读取。
+  undo的另一个作用是MVCC，即在InnoDB存储引擎中MVCC的实现是通过undo来完成。当用户读取一行记录时，若该记录已经被其他事务占用，当前事务可以通过undo读取之前的行版本信息，以此实现非锁定读取。
 
 ### 2. 3 undo的存储结构
 
@@ -313,7 +394,7 @@ mysql> show variables like 'innodb_undo_logs';
 
 虽然InnoDB1.1版本支持了128个rollback segment，但是这些rollback segment都存储于共享表空间ibdata中。从InnoDB1.2版本开始，可通过参数对rolback segment做进一步的设置。这些参数包括：
 
-- `innodb_undo_directory`：设置rollback segment文件所在的路径。这意味着rollback segment可以存放在共享表空间以外的位置，即可以设置为独立表空间。该参数的默认值为./”，表示当前InnoDB存储引擎的目录。
+- `innodb_undo_directory`：设置rollback segment文件所在的路径。这意味着rollback segment可以存放在共享表空间以外的位置，即可以设置为独立表空间。该参数的默认值为“./”，表示当前InnoDB存储引擎的目录。
 - `innodb_undo_logs`：设置rollback segment的个数，默认值为128。在lnnoDB1.2版本中，该参数用来替换之前版本的参数innodb_rollback_segments。
 - `innodb_undo_tablespaces`：设置构成rollbacrsegment文件的数量，这样rollback segment可以较为平均地分布在多个文件中。设置该参数后，会在路径innodb_undo_directory看到undo为前缀的文件，该文件就代表rollback segment文件。
 
@@ -338,7 +419,11 @@ mysql> show variables like 'innodb_undo_logs';
 3. 在回滚段中，事务会不断填充盘区，直到事务结束或所有的空间被用完。如果当前的盘区不够用，事务会在段中请求扩展下一个盘区，如果所有已分配的盘区都被用完，事务会覆盖最初的盘区或者在回滚段允许的情况下扩展新的盘区来使用。
 
 4. 回滚段存在于undo表空间中，在数据库中可以存在多个undo表空间，但同一时刻只能使用一个undo表空间。
+
+   ![image-20220314190644454](images/image-20220314190644454.png)
+
 5. 当事务提交时，InnoDB存储引擎会做以下两件事情：
+
 - 将undo log放入列表中，以供之后的purge操作
 - 判断undo log所在的页是否可以重用，若可以分配给下个事务使用
 
@@ -362,7 +447,9 @@ mysql> show variables like 'innodb_undo_logs';
 
 #### 1. 简要生成过程
 
-以下是undo+redo事务的简化过程假设有2个数值，分别为A=1和B=2，然后将A修改为3，B修改为4
+以下是undo+redo事务的简化过程
+
+假设有2个数值，分别为A=1和B=2，然后将A修改为3，B修改为4
 
 ```
 1.start transaction；
@@ -407,17 +494,21 @@ begin;
 INSERT INTO user (name) VALUES ("tom");
 ```
 
-![image-20220210180802557](images/image-20220210180802557.png)
+<img src="images/image-20220210180802557.png" alt="image-20220210180802557" style="zoom:80%;" />
 
 **当我们执行UPDATE时：**
 
-![image-20220210180811626](images/image-20220210180811626.png)
+<img src="images/image-20220210180811626.png" alt="image-20220210180811626" style="zoom:80%;" />
 
 ```mysql
 UPDATE user SET id= 2 WHERE id= 1 ;
 ```
 
 ![image-20220210180838437](images/image-20220210180838437.png)
+
+对于更新主键的操作，会先把原来的数据deletemark标识打开，这时并没有真正的删除数据，真正的删除会交给清理线程去判断，然后在后面插入一条新的数据，新的数据也会产生undo log，并且undo log的序号会递增。
+
+可以发现每次对数据的变更都会产生一个undo log，当一条记录被变更多次时，那么就会产生多条undo log，undo log记录的是变更前的日志，并且每个undo log的序号是递增的，那么当要回滚的时候，按照序号`依次向前推`，就可以找到我们的原始数据了。
 
 #### 3. undo log是如何回滚的
 
