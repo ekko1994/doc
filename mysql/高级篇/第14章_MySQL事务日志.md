@@ -48,7 +48,7 @@ InnoDB引擎的事务采用了WAL技术（`Write-Ahead Logging`），这种技�
 
 - **redo日志是顺序写入磁盘的**
 
-在执行事务的过程中，每执行一条语句，就可能产生若干条do日志，这些日志是按照产生的顺序写入磁盘的，也就是使用顺序10，效率比随机IO快。
+在执行事务的过程中，每执行一条语句，就可能产生若干条redo日志，这些日志是按照产生的顺序写入磁盘的，也就是使用顺序IO，效率比随机IO快。
 
 - **事务执行过程中，redo log不断记录**
 
@@ -249,7 +249,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 一个mtr执行过程中可能产生若干条redo日志，`这些redo日志是一个不可分割的组`，所以其实并不是每生成一条redo日志，就将其插入到log buffer中，而是每个mtr运行过程中产生的日志先暂时存到一个地方，当该mtr结束的时候，将过程中产生的一组redo日志再全部复制到log buffer中。我们现在假设有两个名为T1、T2的事务，每个事务都包含2个mtr，我们给这几个mtr命名一下：
 
 - 事务T1的两个mtr分别称为mtr_T1-1和mtr_T1-2。
-- 事务T2的两个mtr分别称为mtr-T2-1和mtr_T2_2。
+- 事务T2的两个mtr分别称为mtr_T2-1和mtr_T2_2。
 
 每个mtr都会产生一组redo日志，用示意图来描述一下这些mtr产生的日志情况：
 
@@ -330,7 +330,7 @@ MySQL把对底层页面中的一次原子访问的过程称之为一个`Mini-Tra
 
 #### 3. checkpoint
 
-在整个日志文件组中还有两个重要的属性，分别是write pos、checkploint
+在整个日志文件组中还有两个重要的属性，分别是write pos、checkpoint
 
 - write pos是当前记录的位置，一边写一边后移
 - checkpoint是当前要擦除的位置，也是往后推移
@@ -396,7 +396,7 @@ mysql> show variables like 'innodb_undo_logs';
 
 - `innodb_undo_directory`：设置rollback segment文件所在的路径。这意味着rollback segment可以存放在共享表空间以外的位置，即可以设置为独立表空间。该参数的默认值为“./”，表示当前InnoDB存储引擎的目录。
 - `innodb_undo_logs`：设置rollback segment的个数，默认值为128。在lnnoDB1.2版本中，该参数用来替换之前版本的参数innodb_rollback_segments。
-- `innodb_undo_tablespaces`：设置构成rollbacrsegment文件的数量，这样rollback segment可以较为平均地分布在多个文件中。设置该参数后，会在路径innodb_undo_directory看到undo为前缀的文件，该文件就代表rollback segment文件。
+- `innodb_undo_tablespaces`：设置构成rollback segment文件的数量，这样rollback segment可以较为平均地分布在多个文件中。设置该参数后，会在路径innodb_undo_directory看到undo为前缀的文件，该文件就代表rollback segment文件。
 
 **undo页的重用**
 
@@ -405,10 +405,6 @@ mysql> show variables like 'innodb_undo_logs';
 为每一个事务分配一个页，是非常浪费的（除非你的事务非常长），假设你的应用的TPS（每秒处理的事务数目）为1000，那么1s就需要1000个页，大概需要16M的存储，1分钟大概需要16的存储。如果照这样下去除非MySQL清理的非常勤快，否则随着时间的推移，磁盘空间会增长的非常快，而且很多空间都是浪费的。
 
 于是undo页就被设计的可以`重用`了，当事务提交时，并不会立刻删除undo页。因为重用，所以这个undo页可能混杂着其他事务的undo log。undo log在commit后，会被放到一个`链表`中，然后判断undo页的使用空间是否`小于3/4`，如果小于3/4的话，则表示当前的undo页可以被重用，那么它就不会被回收，其他事务的undo log可以记录在当前undo页的后面。由于undo log是`离散`的，所以清理对应的磁盘空间时，效率不高。
-
-
-
-
 
 #### 2. 回滚段与事务
 
