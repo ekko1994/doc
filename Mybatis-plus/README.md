@@ -148,14 +148,13 @@ INSERT INTO user (id, name, age, email) VALUES
 
 ```yaml
 spring:
-# 配置数据源信息
+	# 配置数据源信息
     datasource:
     # 配置数据源类型
     type: com.zaxxer.hikari.HikariDataSource
     # 配置连接数据库信息
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mybatis_plus?characterEncoding=utf-
-    8&useSSL=false
+    url: jdbc:mysql://localhost:3306/mybatis_plus?characterEncoding=utf-8&useSSL=false
     username: root
     password: root
 ```
@@ -259,7 +258,7 @@ public class MybatisPlusTest {
 >
 > 为了避免报错，可以在mapper接口上添加 @Repository 注解
 
-##### 
+
 
 ### f>添加日志
 
@@ -479,8 +478,6 @@ public void testDeleteById(){
 }
 ```
 
-
-
 ### b>通过id批量删除记录
 
 ```java
@@ -493,8 +490,6 @@ public void testDeleteBatchIds(){
     System.out.println("受影响行数："+result);
 }
 ```
-
-
 
 ### c>通过map条件删除记录
 
@@ -510,6 +505,8 @@ public void testDeleteByMap(){
     System.out.println("受影响行数："+result);
 }
 ```
+
+
 
 ## 4 、修改
 
@@ -539,8 +536,6 @@ public void testSelectById(){
 }
 ```
 
-
-
 ### b>根据多个id查询多个用户信息
 
 ```java
@@ -553,8 +548,6 @@ public void testSelectBatchIds(){
     list.forEach(System.out::println);
 }
 ```
-
-
 
 ### c>通过map条件查询用户信息
 
@@ -583,9 +576,9 @@ public void testSelectList(){
 }
 ```
 
-> 
+> 通过观察BaseMapper中的方法，大多方法中都有Wrapper类型的形参，此为条件构造器，可针对于SQL语句设置不同的条件，若没有条件，则可以为该形参赋值null，即查询（删除/修改）所有数据
 
-通过观察BaseMapper中的方法，大多方法中都有Wrapper类型的形参，此为条件构造器，可针对于SQL语句设置不同的条件，若没有条件，则可以为该形参赋值null，即查询（删除/修改）所有数据
+
 
 ## 6 、通用Service
 
@@ -768,8 +761,6 @@ mybatis-plus:
             id-type: auto
 ```
 
-
-
 ### e>雪花算法
 
 - 背景
@@ -921,7 +912,7 @@ mybatis-plus:
 @Test
 public void test01(){
     //查询用户名包含a，年龄在 20 到 30 之间，并且邮箱不为null的用户信息
-    //SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0 AND (username LIKE? AND age BETWEEN? AND? AND email IS NOT NULL)
+    //SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE is_deleted=0 AND (username LIKE ? AND age BETWEEN ? AND ? AND email IS NOT NULL)
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.like("username", "a")
         .between("age", 20 , 30 )
@@ -930,8 +921,6 @@ public void test01(){
     list.forEach(System.out::println);
 }
 ```
-
-
 
 ### b>例 2 ：组装排序条件
 
@@ -964,8 +953,6 @@ public void test03(){
 }
 ```
 
-
-
 ### d>例 4 ：条件的优先级
 
 ```java
@@ -991,8 +978,7 @@ public void test04() {
 public void test04() {
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     //将用户名中包含有a并且（年龄大于 20 或邮箱为null）的用户信息修改
-    //UPDATE t_user SET age=?, email=? WHERE (username LIKE? AND (age >? OR
-    email IS NULL))
+    //UPDATE t_user SET age=?, email=? WHERE (username LIKE? AND (age >? OR email IS NULL))
     //lambda表达式内的逻辑优先运算
     queryWrapper
         .like("username", "a")
@@ -1020,16 +1006,13 @@ public void test05() {
 }
 ```
 
-
-
 ### f>例 6 ：实现子查询
 
 ```java
 @Test
 public void test06() {
     //查询id小于等于 3 的用户信息
-    //SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE (id IN
-    (select id from t_user where id <= 3))
+    //SELECT id,username AS name,age,email,is_deleted FROM t_user WHERE (id IN (select id from t_user where id <= 3))
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.inSql("id", "select id from t_user where id <= 3");
     List<User> list = userMapper.selectList(queryWrapper);
@@ -1167,7 +1150,7 @@ public void test10() {
 
 > MyBatis Plus自带分页插件，只要简单的配置即可实现分页功能
 
-## a>添加配置类
+### a>添加配置类
 
 ```java
 @Configuration
