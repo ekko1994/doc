@@ -1202,7 +1202,6 @@ public void testPage(){
 * @param age 年龄
 * @return
 */
-I
 Page<User> selectPageVo(@Param("page") Page<User> page, @Param("age") Integer age);
 ```
 
@@ -1632,8 +1631,7 @@ datasource:
                 username: root
                 password: 123456
             slave_1:
-                url: jdbc:mysql://localhost:3306/mybatis_plus_1?characterEncoding=utf-
-                8&useSSL=false
+                url: jdbc:mysql://localhost:3306/mybatis_plus_1?characterEncoding=utf-8&useSSL=false
                 driver-class-name: com.mysql.cj.jdbc.Driver
                 username: root
                 password: 123456
