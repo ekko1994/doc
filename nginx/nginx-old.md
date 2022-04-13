@@ -1,34 +1,3 @@
-* [nginx简介](#nginx%E7%AE%80%E4%BB%8B)
-  * [什么是nginx](#%E4%BB%80%E4%B9%88%E6%98%AFnginx)
-  * [正向代理](#%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86)
-  * [反向代理](#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86)
-  * [负载均衡](#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1)
-  * [动静分离](#%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB)
-* [nginx的安装](#nginx%E7%9A%84%E5%AE%89%E8%A3%85)
-* [nginx的常用命令](#nginx%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4)
-* [nginx的配置文件](#nginx%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
-* [nginx配置实例\-反向代理](#nginx%E9%85%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86)
-  * [nginx反向代理实例1](#nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%AE%9E%E4%BE%8B1)
-  * [nginx反向代理实例2](#nginx%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E5%AE%9E%E4%BE%8B2)
-* [nginx配置实例\-负载均衡](#nginx%E9%85%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1)
-  * [nginx 分配服务器策略](#nginx-%E5%88%86%E9%85%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AD%96%E7%95%A5)
-* [nginx配置实例\-动静分离](#nginx%E9%85%8D%E7%BD%AE%E5%AE%9E%E4%BE%8B-%E5%8A%A8%E9%9D%99%E5%88%86%E7%A6%BB)
-* [nginx 配置高可用的集群](#nginx-%E9%85%8D%E7%BD%AE%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E9%9B%86%E7%BE%A4)
-  * [什么是nginx的高可用](#%E4%BB%80%E4%B9%88%E6%98%AFnginx%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8)
-  * [配置高可用的准备工作](#%E9%85%8D%E7%BD%AE%E9%AB%98%E5%8F%AF%E7%94%A8%E7%9A%84%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C)
-  * [安装keepalived](#%E5%AE%89%E8%A3%85keepalived)
-  * [完成高可用配置（主从配置）](#%E5%AE%8C%E6%88%90%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE%E4%B8%BB%E4%BB%8E%E9%85%8D%E7%BD%AE)
-    * [修改/etc/keepalived/keepalive\.conf 配置文件](#%E4%BF%AE%E6%94%B9etckeepalivedkeepaliveconf-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
-    * [在/usr/local/src 添加检测脚本](#%E5%9C%A8usrlocalsrc-%E6%B7%BB%E5%8A%A0%E6%A3%80%E6%B5%8B%E8%84%9A%E6%9C%AC)
-    * [把两台服务器上 nginx 和 keepalived 启动](#%E6%8A%8A%E4%B8%A4%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A-nginx-%E5%92%8C-keepalived-%E5%90%AF%E5%8A%A8)
-    * [测试](#%E6%B5%8B%E8%AF%95)
-* [nginx原理](#nginx%E5%8E%9F%E7%90%86)
-  * [master和worker](#master%E5%92%8Cworker)
-  * [worker如何进行工作的](#worker%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E5%B7%A5%E4%BD%9C%E7%9A%84)
-  * [一个 master 和多个 woker 的好处](#%E4%B8%80%E4%B8%AA-master-%E5%92%8C%E5%A4%9A%E4%B8%AA-woker-%E7%9A%84%E5%A5%BD%E5%A4%84)
-  * [设置多少个worker合适](#%E8%AE%BE%E7%BD%AE%E5%A4%9A%E5%B0%91%E4%B8%AAworker%E5%90%88%E9%80%82)
-  * [连接数 worker\_connection](#%E8%BF%9E%E6%8E%A5%E6%95%B0-worker_connection)
-
 # nginx简介
 
 ## 什么是nginx
@@ -96,6 +65,62 @@ Nginx 是高性能的 HTTP 和反向代理的服务器，处理高并发能力�
 # 再次查看开放的端口号
 [root@localhost sbin]# firewall-cmd --list-all
 ```
+
+***
+
+```
+./configure --prefix=/usr/local/nginx
+
+yum install -y gcc
+yum install -y pcre pcre-devel
+yum install -y zlib zlib-devel
+
+make
+make install
+```
+
+## 安装成系统服务
+
+```
+vi /usr/lib/systemd/system/nginx.service
+```
+
+```
+[Unit]
+Description=nginx - web server
+After=network.target remote-fs.target nss-lookup.target
+[Service]
+Type=forking
+PIDFile=/usr/local/nginx/logs/nginx.pid
+ExecStartPre=/usr/local/nginx/sbin/nginx -t -c /usr/local/nginx/conf/nginx.conf
+ExecStart=/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+ExecReload=/usr/local/nginx/sbin/nginx -s reload
+ExecStop=/usr/local/nginx/sbin/nginx -s stop
+ExecQuit=/usr/local/nginx/sbin/nginx -s quit
+PrivateTmp=true
+[Install]
+WantedBy=multi-user.target
+```
+
+重新加载系统服务
+
+```
+systemctl daemon-reload
+```
+
+启动服务
+
+```
+systemctl start nginx.service
+```
+
+开机启动
+
+```
+systemctl enable nginx.service  
+```
+
+
 
 # nginx的常用命令
 
