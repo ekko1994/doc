@@ -75,16 +75,18 @@ keepalive_timeout 65;
 虚拟主机配置
 
 ```
+#虚拟主机 vhost
 server {
-    listen 80; 监听端口号
-    server_name localhost; 主机名
+    listen 80; #监听端口号
+    server_name localhost; #主机名 域名
+    
     location / { 匹配路径
-    root html; 文件根目录
-    index index.html index.htm; 默认页名称
+        root html; 文件根目录
+        index index.html index.htm; 默认页名称
     }
     error_page 500 502 503 504 /50x.html; 报错编码对应页面
     location = /50x.html {
-    root html;
+        root html;
     }
 }
 ```
@@ -261,7 +263,7 @@ root用来设置根目录，而alias在接受请求的时候在路径上不会�
 
 #### rewrite语法格式及参数语法:
 
-```
+```bash
 rewrite是实现URL重写的关键指令，根据regex (正则表达式)部分内容，
 重定向到replacement，结尾是flag标记。
 
@@ -272,7 +274,7 @@ rewrite <regex> <replacement> [flag];
 ```
 
 
-```
+```bash
 正则：perl兼容正则表达式语句进行规则匹配
 替代内容：将正则匹配的内容替换成replacement
 flag标记：rewrite支持的flag标记
@@ -288,7 +290,7 @@ permanent #返回 301 永久重定向，浏览器地址栏会显示跳转后的U
 ```
 实例
 
-```
+```bash
 rewrite ^/([0-9]+).html$ /index.jsp?pageNum=$1 break;
 ```
 #### 同时使用负载均衡
@@ -297,36 +299,35 @@ rewrite ^/([0-9]+).html$ /index.jsp?pageNum=$1 break;
 
 ##### 开启防火墙
 
-```
+```sh
 systemctl start firewalld
 ```
 ##### 重启防火墙
 
-```
+```bash
 systemctl restart firewalld
 ```
 ##### 重载规则
 
-```
+```sh
 firewall-cmd --reload
 ```
 ##### 查看已配置规则
 
-```
+```sh
 firewall-cmd --list-all
 ```
 ##### 指定端口和ip访问
 
-```
+```sh
 firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="192.168.44.101"
 port protocol="tcp" port="8080" accept"
 ```
 ##### 移除规则
 
 
-```
-firewall-cmd --permanent --remove-rich-rule="rule family="ipv4" source
-address="192.168.44.101" port port="8080" protocol="tcp" accept"
+```sh
+firewall-cmd --permanent --remove-rich-rule="rule family="ipv4" source  address="192.168.44.101" port port="8080" protocol="tcp" accept"
 ```
 ##### 网关配置
 
