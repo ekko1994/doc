@@ -418,13 +418,13 @@ global_defs {
 }
 vrrp_instance atguigu {
     state MASTER
-    interface ens
+    interface ens33
     virtual_router_id 51
     priority 100
     advert_int 1
     authentication {
-    auth_type PASS
-    auth_pass 1111
+        auth_type PASS
+        auth_pass 1111
 	}
     virtual_ipaddress {
         192.168.44.200
@@ -440,16 +440,16 @@ global_defs {
 }
 vrrp_instance atguigu {
     state BACKUP
-    interface ens
+    interface ens33
     virtual_router_id 51
     priority 50
     advert_int 1
     authentication {
-    auth_type PASS
-    auth_pass 1111
+        auth_type PASS
+        auth_pass 1111
     }
     virtual_ipaddress {
-    192.168.44.200
+   	 	192.168.44.200
     }
 }
 ```
@@ -464,6 +464,7 @@ systemctl start keepalived
 
 <img src="images/image-20220413212012709.png" alt="image-20220413212012709" style="zoom: 80%;" />
 
+![image-20220415141805274](images/image-20220415141805274.png)
 
 ### openssl
 
