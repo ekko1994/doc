@@ -15,7 +15,7 @@
 
 - [SpringMVC](https://github.com/ekko1994/doc/tree/master/SpringMVC)
 
-- [ActiveMQ](https://github.com/ekko1994/doc/tree/master/activemq)
+- [ActiveMQ](https://github.com/ekko1994/doc/tree/master/ActiveMQ)
 
 - [ShardingSphere](https://github.com/ekko1994/doc/tree/master/ShadingSphere)
 
