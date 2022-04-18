@@ -19,3 +19,4 @@
 
 - [ShardingSphere](https://github.com/ekko1994/doc/tree/master/ShadingSphere)
 
+- [Elasticsearch](https://github.com/ekko1994/doc/tree/master/Elasticsearch)
