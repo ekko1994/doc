@@ -1,6 +1,6 @@
 # Nginx 基础使用
 
-## 目录结构
+## 1. 目录结构
 
 进入Nginx的主目录我们可以看到这些文件夹
 
@@ -14,25 +14,25 @@ client_body_temp conf fastcgi_temp html logs proxy_temp sbin scgi_temp uwsgi_tem
 client_body_temp fastcgi_temp proxy_temp scgi_temp
 ```
 
-### conf
+### 1.1 conf
 
 用来存放配置文件相关
 
-### html
+### 1.2 html
 
 用来存放静态文件的默认目录 html、css等
 
-### sbin
+### 1.3 sbin
 
 nginx的主程序
 
-## 基本运行原理
+## 2. 基本运行原理
 
 <img src="images/image-20220413205705107.png" alt="image-20220413205705107" style="zoom:67%;" />
 
-## Nginx配置与应用场景
+## 3. Nginx配置与应用场景
 
-### 最小配置
+### 3.1 最小配置
 
 #### worker_processes
 
@@ -93,7 +93,7 @@ server {
 
 
 
-### 虚拟主机
+### 3.2 虚拟主机
 
 原本一台服务器只能对应一个站点，通过虚拟主机技术可以虚拟化成多个站点同时对外提供服务
 
@@ -127,7 +127,7 @@ server_name vod.*;
 server_name ~^[0-9]+\.mmban\.com$;
 ```
 
-## 反向代理
+## 4. 反向代理
 
 ```
 proxy_pass http://baidu.com;
@@ -138,7 +138,7 @@ location / {
 }
 ```
 
-## 基于反向代理的负载均衡
+## 5. 基于反向代理的负载均衡
 
 ```
 upstream httpd {
@@ -146,7 +146,7 @@ upstream httpd {
     server 192.168.43.103:80;
 }
 ```
-### 负载均衡策略
+###  负载均衡策略
 
 ### 轮询
 
@@ -369,7 +369,7 @@ curl -I http://192.168.44.101/img/logo.png
 ```
 curl -e "http://baidu.com" -I http://192.168.44.101/img/logo.png
 ```
-## 高可用配置
+## 6. 高可用配置
 
 
 ### 安装Keepalived
@@ -458,7 +458,7 @@ vrrp_instance atguigu {
 ```
 systemctl start keepalived
 ```
-## Https证书配置
+## 7. Https证书配置
 
 ### 不安全的http协议
 
