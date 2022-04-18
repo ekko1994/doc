@@ -1,6 +1,6 @@
 # DockerFile解析
 
-## 是什么？
+## 1. 是什么？
 
 Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜像所需的指令和参数构成的脚本。
 
@@ -14,9 +14,9 @@ Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜�
 2. docker build命令构建镜像
 3. docker run依镜像运行容器实例
 
-## Dockerfile构建过程解析
+## 2. Dockerfile构建过程解析
 
-### Dockerfile内容基础知识
+### 2.1 Dockerfile内容基础知识
 
 1：每条保留字指令都必须为大写字母且后面要跟随至少一个参数
 
@@ -26,7 +26,7 @@ Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜�
 
 4：每条指令都会创建一个新的镜像层并对镜像进行提交
 
-### Docker执行Dockerfile的大致流程
+### 2.2 Docker执行Dockerfile的大致流程
 
 （1）docker从基础镜像运行一个容器
 
@@ -38,7 +38,7 @@ Dockerfile是用来构建Docker镜像的文本文件，是由一条条构建镜�
 
 （5）执行dockerfile中的下一条指令直到所有指令都执行完成
 
-### 小总结
+### 2.3 小总结
 
 从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，
 *  Dockerfile是软件的原材料
@@ -54,7 +54,7 @@ Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及�
 
 3. Docker容器，容器是直接提供服务的。
 
-## Dockerfile常用保留字指令
+## 3. Dockerfile常用保留字指令
 
 参考tomcat8的dockerfile入门，https://github.com/docker-library/tomcat
 
@@ -133,17 +133,17 @@ Dockerfile面向开发，Docker镜像成为交付标准，Docker容器则涉及�
 
 - ![image-20220118172735340](images/image-20220118172735340.png)
 
-## 案例
+## 4. 案例
 
-### 自定义镜像mycentosjava8
+### 4.1 自定义镜像mycentosjava8
 
-#### 要求
+#### 4.1.1 要求
 
 Centos7镜像具备vim+ifconfig+jdk8
 
 JDK的下载镜像地址：https://mirrors.yangxingzhen.com/jdk/
 
-#### 编写
+#### 4.1.2 编写
 
 准备编写Dockerfile文件，大写字母D
 
@@ -176,7 +176,7 @@ CMD echo "success--------------ok"
 CMD /bin/bash
 ```
 
-#### 构建
+#### 4.1.3 构建
 
 ```sh
 docker build -t 新镜像名字:TAG .
@@ -184,14 +184,14 @@ docker build -t 新镜像名字:TAG .
 
 > 注意，上面TAG后面有个空格，有个点
 
-#### 运行
+#### 4.1.4 运行
 
 ```sh
 docker run -it 新镜像名字:TAG 
 docker run -it centosjava8:1.5 /bin/bash
 ```
 
-#### 再体会下UnionFS（联合文件系统）
+#### 4.1.5 再体会下UnionFS（联合文件系统）
 
 UnionFS（联合文件系统）：Union文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持**对文件系统的修改作为一次提交来一层层的叠加**，同时可以将不同目录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union 文件系统是 Docker 镜像的基础。镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。
 
@@ -199,15 +199,15 @@ UnionFS（联合文件系统）：Union文件系统（UnionFS）是一种分层�
 
 特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录
 
-### 虚悬镜像
+### 4.2 虚悬镜像
 
-#### 是什么
+#### 4.2.1 是什么
 
 仓库名、标签都是`<none>`的镜像，俗称dangling image
 
 ![image-20220118174553805](images/image-20220118174553805.png)
 
-#### 查看
+#### 4.2.2 查看
 
 ```sh
 docker image ls -f dangling=true
@@ -217,7 +217,7 @@ docker image ls -f dangling=true
 
 ![image-20220118174534362](images/image-20220118174534362.png)
 
-#### 删除
+#### 4.2.3 删除
 
 ```sh
 docker image prune
@@ -225,7 +225,7 @@ docker image prune
 
 虚悬镜像已经失去存在价值，可以删除
 
-### 家庭作业-自定义镜像myubuntu
+### 4.3 家庭作业-自定义镜像myubuntu
 
 Dockerfile：
 
@@ -266,6 +266,6 @@ docker run -it 新镜像名字:TAG
 
 
 
-## 小总结
+## 5. 小总结
 
 ![image-20220118174752597](images/image-20220118174752597.png)

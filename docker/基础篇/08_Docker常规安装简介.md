@@ -1,6 +1,6 @@
-## Docker常规安装简介
+# Docker常规安装简介
 
-## 总体步骤
+## 1. 总体步骤
 
 1. 搜索镜像
 2. 拉取镜像
@@ -9,7 +9,7 @@
 5. 停止容器
 6. 移除容器
 
-## 安装tomcat
+## 2. 安装tomcat
 
 - docker hub上面查找tomcat镜像
 
@@ -51,7 +51,7 @@
 
   
 
-## 安装mysql
+## 3. 安装mysql
 
 ```sh
 docker pull mysql:5.7
@@ -61,7 +61,7 @@ docker exec -it 容器ID /bin/bash
 mysql -uroot -p
 ```
 
-### 问题
+### 3.1 问题
 
 - 插入中文报错，需要修改字符编码
 
@@ -71,7 +71,7 @@ SHOW VARIABLES LIKE 'character%'
 
 - 删除容器后，里面的mysql数据如何办
 
-### 实战
+### 3.2 实战
 
 - 新建mysql容器实例
 
@@ -99,7 +99,7 @@ SHOW VARIABLES LIKE 'character%'
 
 - 再新建库新建表再插入中文测试
 
-### 结论：
+### 3.3 结论：
 
 之前的DB  无效
 
@@ -113,7 +113,7 @@ SHOW VARIABLES LIKE 'character%'
 
 假如将当前容器实例删除，再重新来一次，之前建的db01实例还有吗？trytry
 
-## 安装redis
+## 4. 安装redis
 
 ```sh
 # 入门命令
@@ -136,6 +136,6 @@ Docker挂载主机目录Docker访问出现cannot open directory .: Permission de
 
 ![image-20220118145841405](images/image-20220118145841405.png)
 
-## 安装Nginx
+## 5. 安装Nginx
 
 见高级篇Portainer

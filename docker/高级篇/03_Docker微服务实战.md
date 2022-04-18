@@ -1,10 +1,10 @@
 # Docker微服务实战
 
-## 通过IDEA新建一个普通微服务模块
+## 1. 通过IDEA新建一个普通微服务模块
 
 略
 
-## 通过dockerfile发布微服务部署到docker容器
+## 2. 通过dockerfile发布微服务部署到docker容器
 
 1. IDEA工具里面搞定微服务jar包
 

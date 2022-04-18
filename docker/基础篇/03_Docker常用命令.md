@@ -1,6 +1,6 @@
 # Docker常用命令
 
-## 帮助启动类命令
+## 1. 帮助启动类命令
 
 ```sh
 #启动docker:
@@ -21,13 +21,13 @@ docker --help
 docker 具体命令 --help
 ```
 
-## 镜像命令
+## 2. 镜像命令
 
-### docker images
+### 2.1 docker images
 
 ![image-20220112163517947](images/image-20220112163517947.png)
 
-#### OPTIONS说明
+#### 2.1.1 PTIONS说明
 
 ```
 -a :列出本地所有的镜像（含历史映像层）
@@ -36,13 +36,13 @@ docker 具体命令 --help
 
 ![image-20220112163825729](images/image-20220112163825729.png)
 
-### docker search 某个XXX镜像名字
+### 2.2 docker search 某个XXX镜像名字
 
 ![image-20220112164447456](images/image-20220112164447456.png)
 
 
 
-#### OPTIONS说明
+#### 2.2.1 OPTIONS说明
 
 --limit : 只列出N个镜像，默认25个
 
@@ -52,7 +52,7 @@ docker search --limit 5 redis
 
 ![image-20220112164729517](images/image-20220112164729517.png)
 
-### docker pull 某个XXX镜像名字
+### 2.3 docker pull 某个XXX镜像名字
 
 ```sh
 docker pull 镜像名字[:TAG]
@@ -60,13 +60,13 @@ docker pull 镜像名字[:TAG]
 docker pull 镜像名字:latest
 ```
 
-### docker system df :查看镜像/容器/数据卷所占的空间
+### 2.4 docker system df :查看镜像/容器/数据卷所占的空间
 
 ![image-20220112164949145](images/image-20220112164949145.png)
 
 
 
-### docker rmi 某个XXX镜像名字ID
+### 2.5 docker rmi 某个XXX镜像名字ID
 
 ```sh
 #删除单个:
@@ -79,19 +79,19 @@ docker rmi -f $(docker images -qa)
 
 
 
-### 面试题：谈谈docker虚悬镜像是什么？ 
+### 2.6 面试题：谈谈docker虚悬镜像是什么？ 
 
 仓库名、标签都是`<none>`的镜像，俗称虚悬镜像dangling image
 
 后续Dockerfile章节再介绍
 
-### 思考
+### 2.7 思考
 
 结合我们Git的学习心得，大家猜猜是否会有`docker commit /docker push`？
 
 
 
-## 容器命令
+## 3. 容器命令
 
 有镜像才能创建容器，这是根本前提(下载一个CentOS或者ubuntu镜像演示)
 
@@ -99,13 +99,13 @@ docker rmi -f $(docker images -qa)
 docker pull ubuntu
 ```
 
-### 新建+启动容器
+### 3.1 新建+启动容器
 
 ```sh
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 ```
 
-####  OPTIONS说明
+####  3.1.1 OPTIONS说明
 
  OPTIONS说明（常用）：有些是一个减号，有些是两个减号
 
@@ -126,13 +126,13 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 
 要退出终端，直接输入 exit:
 
-### 列出当前所有正在运行的容器
+### 3.2 列出当前所有正在运行的容器
 
 ```sh
 docker ps [OPTIONS]
 ```
 
-#### OPTIONS说明（常用）：
+#### 3.2.1 OPTIONS说明（常用）：
 
 **-a :列出当前所有正在运行的容器+历史上运行过的**
 -l :显示最近创建的容器。
@@ -143,14 +143,14 @@ docker ps [OPTIONS]
 
 
 
-### 退出容器
+### 3.3 退出容器
 
 两种退出方式：
 
 1. run进去容器，exit退出，容器停止
 2. run进去容器，ctrl+p+q退出，容器不停止
 
-### 启动已停止运行的容器
+### 3.4 启动已停止运行的容器
 
 ```sh
 docker start 容器ID或者容器名
@@ -158,25 +158,25 @@ docker start 容器ID或者容器名
 
 ![image-20220112174749913](images/image-20220112174749913.png)
 
-### 重启容器
+### 3.5 重启容器
 
 ```sh
 docker restart 容器ID或者容器名
 ```
 
-### 停止容器
+### 3.6 停止容器
 
 ```sh
 docker stop 容器ID或者容器名
 ```
 
-### 强制停止容器
+### 3.7 强制停止容器
 
 ```sh
 docker kill 容器ID或容器名
 ```
 
-### 删除已停止的容器
+### 3.8 删除已停止的容器
 
 ```sh
 docker rm 容器ID
@@ -192,11 +192,11 @@ docker rm -f $(docker ps -a -q)
 docker ps -a -q | xargs docker rm
 ```
 
-### 重要
+### 3.9 重要
 
 **有镜像才能创建容器，这是根本前提(下载一个Redis6.0.8镜像演示)**
 
-#### 启动守护式容器(后台服务器)
+#### 3.9.1 启动守护式容器(后台服务器)
 
 在大部分的场景下，我们希望 docker 的服务是在后台运行的，我们可以过 -d 指定容器的后台运行模式。
 
@@ -219,7 +219,7 @@ docker run -d centos
 
 ![image-20220112181714961](images/image-20220112181714961.png)
 
-#### 查看容器日志
+#### 3.9.2 查看容器日志
 
 ```sh
 docker logs 容器ID
@@ -227,7 +227,7 @@ docker logs 容器ID
 
 ![image-20220112182024409](images/image-20220112182024409.png)
 
-#### 查看容器内运行的进程
+#### 3.9.3 查看容器内运行的进程
 
 ```sh
 docker top 容器ID
@@ -235,7 +235,7 @@ docker top 容器ID
 
 ![image-20220112182331896](images/image-20220112182331896.png)
 
-#### 查看容器内部细节
+#### 3.9.4 查看容器内部细节
 
 ```sh
 docker inspect 容器ID
@@ -243,7 +243,7 @@ docker inspect 容器ID
 
 ![image-20220112182222119](images/image-20220112182222119.png)
 
-#### 进入正在运行的容器并以命令行交互
+#### 3.9.5 进入正在运行的容器并以命令行交互
 
 ```sh
 docker exec -it 容器ID bashShell
@@ -267,7 +267,7 @@ docker attach 容器ID
 
 
 
-#### 从容器内拷贝文件到主机上
+#### 3.9.6 从容器内拷贝文件到主机上
 
 ```sh
 docker cp  容器ID:容器内路径 目的主机路径
@@ -275,7 +275,7 @@ docker cp  容器ID:容器内路径 目的主机路径
 
 ![image-20220112185256286](images/image-20220112185256286.png)
 
-#### 导入和导出容器
+#### 3.9.7 导入和导出容器
 
 ```sh
 export 导出容器的内容留作为一个tar归档文件[对应import命令]
@@ -301,7 +301,7 @@ cat 文件名.tar | docker import - 镜像用户/镜像名:镜像版本号
 
 
 
-## 小总结
+## 4. 小总结
 
 ![image-20220112190230479](images/image-20220112190230479.png)
 

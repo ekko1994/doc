@@ -1,8 +1,8 @@
 # Docker网络
 
-## 是什么
+## 1. 是什么
 
-### docker不启动，默认网络情况
+### 1.1 docker不启动，默认网络情况
 
 ![image-20220118182850073](images/image-20220118182850073.png)
 
@@ -11,7 +11,7 @@
 我们之前学习Linux安装，勾选安装系统的时候附带了libvirt服务才会生成的一个东西，如果不需要可以直接将libvirtd服务卸载，
 yum remove libvirt-libs.x86_64
 
-### docker启动后，网络情况
+### 1.2 docker启动后，网络情况
 
 ![image-20220118183048488](images/image-20220118183048488.png)
 
@@ -25,7 +25,7 @@ docker network ls
 
 ![image-20220118183135835](images/image-20220118183135835.png)
 
-## 常用基本命令
+## 2. 常用基本命令
 
 ![image-20220118183254422](images/image-20220118183254422.png)
 
@@ -47,13 +47,13 @@ docker network inspect  XXX网络名字
 docker network rm XXX网络名字
 ```
 
-### 案例
+### 2.1 案例
 
 ![image-20220118183534988](images/image-20220118183534988.png)
 
 
 
-## 能干嘛
+## 3. 能干嘛
 
 - 容器间的互联和通信以及端口映射
 
@@ -61,9 +61,9 @@ docker network rm XXX网络名字
 
 
 
-## 网络模式
+## 4. 网络模式
 
-### 总体介绍
+### 4.1 总体介绍
 
 - bridge模式：使用--network  bridge指定，默认使用docker0
 - host模式：使用--network host指定
@@ -72,7 +72,7 @@ docker network rm XXX网络名字
 
 
 
-### 容器实例内默认网络IP生产规则
+### 4.2 容器实例内默认网络IP生产规则
 
 1. 先启动两个ubuntu容器实例
 
@@ -88,9 +88,9 @@ docker network rm XXX网络名字
 
 **结论：docker容器内部的ip是有可能会发生改变的**
 
-### 案例说明
+### 4.3 案例说明
 
-#### bridge
+#### 4.3.1 bridge
 
 Docker 服务默认会创建一个 docker0 网桥（其上有一个 docker0 内部接口），该桥接网络的名称为docker0，它在**内核层**连通了其他的物理或虚拟网卡，这就将所有容器和本地主机都放到**同一个物理网络**。Docker 默认指定了 docker0 接口 的 IP 地址和子网掩码，**让主机和容器之间可以通过网桥相互通信**。
 
@@ -128,7 +128,7 @@ docker run -d -p 8082:8080   --name tomcat82 billygoo/tomcat8-jdk8
 
 ![image-20220118192912091](images/image-20220118192912091.png)
 
-#### host
+#### 4.3.2 host
 
 直接使用宿主机的 IP 地址与外界进行通信，不再需要额外进行NAT 转换。
 
@@ -167,7 +167,7 @@ http://宿主机IP:8080/
 在CentOS里面用默认的火狐浏览器访问容器内的tomcat83看到访问成功，因为此时容器的IP借用主机的，
 所以容器共享宿主机网络IP，这样的好处是外部主机与容器可以直接通信。
 
-#### none
+#### 4.3.3 none
 
 在none模式下，并不为Docker容器进行任何网络配置。也就是说，这个Docker容器没有网卡、IP、路由等信息，只有一个lo，需要我们自己为Docker容器添加网卡、配置IP等。
 
@@ -187,7 +187,7 @@ docker run -d -p 8084:8080 --network none --name tomcat84 billygoo/tomcat8-jdk8
 
 
 
-#### container
+#### 4.3.4 container
 
 新建的容器和已经存在的一个容器共享一个网络ip配置而不是和宿主机共享。新创建的容器不会创建自己的网卡，配置自己的IP，而是和一个指定的容器共享IP、端口范围等。同样，两个容器除了网络方面，其他的如文件系统、进程列表等还是隔离的。
 
@@ -223,7 +223,7 @@ docker run -it --network container:alpine1 --name alpine2  alpine /bin/sh
 
 ![image-20220118194424651](images/image-20220118194424651.png)
 
-#### 自定义网络
+#### 4.3.5 自定义网络
 
 ##### 过时的link
 
@@ -273,9 +273,9 @@ after：
 
 
 
-## Docker平台架构图解
+## 5. Docker平台架构图解
 
-### 整体说明
+### 5.1 整体说明
 
 从其架构和运行流程来看，Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多模块各司其职。 
 

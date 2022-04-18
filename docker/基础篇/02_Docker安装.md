@@ -1,6 +1,6 @@
 # Docker安装
 
-## 前提说明
+## 1. 前提说明
 
 ![image-20220112151057924](images/image-20220112151057924.png)
 
@@ -11,15 +11,15 @@ uname命令用于打印当前系统相关信息（内核版本号、硬件架构
 
 ![image-20220112151341652](images/image-20220112151341652.png)
 
-## Docker的基本组成
+## 2. Docker的基本组成
 
-### 镜像(image)
+### 2.1 镜像(image)
 
 Docker 镜像（Image）就是一个**只读**的模板。镜像可以用来创建 Docker 容器，**一个镜像可以创建很多容器。**
 它也相当于是一个root文件系统。比如官方镜像 centos:7 就包含了完整的一套 centos:7 最小系统的 root 文件系统。
 相当于容器的“源代码”，**docker镜像文件类似于Java的类模板，而docker容器实例类似于java中new出来的实例对象。**
 
-### 容器(container)
+### 2.2 容器(container)
 
 **1、从面向对象角度**
 Docker 利用容器（Container）独立运行的一个或一组应用，应用程序或服务运行在容器里面，容器就类似于一个虚拟化的运行环境，**容器是用镜像创建的运行实例**。就像是Java中的类和实例对象一样，镜像是静态的定义，容器是镜像运行时的实体。容器为镜像提供了一个标准的和隔离的运行环境，它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台
@@ -27,7 +27,7 @@ Docker 利用容器（Container）独立运行的一个或一组应用，应用�
 **2、从镜像容器角度**
 **可以把容器看做是一个简易版的 Linux 环境**（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。
 
-### 仓库(repository)
+### 2.3 仓库(repository)
 
 仓库（Repository）是**集中存放镜像**文件的场所。
 
@@ -40,7 +40,7 @@ Docker公司提供的官方registry被称为Docker Hub，存放各种镜像模�
 **最大的公开仓库是 Docker Hub(https://hub.docker.com/)，**
 存放了数量庞大的镜像供用户下载。国内的公开仓库包括阿里云 、网易云等
 
-### 小总结
+### 2.4 小总结
 
 **需要正确的理解仓库/镜像/容器这几个概念:**
 
@@ -53,17 +53,17 @@ image文件可以看作是容器的模板。Docker 根据 image 文件生成容�
 - 容器实例——一个容器运行一种服务，当我们需要的时候，就可以通过docker客户端创建一个对应的运行实例，也就是我们的容器
 - 仓库——就是放一堆镜像的地方，我们可以把镜像发布到仓库中，需要的时候再从仓库中拉下来就可以了。
 
-### Docker平台架构图解(入门版)![image-20220112152300824](images/image-20220112152300824.png)
+### 2.5 Docker平台架构图解(入门版)![image-20220112152300824](images/image-20220112152300824.png)
 
-### Docker工作原理
+### 2.6 Docker工作原理
 
 Docker是一个Client-Server结构的系统，Docker守护进程运行在主机上， 然后通过Socket连接从客户端访问，守护进程从客户端接受命令并管理运行在主机上的容器。 **容器，是一个运行时环境，就是我们前面说到的集装箱。可以对比mysql演示对比讲解**
 
 ![image-20220112152413382](images/image-20220112152413382.png)
 
-## Docker平台架构图解(架构版)
+## 3. Docker平台架构图解(架构版)
 
-### 整体架构及底层通信原理简述
+### 3.1 整体架构及底层通信原理简述
 
 Docker 是一个 C/S 模式的架构，后端是一个松耦合架构，众多模块各司其职。 
 
@@ -85,7 +85,7 @@ Docker运行的基本流程为：
 
 ![image-20220112153553339](images/image-20220112153553339.png)
 
-## 安装步骤
+## 4. 安装步骤
 
 官网：[Install Docker Engine on CentOS | Docker Documentation](https://docs.docker.com/engine/install/centos/)
 
@@ -157,7 +157,7 @@ Docker运行的基本流程为：
     rm -rf /var/lib/containerd
     ```
 
-## 阿里云镜像加速
+## 5. 阿里云镜像加速
 
 是什么——https://promotion.aliyun.com/ntms/act/kubernetes.html
 
@@ -172,19 +172,19 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-## 永远的HelloWorld
+## 6. 永远的HelloWorld
 
-### docker run hello-world
+### 6.1 docker run hello-world
 
 ![image-20220112161528152](images/image-20220112161528152.png)
 
 输出这段提示以后，hello world就会停止运行，容器自动终止。
 
-### run干了什么
+### 6.2 run干了什么
 
 ![image-20220112161658521](images/image-20220112161658521.png)
 
-## 底层原理
+## 7. 底层原理
 
 **为什么Docker会比VM虚拟机快？**
 

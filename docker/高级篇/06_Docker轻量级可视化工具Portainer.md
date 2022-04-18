@@ -1,20 +1,20 @@
 # Docker轻量级可视化工具Portainer
 
-## 是什么
+## 1. 是什么
 
 Portainer 是一款轻量级的应用，它提供了图形化界面，用于方便地管理Docker环境，包括单机环境和集群环境。
 
 
 
-## 安装
+## 2. 安装
 
-### 官网
+### 2.1 官网
 
 https://www.portainer.io/
 
 https://docs.portainer.io/v/ce-2.9/start/install/server/docker/linux
 
-### 步骤
+### 2.2 步骤
 
 1. docker命令安装
 
@@ -46,5 +46,5 @@ https://docs.portainer.io/v/ce-2.9/start/install/server/docker/linux
 
 
 
-## 登陆并演示介绍常用操作case
+## 3. 登陆并演示介绍常用操作case
 

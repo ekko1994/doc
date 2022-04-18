@@ -1,6 +1,6 @@
 # 容器监控之CAdvisor+InfluxDB+Granfana
 
-## 原生命令
+## 1. 原生命令
 
 ```sh
 docker stats
@@ -12,29 +12,29 @@ docker stats
 
 但是，docker stats统计结果只能是当前宿主机的全部容器，数据资料是实时的，没有地方存储、没有健康指标过线预警等功能
 
-## 是什么
+## 2. 是什么
 
-### 容器监控3剑客
+### 2.1 容器监控3剑客
 
 <img src="images/image-20220118212447471.png" alt="image-20220118212447471" style="zoom:50%;" />
 
 CAdvisor监控收集+InfluxDB存储数据+Granfana展示图表
 
-#### CAdvisor
+#### 2.1.1 CAdvisor
 
 <img src="images/image-20220118212525866.png" alt="image-20220118212525866" style="zoom: 80%;" />
 
-#### InfluxDB
+#### 2.1.2 InfluxDB
 
 <img src="images/image-20220118212606843.png" alt="image-20220118212606843" style="zoom:80%;" />
 
 
 
-#### Granfana
+#### 2.1.3 Granfana
 
 <img src="images/image-20220118212618713.png" alt="image-20220118212618713" style="zoom:80%;" />
 
-#### 总结
+#### 2.1.4 总结
 
 <img src="images/image-20220118212655981.png" alt="image-20220118212655981" style="zoom:80%;" />
 
@@ -42,13 +42,13 @@ CAdvisor监控收集+InfluxDB存储数据+Granfana展示图表
 
 
 
-## compose容器编排，一套带走
+## 3. compose容器编排，一套带走
 
-### 新建目录
+### 3.1 新建目录
 
 <img src="images/image-20220118212814473.png" alt="image-20220118212814473" style="zoom:80%;" />
 
-### 新建3件套组合的docker-compose.yml
+### 3.2 新建3件套组合的docker-compose.yml
 
 ```yaml
 version: '3.1'
@@ -103,7 +103,7 @@ services:
     - INFLUXDB_PASS=root
 ```
 
-### 启动docker-compose文件
+### 3.3 启动docker-compose文件
 
 ```sh
 docker-compose up
@@ -113,11 +113,11 @@ docker-compose up
 
 ![image-20220118213108264](images/image-20220118213108264.png)
 
-### 查看三个服务容器是否启动
+### 3.4 查看三个服务容器是否启动
 
 ![image-20220118213200057](images/image-20220118213200057.png)
 
-### 测试
+### 3.5 测试
 
 ```sh
 #浏览cAdvisor收集服务，http://ip:8080/

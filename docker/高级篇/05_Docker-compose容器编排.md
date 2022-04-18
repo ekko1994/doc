@@ -1,12 +1,12 @@
 # Docker-compose容器编排
 
-## 是什么
+## 1. 是什么
 
 Docker-Compose是Docker官方的开源项目，负责实现对Docker容器集群的快速编排。
 
 Compose 是 Docker 公司推出的一个工具软件，可以管理多个 Docker 容器组成一个应用。你需要定义一个 YAML 格式的配置文件docker-compose.yml，写好多个容器之间的调用关系。然后，只要一个命令，就能同时启动/关闭这些容器
 
-## 能干嘛
+## 2. 能干嘛
 
 docker建议我们每一个容器中只运行一个服务,因为docker容器本身占用资源极少,所以最好是将每个服务单独的分割开来但是这样我们又面临了一个问题？
 
@@ -20,7 +20,7 @@ Compose允许用户通过一个单独的**docker-compose.yml**模板文件（YAM
 
 
 
-## 去哪下
+## 3. 去哪下
 
 官网：https://docs.docker.com/compose/compose-file/compose-file-v3/
 
@@ -38,26 +38,26 @@ docker-compose --version
 
 ![image-20220118201532134](images/image-20220118201532134.png)
 
-## Compose核心概念
+## 4. Compose核心概念
 
-### 一文件
+### 4.1 一文件
 
 docker-compose.yml
 
-### 两要素
+### 4.2 两要素
 
 1. 服务（service）：一个个应用容器实例，比如订单微服务、库存微服务、mysql容器、nginx容器或者redis容器
 2. 工程（project）：由一组关联的应用容器组成的一个完整业务单元，在 docker-compose.yml 文件中定义。
 
 
 
-## Compose使用的三个步骤
+## 5. Compose使用的三个步骤
 
 1. 编写Dockerfile定义各个微服务应用并构建出对应的镜像文件
 2. 使用 docker-compose.yml 定义一个完整业务单元，安排好整体应用中的各个容器服务。
 3. 最后，执行docker-compose up命令 来启动并运行整个应用程序，完成一键部署上线
 
-## Compose常用命令
+## 6. Compose常用命令
 
 ```sh
 docker-compose -h                           # 查看帮助
@@ -78,9 +78,9 @@ docker-compose stop      # 停止服务
 
 
 
-## Compose编排微服务
+## 7. Compose编排微服务
 
-### 改造升级微服务工程docker_boot
+### 7.1 改造升级微服务工程docker_boot
 
 ```mysql
 CREATE TABLE `t_user` (
@@ -117,9 +117,9 @@ docker build -t zzyy_docker:1.6 .
 
 
 
-### 不用Compose
+### 7.2 不用Compose
 
-#### mysql容器实例
+#### 7.2.1 mysql容器实例
 
 ```sh
 docker run -p 3306:3306 --name mysql57 --privileged=true -v /zzyyuse/mysql/conf:/etc/mysql/conf.d -v /zzyyuse/mysql/logs:/logs -v /zzyyuse/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 -d mysql:5.7
@@ -142,13 +142,13 @@ CREATE TABLE `t_user` (
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 ```
 
-#### redis容器实例
+#### 7.2.2 redis容器实例
 
 ```sh
 docker run  -p 6379:6379 --name redis608 --privileged=true -v /app/redis/redis.conf:/etc/redis/redis.conf -v /app/redis/data:/data -d redis:6.0.8 redis-server /etc/redis/redis.conf
 ```
 
-#### 微服务工程
+#### 7.2.3 微服务工程
 
 ```sh
 docker run -d -p 6001:6001 zzyy_docker:1.6
@@ -160,7 +160,7 @@ docker run -d -p 6001:6001 zzyy_docker:1.6
 
 
 
-### swagger测试
+### 7.3 swagger测试
 
 ```sh
 #http://localhost:你的微服务端口/swagger-ui.html#/
@@ -169,13 +169,13 @@ http://192.168.48.111:6001/swagger-ui.html
 
 
 
-### 上面成功了，有哪些问题?
+### 7.4 上面成功了，有哪些问题?
 
 1. 先后顺序要求固定，先mysql+redis才能微服务访问成功
 2. 多个run命令......
 3. 容器间的启停或宕机，有可能导致IP地址对应的容器实例变化，映射出错，要么生产IP写死(可以但是不推荐)，要么通过服务调用
 
-### 使用Compose
+### 7.5 使用Compose
 
 1. 服务编排，一套带走，安排
 
