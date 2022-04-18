@@ -1,8 +1,8 @@
 # Elasticsearch入门
 
-## 2.1 Elasticsearch安装
+## 1 Elasticsearch安装
 
-### 2. 1 .1 下载软件
+### 1 .1 下载软件
 
 Elasticsearch的官方地址：https://www.elastic.co/cn/
 
@@ -16,7 +16,7 @@ Elasticsearch分为Linux和Windows版本，基于我们主要学习的是Elastic
 
 ![image-20220418160251442](images/image-20220418160251442.png)
 
-### 2. 1. 2 安装软件
+### 1. 2 安装软件
 
 Windows版的Elasticsearch的安装很简单，解压即安装完毕，解压后的Elasticsearch的目录结构如下
 
@@ -42,7 +42,7 @@ Windows版的Elasticsearch的安装很简单，解压即安装完毕，解压后
 
 ![image-20220418160526427](images/image-20220418160526427.png)
 
-### 2. 1. 3 问题解决
+### 1. 3 问题解决
 
 - Elasticsearch是使用java开发的，且7.8版本的ES需要JDK版本1.8以上，默认安装包带有jdk环境，如果系统配置JAVA_HOME，那么使用系统默认的JDK，如果没有配置使用自带的JDK，一般建议使用系统配置的JDK。
 - 双击启动窗口闪退，通过路径访问追踪错误，如果是“空间不足”，请修改config/jvm.options配置文件
@@ -59,9 +59,9 @@ Windows版的Elasticsearch的安装很简单，解压即安装完毕，解压后
 
 
 
-## 2. 2 Elasticsearch基本操作
+## 2 Elasticsearch基本操作
 
-### 2. 2 .1 RESTful
+### 2 .1 RESTful
 
 REST 指的是一组架构约束条件和原则。满足这些约束条件和原则的应用程序或设计就是 RESTful。Web 应用程序最重要的 REST 原则是，客户端和服务器之间的交互在请求之间是无状态的。从客户端到服务器的每个请求都必须包含理解请求所必需的信息。如果服务器在请求之间的任何时间点重启，客户端不会得到通知。此外，无状态请求可以由任何可用服务器回答，这十分适合云计算之类的环境。客户端可以缓存数据以改进性能。
 
@@ -71,7 +71,7 @@ REST 指的是一组架构约束条件和原则。满足这些约束条件和原
 
 
 
-### 2. 2. 2 客户端安装
+### 2. 2 客户端安装
 
 如果直接通过浏览器向Elasticsearch服务器发请求，那么需要在发送的请求中包含HTTP标准的方法，而HTTP 的大部分特性且仅支持 GET和POST 方法。所以为了能方便地进行客户端的访问，可以使用Postman软件
 
@@ -85,7 +85,7 @@ Postman下载：https://www.getpostman.com/apps
 
 
 
-### 2. 2. 3 数据格式
+### 2. 3 数据格式
 
 Elasticsearch是面向文档型数据库，一条数据在这里就是一个文档。为了方便大家理解，我们将Elasticsearch里存储文档数据和关系型数据库MySQL存储数据的概念进行一个类比
 
@@ -110,9 +110,9 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 
 
-### 2. 2 .4 HTTP操作
+### 2 .4 HTTP操作
 
-#### 2. 2. 4 .1 索引操作
+#### 2. 4 .1 索引操作
 
 1) 创建索引
 
@@ -209,7 +209,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ![image-20220418161837159](images/image-20220418161837159.png)
 
-#### 2. 2. 4. 2 文档操作
+#### 2. 4. 2 文档操作
 
 1) 创建文档
 
@@ -488,7 +488,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 
 
-#### 2. 2. 4. 3 映射操作
+#### 2. 4. 3 映射操作
 
 有了索引库，等于有了数据库中的database。
 
@@ -601,7 +601,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ![image-20220418163416019](images/image-20220418163416019.png)
 
-#### 2. 2. 4. 4 高级查询
+#### 2. 4. 4 高级查询
 
 Elasticsearch提供了基于JSON提供完整的查询DSL来定义查询
 
@@ -1301,11 +1301,11 @@ stats聚合，对某个字段一次性返回count，max，min，avg和sum五个�
 
 ![image-20220418165934639](images/image-20220418165934639.png)
 
-### 2. 2 .5 Java API操作
+### 2 .5 Java API操作
 
 Elasticsearch软件是由Java语言开发的，所以也可以通过Java API的方式对Elasticsearch服务进行访问
 
-#### 2. 2. 5 .1 创建Maven项目
+#### 2. 5 .1 创建Maven项目
 
 我们在IDEA开发工具中创建Maven项目(模块也可)ES
 
@@ -1353,7 +1353,7 @@ Elasticsearch软件是由Java语言开发的，所以也可以通过Java API的�
 
 
 
-#### 2. 2. 5. 2 客户端对象
+#### 2. 5. 2 客户端对象
 
 创建com.atguigu.es.test.Elasticsearch01_Client类，代码中创建Elasticsearch客户端对象
 
@@ -1377,7 +1377,7 @@ client.close();
 
 ![image-20220418170134747](images/image-20220418170134747.png)
 
-#### 2. 2. 5. 3 索引操作
+#### 2. 5. 3 索引操作
 
 ES服务器正常启动后，可以通过Java API 客户端对象对ES索引进行操作
 
@@ -1398,7 +1398,7 @@ System.out.println("操作状态 = " + acknowledged);
 
 ![image-20220418170204046](images/image-20220418170204046.png)
 
-###### 2) 查看索引
+2) 查看索引
 
 ```java
 // 查询索引 - 请求对象
@@ -1429,7 +1429,7 @@ System.out.println("操作结果 ： " + response.isAcknowledged());
 
 ![image-20220418170259610](images/image-20220418170259610.png)
 
-#### 2. 2. 5. 4 文档操作
+#### 2. 5. 4 文档操作
 
 1) 新增文档
 
@@ -1586,7 +1586,7 @@ System.out.println("items:" + responses.getItems());
 
 ![image-20220418170621976](images/image-20220418170621976.png)
 
-#### 2. 2. 5. 5 高级查询
+#### 2. 5. 5 高级查询
 
 1) 请求体查询
 

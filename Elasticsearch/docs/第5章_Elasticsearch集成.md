@@ -1,8 +1,8 @@
 ## Elasticsearch集成  
 
-## 5. 1 Spring Data框架集成
+## 1 Spring Data框架集成
 
-### 5. 1 .1 Spring Data框架介绍
+### 1 .1 Spring Data框架介绍
 
 Spring Data是一个用于简化数据库、非关系型数据库、索引库访问，并支持云服务的开源框架。其主要目标是使得对数据的访问变得方便快捷，并支持map-reduce框架和云计算数据服务。 Spring Data可以极大的简化JPA（Elasticsearch„）的写法，可以在几乎不用写实现的情况下，实现对数据的访问和操作。除了CRUD外，还包括如分页、排序等一些常用的功能。
 
@@ -14,7 +14,7 @@ Spring Data常用的功能模块如下：
 
 ![image-20220418182956851](images/image-20220418182956851.png)
 
-### 5. 1. 2 Spring Data Elasticsearch介绍
+### 1. 2 Spring Data Elasticsearch介绍
 
 Spring Data Elasticsearch 基于 spring data API 简化 Elasticsearch 操作，将原始操作Elasticsearch的客户端API 进行封装 。Spring Data为Elasticsearch项目提供集成搜索引擎。Spring Data Elasticsearch POJO的关键功能区域为中心的模型与Elastichsearch交互文档和轻松地编写一个存储索引库数据访问层。
 
@@ -22,13 +22,13 @@ Spring Data Elasticsearch 基于 spring data API 简化 Elasticsearch 操作，�
 
 ![image-20220418183014353](images/image-20220418183014353.png)
 
-### 5. 1. 3 Spring Data Elasticsearch版本对比
+### 1. 3 Spring Data Elasticsearch版本对比
 
 ![image-20220418183024061](images/image-20220418183024061.png)
 
 目前最新springboot对应Elasticsearch7.6.2，Spring boot2.3.x一般可以兼容Elasticsearch7.x
 
-### 5. 1. 4 框架集成
+### 1. 4 框架集成
 
 1. 创建Maven项目
 
