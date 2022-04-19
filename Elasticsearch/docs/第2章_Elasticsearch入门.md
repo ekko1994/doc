@@ -114,7 +114,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 #### 2. 4 .1 索引操作
 
-1) 创建索引
+**1) 创建索引**
 
 对比关系型数据库，创建索引就等同于创建数据库
 
@@ -128,9 +128,9 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ```json
 {
-    "acknowledged"【响应结果】: true, # true操作成功
-    "shards_acknowledged"【分片结果】: true, # 分片操作成功
-    "index"【索引名称】: "shopping"
+    "acknowledged": true, # true操作成功 【响应结果】
+    "shards_acknowledged": true, # 分片操作成功 【分片结果】
+    "index": "shopping" #【索引名称】
 } 
 # 注意：创建索引库的分片数默认 1 片，在7.0.0之前的Elasticsearch版本中，默认 5 片
 ```
@@ -139,7 +139,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ![image-20220418161345124](images/image-20220418161345124.png)
 
-2) 查看所有索引
+**2) 查看所有索引**
 
 在 Postman中，向ES服务器发**GET**请求 ：http://127.0.0.1:9200/_cat/indices?v
 
@@ -162,7 +162,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 | store.size     | 主分片和副分片整体占空间大小                                 |
 | pri.store.size | 主分片占空间大小                                             |
 
-3) 查看单个索引
+**3) 查看单个索引**
 
 在 Postman中，向ES服务器发**GET**请求 ：http://127.0.0.1:9200/shopping
 
@@ -176,26 +176,26 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ```json
 {
-    "shopping"【索引名】 : {
-        "aliases"【别名】 : {},
-        "mappings"【映射】 : {},
-        "settings"【设置】 : {
-            "index"【设置 - 索引】 : {
-                "creation_date"【设置 - 索引 - 创建时间】 : "1614265373911",
-                "number_of_shards"【设置 - 索引 - 主分片数量】 : "1",
-                "number_of_replicas"【设置 - 索引 - 副分片数量】 : "1",
-                "uuid"【设置 - 索引 - 唯一标识】 : "eI5wemRERTumxGCc1bAk2A",
-                "version"【设置 - 索引 - 版本】 : {
-                "created": "7080099"
+    "shopping" : { #【索引名】
+        "aliases" : {}, #【别名】
+        "mappings" : {}, #【映射】
+        "settings" : { #【设置】
+            "index" : { #【设置 - 索引】
+                "creation_date" : "1614265373911", #【设置 - 索引 - 创建时间】
+                "number_of_shards" : "1", #【设置 - 索引 - 主分片数量】
+                "number_of_replicas" : "1", #【设置 - 索引 - 副分片数量】
+                "uuid" : "eI5wemRERTumxGCc1bAk2A", #【设置 - 索引 - 唯一标识】
+                "version" : { #【设置 - 索引 - 版本】
+                	"created": "7080099"
                 },
-                "provided_name"【设置 - 索引 - 名称】 : "shopping"
+                "provided_name" : "shopping" #【设置 - 索引 - 名称】
             }
         }
     }
 }
 ```
 
-4) 删除索引
+**4) 删除索引**
 
 在 Postman中，向ES服务器发**DELETE**请求 ：http://127.0.0.1:9200/shopping
 
@@ -211,7 +211,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 #### 2. 4. 2 文档操作
 
-1) 创建文档
+**1) 创建文档**
 
 索引已经创建好了，接下来我们来创建文档，并添加数据。这里的文档可以类比为关系型数据库中的表数据，添加的数据格式为JSON格式
 
@@ -240,15 +240,15 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ```json
 {
-    "_index"【索引】 : "shopping",
-    "_type"【类型-文档】 : "_doc",
-    "_id"【唯一标识】 : "Xhsa2ncBlvF_7lxyCE9G", #可以类比为 MySQL 中的主键，随机生成
-    "_version"【版本】 : 1,
-    "result"【结果】 : "created", #这里的 create 表示创建成功
-    "_shards"【分片】 : {
-        "total"【分片 - 总数】 : 2,
-        "successful"【分片 - 成功】 : 1,
-        "failed"【分片 - 失败】 : 0
+    "_index" : "shopping", #【索引】
+    "_type": "_doc", #【类型-文档】 
+    "_id" : "Xhsa2ncBlvF_7lxyCE9G", #可以类比为 MySQL 中的主键，随机生成 【唯一标识】
+    "_version": 1, #【版本】 
+    "result" : "created", #这里的 create 表示创建成功 【结果】 
+    "_shards": { #【分片】 
+        "total" : 2, #【分片 - 总数】
+        "successful" : 1, #【分片 - 成功】
+        "failed" : 0 #【分片 - 失败】
     },
     "_seq_no": 0,
     "_primary_term": 1
@@ -265,7 +265,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 **此处需要注意：如果增加数据时明确数据主键，那么请求方式也可以为PUT**
 
-2) 查看文档
+**2) 查看文档**
 
 查看文档时，需要指明文档的唯一性标识，类似于MySQL中数据的主键查询
 
@@ -279,14 +279,14 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ```json
 {
-    "_index"【索引】:"shopping",
-    "_type"【文档类型】: "_doc",
+    "_index":"shopping", #【索引】
+    "_type": "_doc", #【文档类型】
     "_id": "1",
     "_version": 2,
     "_seq_no": 2,
     "_primary_term": 2,
-    "found"【查询结果】 : true, # true 表示查找到， false 表示未查找到
-    "_source"【文档源信息】 : {
+    "found": true, # true 表示查找到， false 表示未查找到 【查询结果】 
+    "_source": { #【文档源信息】 
         "title": "华为手机",
         "category": "华为",
         "images": "http://www.gulixueyuan.com/hw.jpg",
@@ -295,7 +295,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 }
 ```
 
-3) 修改文档
+**3) 修改文档**
 
 和新增文档一样，输入相同的URL地址请求，如果请求体变化，会将原有的数据内容覆盖在 Postman中，
 
@@ -323,8 +323,8 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
     "_index": "shopping",
     "_type": "_doc",
     "_id": "1",
-    "_version"【版本】 : 2,
-    "result"【结果】 : "updated", # updated 表示数据被更新
+    "_version" : 2, #【版本】
+    "result" : "updated", # updated 表示数据被更新 【结果】
     "_shards": {
         "total": 2,
         "successful": 1,
@@ -335,7 +335,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 }
 ```
 
-4) 修改字段
+**4) 修改字段**
 
 修改数据时，也可以只修改某一给条数据的局部信息
 
@@ -363,7 +363,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ![image-20220418162454490](images/image-20220418162454490.png)
 
-5) 删除文档
+**5) 删除文档**
 
 删除一个文档不会立即从磁盘上移除，它只是被标记成已删除（逻辑删除）。
 
@@ -380,8 +380,8 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
     "_index": "shopping",
     "_type": "_doc",
     "_id": "1",
-    "_version"【版本】 : 4, #对数据的操作，都会更新版本
-    "result"【结果】 : "deleted", # deleted 表示数据被标记为删除
+    "_version" : 4, #对数据的操作，都会更新版本 【版本】
+    "result": "deleted", # deleted 表示数据被标记为删除 【结果】 
     "_shards": {
         "total": 2,
         "successful": 1,
@@ -410,7 +410,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
     "_type": "_doc",
     "_id": "1",
     "_version": 1,
-    "result"【结果】 : "not_found", # not_found 表示未查找到
+    "result": "not_found", # not_found 表示未查找到 【结果】 
     "_shards": {
         "total": 2,
         "successful": 1,
@@ -421,7 +421,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 }
 ```
 
-6) 条件删除文档
+**6) 条件删除文档**
 
 一般删除数据都是根据文档的唯一性标识进行删除，实际操作时，也可以根据条件对多条数据进行删除
 
@@ -468,10 +468,10 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ```json
 {
-    "took"【耗时】 : 175,
-    "timed_out"【是否超时】 : false,
-    "total"【总数】 : 2,
-    "deleted"【删除数量】 : 2,
+    "took" : 175, #【耗时】
+    "timed_out": false, #【是否超时】 
+    "total": 2, #【总数】 
+    "deleted" : 2, #【删除数量】
     "batches": 1,
     "version_conflicts": 0,
     "noops": 0,
@@ -494,7 +494,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 接下来就需要建索引库(index)中的映射了，类似于数据库(database)中的表结构(table)。创建数据库表需要设置字段名称，类型，长度，约束等；索引库也一样，需要知道这个类型下有哪些字段，每个字段有哪些约束信息，这就叫做映射(mapping)。
 
-1) 创建映射
+**1) 创建映射**
 
 在 Postman中，向ES服务器发**PUT**请求 ：http://127.0.0.1:9200/student/_mapping
 
@@ -559,7 +559,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 - analyzer：分词器，这里的ik_max_word即使用ik分词器,后面会有专门的章节学习
 
-2) 查看映射
+**2) 查看映射**
 
 在 Postman中，向ES服务器发**GET**请求 ：http://127.0.0.1:9200/student/_mapping
 
@@ -569,7 +569,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 ![image-20220418163306010](images/image-20220418163306010.png)
 
-3) 索引映射关联
+**3) 索引映射关联**
 
 在 Postman中，向ES服务器发PUT请求 ：http://127.0.0.1:9200/student1
 
@@ -645,7 +645,7 @@ Elasticsearch提供了基于JSON提供完整的查询DSL来定义查询
 }
 ```
 
-1) 查询所有文档
+**1) 查询所有文档**
 
 在 Postman中，向ES服务器发GET请求 ：http://127.0.0.1:9200/student/_search
 
@@ -670,21 +670,21 @@ Elasticsearch提供了基于JSON提供完整的查询DSL来定义查询
 
 ```json
 {
-    "took【查询花费时间，单位毫秒】 " : 1116,
-    "timed_out【是否超时】 " : false,
-    "_shards【分片信息】 " : {
-        "total【总数】 " : 1,
-        "successful【成功】 " : 1,
-        "skipped【忽略】 " : 0,
-        "failed【失败】 " : 0
+    "took" : 1116, #【查询花费时间，单位毫秒】 
+    "timed_out " : false, #【是否超时】
+    "_shards " : { #【分片信息】
+        "total" : 1, #【总数】 
+        "successful" : 1, #【成功】 
+        "skipped" : 0, #【忽略】 
+        "failed" : 0 #【失败】 
     },
-    "hits【搜索命中结果】 " : {
-        "total"【搜索条件匹配的文档总数】 : {
-            "value"【总命中计数的值】 : 3,
-            "relation"【计数规则】 : "eq" # eq 表示计数准确， gte 表示计数不准确
+    "hits" : { #【搜索命中结果】
+        "total" : { #【搜索条件匹配的文档总数】
+            "value": 3, #【总命中计数的值】 
+            "relation": "eq" # eq 表示计数准确， gte 表示计数不准确 【计数规则】 
         },
-        "max_score【匹配度分值】 " : 1.0,
-            "hits【命中结果集合】 " : [
+        "max_score" : 1.0, #【匹配度分值】 
+            "hits" : [ #【命中结果集合】 
                 。。。
                 }
           	]
@@ -692,7 +692,7 @@ Elasticsearch提供了基于JSON提供完整的查询DSL来定义查询
 }
 ```
 
-2) 匹配查询
+**2) 匹配查询**
 
 match匹配类型查询，会把查询条件进行分词，然后进行查询，多个词条之间是or的关系
 
@@ -714,7 +714,7 @@ match匹配类型查询，会把查询条件进行分词，然后进行查询，
 
 ![image-20220418163930163](images/image-20220418163930163.png)
 
-3) 字段匹配查询
+**3) 字段匹配查询**
 
 multi_match与match类似，不同的是它可以在多个字段中查询。
 
@@ -737,7 +737,7 @@ multi_match与match类似，不同的是它可以在多个字段中查询。
 
 ![image-20220418164031110](images/image-20220418164031110.png)
 
-4) 关键字精确查询
+**4) 关键字精确查询**
 
 term查询，精确的关键词匹配查询，不对查询条件进行分词。
 
@@ -761,7 +761,7 @@ term查询，精确的关键词匹配查询，不对查询条件进行分词。
 
 ![image-20220418164114086](images/image-20220418164114086.png)
 
-5) 多关键字精确查询
+**5) 多关键字精确查询**
 
 terms 查询和 term 查询一样，但它允许你指定多值进行匹配。
 
@@ -785,7 +785,7 @@ terms 查询和 term 查询一样，但它允许你指定多值进行匹配。
 
 ![image-20220418164205161](images/image-20220418164205161.png)
 
-6) 指定查询字段
+**6) 指定查询字段**
 
 默认情况下，Elasticsearch在搜索的结果中，会把文档中保存在_source的所有字段都返回。
 
@@ -810,7 +810,7 @@ terms 查询和 term 查询一样，但它允许你指定多值进行匹配。
 
 ![image-20220418164244406](images/image-20220418164244406.png)
 
-7) 过滤字段
+**7) 过滤字段**
 
 我们也可以通过：
 
@@ -860,7 +860,7 @@ terms 查询和 term 查询一样，但它允许你指定多值进行匹配。
 
 ![image-20220418164405642](images/image-20220418164405642.png)
 
-8) 组合查询
+**8) 组合查询**
 
 `bool`把各种其它查询通过`must`（必须 ）、`must_not`（必须不）、`should`（应该）的方式进行组合
 
@@ -902,7 +902,7 @@ terms 查询和 term 查询一样，但它允许你指定多值进行匹配。
 
 ![image-20220418164602654](images/image-20220418164602654.png)
 
-9) 范围查询
+**9) 范围查询**
 
 range 查询找出那些落在指定区间内的数字或者时间。range查询允许以下字符
 
@@ -934,7 +934,7 @@ range 查询找出那些落在指定区间内的数字或者时间。range查询
 
 ![image-20220418164730699](images/image-20220418164730699.png)
 
-10) 模糊查询
+**10) 模糊查询**
 
 返回包含与搜索字词相似的字词的文档。
 
@@ -988,7 +988,7 @@ range 查询找出那些落在指定区间内的数字或者时间。range查询
 
 ![image-20220418164953472](images/image-20220418164953472.png)
 
-11) 单字段排序
+**11) 单字段排序**
 
 sort 可以让我们按照不同的字段进行排序，并且通过order指定排序的方式。desc降序，asc升序。
 
@@ -997,14 +997,14 @@ sort 可以让我们按照不同的字段进行排序，并且通过order指定�
 ```json
 {
     "query": {
-    "match": {
-    "name":"zhangsan"
-    }
+        "match": {
+        	"name":"zhangsan"
+        }
     },
     "sort": [{
-    "age": {
-    "order":"desc"
-    }
+        "age": {
+        	"order":"desc"
+        }
     }]
 }
 ```
@@ -1015,7 +1015,7 @@ sort 可以让我们按照不同的字段进行排序，并且通过order指定�
 
 ![image-20220418165036820](images/image-20220418165036820.png)
 
-12) 多字段排序
+**12) 多字段排序**
 
 假定我们想要结合使用 age和 _score进行查询，并且匹配的结果首先按照年龄排序，然后按照相关性得分排序
 
@@ -1024,19 +1024,19 @@ sort 可以让我们按照不同的字段进行排序，并且通过order指定�
 ```json
 {
     "query": {
-    "match_all": {}
+    	"match_all": {}
     },
     "sort": [
     {
-    "age": {
-    "order": "desc"
-    }
+        "age": {
+        	"order": "desc"
+        }
     },
     {
-    "_score":{
-    "order": "desc"
-    }
-    }
+        "_score":{
+            	"order": "desc"
+            }
+        }
     ]
 }
 ```
@@ -1047,7 +1047,7 @@ sort 可以让我们按照不同的字段进行排序，并且通过order指定�
 
 ![image-20220418165121858](images/image-20220418165121858.png)
 
-13) 高亮查询
+**13) 高亮查询**
 
 在进行关键字搜索时，搜索出的内容中的关键字会显示不同的颜色，称之为高亮。
 
@@ -1072,16 +1072,16 @@ Elasticsearch可以对查询内容中的关键字部分，进行标签和样式(
 ```json
 {
     "query": {
-    "match": {
-    "name": "zhangsan"
-    }
+        "match": {
+        	"name": "zhangsan"
+        }
     },
     "highlight": {
-    "pre_tags": "<font color='red'>",
-    "post_tags": "</font>",
-    "fields": {
-    "name": {}
-    }
+        "pre_tags": "<font color='red'>",
+        "post_tags": "</font>",
+        "fields": {
+        	"name": {}
+        }
     }
 }
 ```
@@ -1092,7 +1092,7 @@ Elasticsearch可以对查询内容中的关键字部分，进行标签和样式(
 
 ![image-20220418165254585](images/image-20220418165254585.png)
 
-14) 分页查询
+**14) 分页查询**
 
 from：当前页的起始索引，默认从 0 开始。 from = (pageNum - 1) * size
 
@@ -1123,7 +1123,7 @@ size：每页显示多少条
 
 ![image-20220418165354418](images/image-20220418165354418.png)
 
-15) 聚合查询
+**15) 聚合查询**
 
 聚合允许使用者对es文档进行统计分析，类似与关系型数据库中的group by，当然还有很多其他的聚合，例如取最大值、平均值等等。
 
@@ -1133,12 +1133,12 @@ size：每页显示多少条
 
 ```json
 {
-"aggs":{
-"max_age":{
-"max":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "max_age":{
+        	"max":{"field":"age"}
+    	}
+    },
+    "size":0
 }
 ```
 
@@ -1154,12 +1154,12 @@ size：每页显示多少条
 
 ```json
 {
-"aggs":{
-"min_age":{
-"min":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "min_age":{
+        	"min":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1175,12 +1175,12 @@ size：每页显示多少条
 
 ```json
 {
-"aggs":{
-"sum_age":{
-"sum":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "sum_age":{
+        	"sum":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1196,12 +1196,12 @@ size：每页显示多少条
 
 ```json
 {
-"aggs":{
-"avg_age":{
-"avg":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "avg_age":{
+        	"avg":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1217,12 +1217,12 @@ size：每页显示多少条
 
 ```json
 {
-"aggs":{
-"distinct_age":{
-"cardinality":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "distinct_age":{
+        	"cardinality":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1240,12 +1240,12 @@ stats聚合，对某个字段一次性返回count，max，min，avg和sum五个�
 
 ```json
 {
-"aggs":{
-"stats_age":{
-"stats":{"field":"age"}
-}
-},
-"size":0
+	"aggs":{
+    	"stats_age":{
+        	"stats":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1255,7 +1255,7 @@ stats聚合，对某个字段一次性返回count，max，min，avg和sum五个�
 
 ![image-20220418165815062](images/image-20220418165815062.png)
 
-16) 桶聚合查询
+**16) 桶聚合查询**
 
 桶聚和相当于sql中的group by语句
 
@@ -1265,12 +1265,12 @@ stats聚合，对某个字段一次性返回count，max，min，avg和sum五个�
 
 ```json
 {
-"aggs":{
-"age_groupby":{
-"terms":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "age_groupby":{
+        	"terms":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1286,12 +1286,12 @@ stats聚合，对某个字段一次性返回count，max，min，avg和sum五个�
 
 ```json
 {
-"aggs":{
-"age_groupby":{
-"terms":{"field":"age"}
-}
-},
-"size":0
+    "aggs":{
+        "age_groupby":{
+        	"terms":{"field":"age"}
+        }
+    },
+    "size":0
 }
 ```
 
@@ -1322,31 +1322,31 @@ Elasticsearch软件是由Java语言开发的，所以也可以通过Java API的�
     </dependency>
     <!-- elasticsearch 的客户端 -->
     <dependency>
-    <groupId>org.elasticsearch.client</groupId>
-    <artifactId>elasticsearch-rest-high-level-client</artifactId>
-    <version>7.8.0</version>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        <version>7.8.0</version>
     </dependency>
     <!-- elasticsearch 依赖 2.x 的 log4j -->
     <dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-api</artifactId>
-    <version>2.8.2</version>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.8.2</version>
     </dependency>
     <dependency>
-    <groupId>org.apache.logging.log4j</groupId>
-    <artifactId>log4j-core</artifactId>
-    <version>2.8.2</version>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.8.2</version>
     </dependency>
     <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.9.9</version>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.9.9</version>
     </dependency>
     <!-- junit 单元测试 -->
     <dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.12</version>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
     </dependency>
 </dependencies>
 ```
@@ -1381,14 +1381,13 @@ client.close();
 
 ES服务器正常启动后，可以通过Java API 客户端对象对ES索引进行操作
 
-1) 创建索引
+**1) 创建索引**
 
 ```java
 // 创建索引 - 请求对象
 CreateIndexRequest request = new CreateIndexRequest("user");
 // 发送请求，获取响应
-CreateIndexResponse response = client.indices().create(request,
-RequestOptions.DEFAULT);
+CreateIndexResponse response = client.indices().create(request,RequestOptions.DEFAULT);
 boolean acknowledged = response.isAcknowledged();
 // 响应状态
 System.out.println("操作状态 = " + acknowledged);
@@ -1398,14 +1397,13 @@ System.out.println("操作状态 = " + acknowledged);
 
 ![image-20220418170204046](images/image-20220418170204046.png)
 
-2) 查看索引
+**2) 查看索引**
 
 ```java
 // 查询索引 - 请求对象
 GetIndexRequest request = new GetIndexRequest("user");
 // 发送请求，获取响应
-GetIndexResponse response = client.indices().get(request,
-RequestOptions.DEFAULT);
+GetIndexResponse response = client.indices().get(request,RequestOptions.DEFAULT);
 System.out.println("aliases:"+response.getAliases());
 System.out.println("mappings:"+response.getMappings());
 System.out.println("settings:"+response.getSettings());
@@ -1415,14 +1413,13 @@ System.out.println("settings:"+response.getSettings());
 
 ![image-20220418170237702](images/image-20220418170237702.png)
 
-3) 删除索引
+**3) 删除索引**
 
 ```java
 // 删除索引 - 请求对象
 DeleteIndexRequest request = new DeleteIndexRequest("user");
 // 发送请求，获取响应
-AcknowledgedResponse response = client.indices().delete(request,
-RequestOptions.DEFAULT);
+AcknowledgedResponse response = client.indices().delete(request,RequestOptions.DEFAULT);
 // 操作结果
 System.out.println("操作结果 ： " + response.isAcknowledged());
 ```
@@ -1431,32 +1428,34 @@ System.out.println("操作结果 ： " + response.isAcknowledged());
 
 #### 2. 5. 4 文档操作
 
-1) 新增文档
+**1) 新增文档**
 
 创建数据模型
 
 ```java
 class User {
+    
     private String name;
     private Integer age;
     private String sex;
+    
     public String getName() {
-    return name;
+    	return name;
     }
     public void setName(String name)
-    this.name = name;
+    	this.name = name;
     }
     public Integer getAge() {
-    return age;
+    	return age;
     }
     public void setAge(Integer age) {
-    this.age = age;
+    	this.age = age;
     }
     public String getSex() {
-    return sex;
+    	return sex;
     }
     public void setSex(String sex) {
-    this.sex = sex;
+    	this.sex = sex;
     }
 }
 ```
@@ -1489,7 +1488,7 @@ System.out.println("_result:" + response.getResult());
 
 ![image-20220418170410307](images/image-20220418170410307.png)
 
-2) 修改文档
+**2) 修改文档**
 
 ```
 // 修改文档 - 请求对象
@@ -1507,7 +1506,7 @@ System.out.println("_result:" + response.getResult());
 
 ![image-20220418170430685](images/image-20220418170430685.png)
 
-3) 查询文档
+**3) 查询文档**
 
 ```java
 //1.创建请求对象
@@ -1525,7 +1524,7 @@ System.out.println("source:" + response.getSourceAsString());
 
 ![image-20220418170456972](images/image-20220418170456972.png)
 
-4) 删除文档
+**4) 删除文档**
 
 ```java
 //创建请求对象
@@ -1540,22 +1539,16 @@ System.out.println(response.toString());
 
 ![image-20220418170521020](images/image-20220418170521020.png)
 
-5) 批量操作
+**5) 批量操作**
 
 - 批量新增：
 
 ```java
 //创建批量新增请求对象
 BulkRequest request = new BulkRequest();
-request.add(new
-IndexRequest().index("user").id("1001").source(XContentType.JSON, "name",
-"zhangsan"));
-request.add(new
-IndexRequest().index("user").id("1002").source(XContentType.JSON, "name",
-"lisi"));
-request.add(new
-IndexRequest().index("user").id("1003").source(XContentType.JSON, "name",
-"wangwu"));
+request.add(new IndexRequest().index("user").id("1001").source(XContentType.JSON, "name","zhangsan"));
+request.add(new IndexRequest().index("user").id("1002").source(XContentType.JSON, "name","lisi"));
+request.add(new IndexRequest().index("user").id("1003").source(XContentType.JSON, "name","wangwu"));
 //客户端发送请求，获取响应对象
 BulkResponse responses = client.bulk(request, RequestOptions.DEFAULT);
 //打印结果信息
@@ -1588,7 +1581,7 @@ System.out.println("items:" + responses.getItems());
 
 #### 2. 5. 5 高级查询
 
-1) 请求体查询
+**1) 请求体查询**
 
 - 查询所有索引数据
 
@@ -1610,8 +1603,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1637,8 +1630,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1669,8 +1662,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1695,8 +1688,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1726,8 +1719,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1760,8 +1753,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1792,8 +1785,8 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
@@ -1808,8 +1801,7 @@ SearchRequest request = new SearchRequest();
 request.indices("student");
 // 构建查询的请求体
 SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-sourceBuilder.query(QueryBuilders.fuzzyQuery("name","zhangsan").fuzziness(Fu
-zziness.ONE));
+sourceBuilder.query(QueryBuilders.fuzzyQuery("name","zhangsan").fuzziness(Fuzziness.ONE));
 request.source(sourceBuilder);
 SearchResponse response = client.search(request, RequestOptions.DEFAULT);
 // 查询匹配
@@ -1820,15 +1812,15 @@ System.out.println("total:" + hits.getTotalHits());
 System.out.println("MaxScore:" + hits.getMaxScore());
 System.out.println("hits========>>");
 for (SearchHit hit : hits) {
-//输出每条查询的结果信息
-System.out.println(hit.getSourceAsString());
+    //输出每条查询的结果信息
+    System.out.println(hit.getSourceAsString());
 }
 System.out.println("<<========");
 ```
 
 ![image-20220418171046119](images/image-20220418171046119.png)
 
-2) 高亮查询
+**2) 高亮查询**
 
 ```java
 // 高亮查询
@@ -1836,8 +1828,7 @@ SearchRequest request = new SearchRequest().indices("student");
 //2.创建查询请求体构建器
 SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
 //构建查询方式：高亮查询
-TermsQueryBuilder termsQueryBuilder =
-QueryBuilders.termsQuery("name","zhangsan");
+TermsQueryBuilder termsQueryBuilder = QueryBuilders.termsQuery("name","zhangsan");
 //设置查询方式
 sourceBuilder.query(termsQueryBuilder);
 //构建高亮字段
@@ -1859,18 +1850,18 @@ System.out.println("total::"+hits.getTotalHits());
 System.out.println("max_score::"+hits.getMaxScore());
 System.out.println("hits::::>>");
 for (SearchHit hit : hits) {
-String sourceAsString = hit.getSourceAsString();
-System.out.println(sourceAsString);
-//打印高亮结果
-Map<String, HighlightField> highlightFields = hit.getHighlightFields();
-System.out.println(highlightFields);
+    String sourceAsString = hit.getSourceAsString();
+    System.out.println(sourceAsString);
+    //打印高亮结果
+    Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+    System.out.println(highlightFields);
 }
 System.out.println("<<::::");
 ```
 
 ![image-20220418171117060](images/image-20220418171117060.png)
 
-3) 聚合查询
+**3) 聚合查询**
 
 - 最大年龄
 
@@ -1896,8 +1887,7 @@ System.out.println(response);
 // 高亮查询
 SearchRequest request = new SearchRequest().indices("student");
 SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-sourceBuilder.aggregation(AggregationBuilders.terms("age_groupby").field("ag
-e"));
+sourceBuilder.aggregation(AggregationBuilders.terms("age_groupby").field("age"));
 //设置请求体
 request.source(sourceBuilder);
 //3.客户端发送请求，获取响应对象

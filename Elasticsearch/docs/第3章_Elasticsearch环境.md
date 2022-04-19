@@ -36,7 +36,7 @@
 
 2) 修改集群文件目录中每个节点的 config/elasticsearch.yml配置文件
 
-- node- 1001 节点
+- node-1001 节点
 
 ```yaml
 #节点 1 的配置信息：
@@ -63,7 +63,7 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 ```
 
-- node- 1002 节点
+- node-1002 节点
 
 ```yaml
 #节点 2 的配置信息：
@@ -90,7 +90,7 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 ```
 
-- node- 1003 节点
+- node-1003 节点
 
 ```yaml
 #节点 3 的配置信息：
@@ -134,19 +134,19 @@ http.cors.allow-origin: "*"
 
 查看集群状态
 
-- node- 1001 节点
+- node-1001 节点
 
   ![image-20220418171800588](images/image-20220418171800588.png)
 
   ![image-20220418171806248](images/image-20220418171806248.png)
 
-- node- 1002 节点
+- node-1002 节点
 
   ![image-20220418171813894](images/image-20220418171813894.png)
 
   ![image-20220418171817200](images/image-20220418171817200.png)
 
-- node- 1003 节点
+- node-1003 节点
 
   ![image-20220418171822710](images/image-20220418171822710.png)
 
@@ -154,7 +154,7 @@ http.cors.allow-origin: "*"
 
 ![image-20220418171840595](images/image-20220418171840595.png)
 
-向集群中的node- 1001 节点增加索引
+向集群中的node-1001 节点增加索引
 
 ![image-20220418171849311](images/image-20220418171849311.png)
 

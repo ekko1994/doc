@@ -2,7 +2,7 @@
 
 - [Elasticsearch概述](https://github.com/ekko1994/doc/blob/master/Elasticsearch/docs/%E7%AC%AC1%E7%AB%A0_Elasticsearch%E6%A6%82%E8%BF%B0.md)
 
-- [Elasticsearch入门](https://github.com/ekko1994/doc/blob/master/Elasticsearch/docs/%E7%AC%AC1%E7%AB%A0_Elasticsearch%E6%A6%82%E8%BF%B0.md)
+- [Elasticsearch入门](https://github.com/ekko1994/doc/blob/master/Elasticsearch/docs/%E7%AC%AC2%E7%AB%A0_Elasticsearch%E5%85%A5%E9%97%A8.md)
 
 - [Elasticsearch环境](https://github.com/ekko1994/doc/blob/master/Elasticsearch/docs/%E7%AC%AC3%E7%AB%A0_Elasticsearch%E7%8E%AF%E5%A2%83.md)
 
