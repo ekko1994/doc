@@ -1,45 +1,6 @@
-* [一、ShardingSphere](#%E4%B8%80shardingsphere)
-  * [什么是ShardingSphere](#%E4%BB%80%E4%B9%88%E6%98%AFshardingsphere)
-  * [什么是分库分表](#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8)
-  * [分库分表的方式](#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E7%9A%84%E6%96%B9%E5%BC%8F)
-    * [垂直分表](#%E5%9E%82%E7%9B%B4%E5%88%86%E8%A1%A8)
-    * [垂直分库](#%E5%9E%82%E7%9B%B4%E5%88%86%E5%BA%93)
-    * [水平分库](#%E6%B0%B4%E5%B9%B3%E5%88%86%E5%BA%93)
-    * [水平分表](#%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)
-  * [分库分表应用和问题](#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E5%BA%94%E7%94%A8%E5%92%8C%E9%97%AE%E9%A2%98)
-    * [应用](#%E5%BA%94%E7%94%A8)
-    * [分库分表问题](#%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E9%97%AE%E9%A2%98)
-* [二、Sharding\-JDBC](#%E4%BA%8Csharding-jdbc)
-  * [Sharding\-JDBC实现水平分表](#sharding-jdbc%E5%AE%9E%E7%8E%B0%E6%B0%B4%E5%B9%B3%E5%88%86%E8%A1%A8)
-    * [搭建环境](#%E6%90%AD%E5%BB%BA%E7%8E%AF%E5%A2%83)
-    * [创建数据库，创建数据表](#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8)
-    * [配置Sharding\-JDBC分片策略](#%E9%85%8D%E7%BD%AEsharding-jdbc%E5%88%86%E7%89%87%E7%AD%96%E7%95%A5)
-    * [编写测试代码](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81)
-  * [Sharding\-JDBC实现水平分库](#sharding-jdbc%E5%AE%9E%E7%8E%B0%E6%B0%B4%E5%B9%B3%E5%88%86%E5%BA%93)
-    * [需求](#%E9%9C%80%E6%B1%82)
-    * [在SpringBoot配置文件配置数据库分片规则](#%E5%9C%A8springboot%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E7%89%87%E8%A7%84%E5%88%99)
-    * [编写测试代码](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81-1)
-  * [Sharding\-JDBC实现垂直分库](#sharding-jdbc%E5%AE%9E%E7%8E%B0%E5%9E%82%E7%9B%B4%E5%88%86%E5%BA%93)
-    * [需求](#%E9%9C%80%E6%B1%82-1)
-    * [创建数据库数据表](#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93%E6%95%B0%E6%8D%AE%E8%A1%A8)
-    * [编写操作代码](#%E7%BC%96%E5%86%99%E6%93%8D%E4%BD%9C%E4%BB%A3%E7%A0%81)
-  * [Sharding\-JDBC 公共表](#sharding-jdbc-%E5%85%AC%E5%85%B1%E8%A1%A8)
-    * [公共表](#%E5%85%AC%E5%85%B1%E8%A1%A8)
-    * [在多个数据库中都创建相同结构公共表](#%E5%9C%A8%E5%A4%9A%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E9%83%BD%E5%88%9B%E5%BB%BA%E7%9B%B8%E5%90%8C%E7%BB%93%E6%9E%84%E5%85%AC%E5%85%B1%E8%A1%A8)
-    * [进行配置](#%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE)
-    * [编写测试代码](#%E7%BC%96%E5%86%99%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81-2)
-  * [Sharding\-JDBC实现读写分离](#sharding-jdbc%E5%AE%9E%E7%8E%B0%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB)
-    * [配置](#%E9%85%8D%E7%BD%AE)
-    * [创建用于主从复制的账号](#%E5%88%9B%E5%BB%BA%E7%94%A8%E4%BA%8E%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E7%9A%84%E8%B4%A6%E5%8F%B7)
-    * [主从数据同步的设置](#%E4%B8%BB%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E7%9A%84%E8%AE%BE%E7%BD%AE)
-    * [Sharding\-JDBC操作](#sharding-jdbc%E6%93%8D%E4%BD%9C)
-* [三、Sharding\-Proxy](#%E4%B8%89sharding-proxy)
-  * [Sharding\-proxy配置（分库）](#sharding-proxy%E9%85%8D%E7%BD%AE%E5%88%86%E5%BA%93)
-  * [Sharding\-proxy配置（读写分离）](#sharding-proxy%E9%85%8D%E7%BD%AE%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB)
-
 # 一、ShardingSphere
 
-## 什么是ShardingSphere
+## 1. 什么是ShardingSphere
 
 1、一套开源的分布式数据库中间件解决方案
 
@@ -47,7 +8,7 @@
 
 3、定位为关系型数据库中间件，合理在分布式环境下使用关系型数据库操作
 
-## 什么是分库分表
+## 2. 什么是分库分表
 
 1、数据库数据量不可控的，随着时间和业务发展，造成表里面数据越来越多，如果再去对数据库表CRUD操作时候，造成性能问题
 
@@ -59,7 +20,7 @@
 
   ![](images/分库分表.png)
 
-## 分库分表的方式
+## 3. 分库分表的方式
 
 1、分库分表的两种方式：垂直切分和水平切分
 
@@ -67,34 +28,34 @@
 
 3、水平切分：水平切表和水平分库
 
-### 垂直分表
+### 3.1 垂直分表
 
 - 操作数据库中的某张表，把这张表的一部分字段数据存放到一张新表里面，再把这张表另一部分字段数据存放到另一表中
 
   ![](images/垂直分表.png)
 
-### 垂直分库
+### 3.2 垂直分库
 
 - 把单一数据库按照业务进行划分，专库专表
 
   ![](images/垂直分库.png)
 
-### 水平分库
+### 3.3 水平分库
 
 ![](images/水平分库.png)
 
-### 水平分表
+### 3.4 水平分表
 
 ![](images/水平分表.png)
 
-## 分库分表应用和问题
+## 4. 分库分表应用和问题
 
-### 应用
+### 4.1 应用
 
 - 在数据库设计时候考虑垂直分库和垂直分表
 - 随着数据库数据量增加，不要马上考虑水平切分，首先考虑缓存处理，读写分离，使用索引等等方式，如果这些方式不能根本解决问题了，再考虑做水平分库和水平分表
 
-### 分库分表问题
+### 4.2 分库分表问题
 
 - 跨节点连接查询问题（分页、排序）
 - 多数据源管理问题
@@ -109,9 +70,9 @@
 
 ![](images/Sharding-JDBC.png)
 
-## Sharding-JDBC实现水平分表
+## 1. Sharding-JDBC实现水平分表
 
-### 搭建环境
+### 1.1 搭建环境
 
 - SpringBoot + MybatisPlus + Sharding-JDBC + Druid连接池
 
@@ -189,7 +150,7 @@
 </project>
 ```
 
-### 创建数据库，创建数据表
+### 1.2 创建数据库，创建数据表
 
 - 创建数据库course_db
 
@@ -206,7 +167,7 @@
 
 - 约束规则：课程id是偶数把数据添加course_1，奇数添加到course_2
 
-### 配置Sharding-JDBC分片策略
+### 1.3 配置Sharding-JDBC分片策略
 
 - 在项目application.properties配置文件中进行配置
 
@@ -240,7 +201,7 @@
   spring.shardingsphere.props.sql.show=true
   ```
 
-### 编写测试代码
+### 1.4 编写测试代码
 
 ```java
 package com.atguigu.shardingjdbcdemo;
@@ -283,13 +244,13 @@ class ShardingjdbcdemoApplicationTests {
 }
 ```
 
-## Sharding-JDBC实现水平分库
+## 2. Sharding-JDBC实现水平分库
 
-### 需求
+### 2.1 需求
 
 ![](images/水平分库需求.png)
 
-### 在SpringBoot配置文件配置数据库分片规则
+### 2.2 在SpringBoot配置文件配置数据库分片规则
 
 ```properties
 #ShardingJDBC分片策略
@@ -337,7 +298,7 @@ spring.shardingsphere.sharding.tables.course.database-strategy.inline.algorithm-
 spring.shardingsphere.props.sql.show=true
 ```
 
-### 编写测试代码
+### 2.3 编写测试代码
 
 ```java
 package com.atguigu.shardingjdbcdemo;
@@ -378,19 +339,19 @@ class ShardingjdbcdemoApplicationTests {
 
 ```
 
-## Sharding-JDBC实现垂直分库
+## 3. Sharding-JDBC实现垂直分库
 
-### 需求
+### 3.1 需求
 
 ![](images/垂直分库需求.png)
 
 
 
-### 创建数据库数据表
+### 3.2 创建数据库数据表
 
 ![](images/垂直分库新建的库和表.png)
 
-### 编写操作代码
+### 3.3 编写操作代码
 
 - 实体类和mapper
 
@@ -500,14 +461,14 @@ class ShardingjdbcdemoApplicationTests {
   
   ```
 
-## Sharding-JDBC 公共表
+## 4. Sharding-JDBC 公共表
 
-### 公共表
+### 4.1 公共表
 
 - 存储固定数据的表，表数据很少发生变化，查询时候经常进行关联
 - 在每个数据库中创建出相同结构公共表
 
-### 在多个数据库中都创建相同结构公共表
+### 4.2 在多个数据库中都创建相同结构公共表
 
 ```sql
 CREATE TABLE t_udict(
@@ -517,7 +478,7 @@ CREATE TABLE t_udict(
 )
 ```
 
-### 进行配置
+### 4.3 进行配置
 
 ```properties
 #ShardingJDBC分片策略
@@ -578,7 +539,7 @@ spring.shardingsphere.sharding.tables.course.database-strategy.inline.algorithm-
 spring.shardingsphere.props.sql.show=true
 ```
 
-### 编写测试代码
+### 4.4 编写测试代码
 
 - 创建实体类和mapper
 
@@ -658,11 +619,11 @@ spring.shardingsphere.props.sql.show=true
   }
   ```
 
-## Sharding-JDBC实现读写分离
+## 5. Sharding-JDBC实现读写分离
 
 [mysql主从复制](https://github.com/jackhusky/doc/blob/master/mysql/mysql.md#%E5%9B%9B%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6)，Sharding-JDBC通过sql语义分析，实现读写分离过程，不会做数据同步
 
-### 配置
+### 5.1 配置
 
 ```ini
 # 开启日志
@@ -699,16 +660,16 @@ replicate_wild_ignore_table=information_schema.%
 replicate_wild_ignore_table=performance_schema.%
 ```
 
-### 创建用于主从复制的账号
+### 5.2 创建用于主从复制的账号
 
 ```sql
 GRANT REPLICATION SLAVE  ON *.* TO 'jack'@'%' IDENTIFIED BY '123456';
 FLUSH PRIVILEGES;
 ```
 
-### 主从数据同步的设置
+### 5.3 主从数据同步的设置
 
-### Sharding-JDBC操作
+### 5.4 Sharding-JDBC操作
 
 ```properties
 #ShardingJDBC分片策略
@@ -948,7 +909,7 @@ class ShardingjdbcdemoApplicationTests {
 
 - 添加一条记录后，在3306端口数据库中，看到了表和添加的数据
 
-## Sharding-proxy配置（分库）
+## 1. Sharding-proxy配置（分库）
 
 - 找到conf目录，config-sharding.yaml
 
@@ -1022,7 +983,7 @@ class ShardingjdbcdemoApplicationTests {
 
 - 创建表添加数据在edu_db_1、edu_db_2都可以看到
 
-## Sharding-proxy配置（读写分离）
+## 2. Sharding-proxy配置（读写分离）
 
 - 创建三个数据库
 
