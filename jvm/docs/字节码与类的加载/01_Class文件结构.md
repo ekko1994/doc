@@ -518,6 +518,21 @@ attributes_count的值表示当前class文件属性表的成员个数，属性�
 
 属性表实际上可以有很多类型，上面看到的Code属性是其中一种，[Java8](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7)定义了23种属性。
 
+Code属性表结构：
+
+| 类型           | 名称                   | 数量             | 含义                     |
+| -------------- | ---------------------- | ---------------- | ------------------------ |
+| u2             | attribute_name_index   | 1                | 属性名索引               |
+| u4             | attribute_length       | 1                | 属性长度                 |
+| u2             | max_stack              | 1                | 操作数栈深度的最大值     |
+| u2             | max_locals             | 1                | 局部变量表所需的存储空间 |
+| u4             | code_length            | 1                | 字节码指令的长度         |
+| u1             | code                   | code_length      | 存储字节码指令           |
+| u2             | exception_table_length | 1                | 异常表长度               |
+| exception_info | exception_table        | exception_length | 异常表                   |
+| u2             | attributes_count       | 1                | 属性集合计数器           |
+| attribute_info | attributes             | attibutes_count  | 属性集合                 |
+
 ![字节码解析](../images/字节码解析.png)
 
 ## 使用javap指令解析Class文件
