@@ -39,7 +39,7 @@
 
 - [02_JVM监控及诊断工具-命令行](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/02_JVM监控及诊断工具-命令行.md)
 
-- [03_JVM监控及诊断工具-GUI](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/04_JVM监控及诊断工具-GUI.md)
+- [03_JVM监控及诊断工具-GUI](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/03_JVM监控及诊断工具-GUI.md)
 
 - [04_JVM运行时参数](https://github.com/ekko1994/doc/tree/master/jvm/docs/性能监控和调优/04_JVM运行时参数.md)
 
