@@ -1,6 +1,6 @@
 # 目录
 
-- [第一章_入门概述](https://github.com/ekko1994/doc/blob/master/MyCat2/docs/%E7%AC%AC%E4%B8%80%E7%AB%A0_%E5%85%A5%E9%97%A8%E6%A6%82%E8%BF%B0.md)
+- [第一章_入门概述](./docs/第一章_入门概述.md)
 
 - [第二章_安装启动](https://github.com/ekko1994/doc/blob/master/MyCat2/docs/%E7%AC%AC%E4%BA%8C%E7%AB%A0_%E5%AE%89%E8%A3%85%E5%90%AF%E5%8A%A8.md)
 
