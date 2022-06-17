@@ -116,6 +116,7 @@
 ### 2、用户（user）
 
 配置用户相关信息
+
 （1） 所在目录：mycat/conf/users
 
 （2） 命名方式：{用户名}.user.json  
@@ -150,6 +151,7 @@ SERIALIZABLE:4
 #可选值:
 #proxy 本地事务,在涉及大于 1 个数据库的事务,commit 阶段失败会导致不一致,但是兼容性最好
 #xa 事务,需要确认存储节点集群类型是否支持 XA
+
 #可以通过语句实现切换
 set transaction_policy = 'xa'
 set transaction_policy = 'proxy'
@@ -162,6 +164,7 @@ SELECT @@transaction_policy
 ### 3、数据源（datasource）
 
 配置Mycat连接的数据源信息
+
 （1） 所在目录：mycat/conf/datasources
 
 （2） 命名方式：{数据源名字}.datasource.json
@@ -169,7 +172,7 @@ SELECT @@transaction_policy
 （3） 配置内容  
 
 ```sh
-vim mycat/conf/datasources/ prototype. datasources.json
+vim mycat/conf/datasources/prototype.datasources.json
 ```
 
 ```json
@@ -207,7 +210,9 @@ vim mycat/conf/datasources/ prototype. datasources.json
 # instanceType：配置实例只读还是读写
 可选值:
 READ_WRITE,READ,WRITE
+
 #weight ：负载均衡权重
+
 # 连接相关配置
 "maxCon": 1000,
 "maxConnectTimeout": 3000,
@@ -220,6 +225,7 @@ READ_WRITE,READ,WRITE
 ### 4、集群（cluster）
 
 配置集群信息
+
 （4） 所在目录：mycat/conf/clusters
 
 （5） 命名方式：{集群名字}.cluster.json
@@ -235,8 +241,7 @@ vim mycat/conf/clusters/prototype.cluster.json
     "clusterType":"MASTER_SLAVE",
     "heartbeat":{
         "heartbeatTimeout":1000,
-        "maxRetryCount":3,//2021-6-4前是maxRetry，后更正为
-        maxRetryCount
+        "maxRetryCount":3,//2021-6-4前是maxRetry，后更正为maxRetryCount
         "minSwitchTimeInterval":300,
         "slaveThreshold":0
 	},
@@ -270,6 +275,7 @@ MASTER_SLAVE:普通主从
 GARELA_CLUSTER:garela cluster/PXC 集群
 MHA：MHA 集群
 MGR：MGR 集群
+
 # readBalanceType：查询负载均衡策略
 可选值:
 BALANCE_ALL(默认值)
@@ -280,6 +286,7 @@ BALANCE_READ_WRITE
 获取集群中允许读写的数据源,但允许读的数据源优先
 BALANCE_NONE
 获取集群中允许写数据源,即主节点中选择
+
 # switchType：切换类型
 可选值:
 NOT_SWITCH:不进行主从切换
@@ -291,22 +298,27 @@ SWITCH:进行主从切换
 ### 5、逻辑库表（schema）  
 
 配置逻辑库表，实现分库分表
+
 （7） 所在目录：mycat/conf/schemas
 
 （8） 命名方式：{库名}.schema.json
 
 （9） 配置内容  
 
-```json
+```shell
 vim mycat/conf/schemas/mydb1.schema.json
+```
+
+```json
 #库配置
 {
-"schemaName": "mydb",
-"targetName": "prototype"
+    "schemaName": "mydb",
+    "targetName": "prototype"
 } 
-#schemaName：逻辑库名
+# schemaName：逻辑库名
 # targetName：目的数据源或集群
 #targetName自动从prototype目标加载test库下的物理表或者视图作为单表,prototype必须是mysql服务器
+
 #单表配置
 {
     "schemaName": "mysql-test",
@@ -321,7 +333,6 @@ vim mycat/conf/schemas/mydb1.schema.json
         } 
 .....
 #详细配置见分库分表
-    
 ```
 
 
