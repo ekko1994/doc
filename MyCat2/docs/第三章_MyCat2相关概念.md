@@ -122,8 +122,11 @@
 
 （3） 配置内容  
 
-```json
+```shell
 vim mycat/conf/users/root.user.json
+```
+
+```json
 {
     "ip":null,
     "password":"123456",
@@ -131,7 +134,9 @@ vim mycat/conf/users/root.user.json
     "username":"root",
     "isolation":3
 }
+```
 
+```mysql
 #字段含义
 #ip：客户端访问ip，建议为空,填写后会对客户端的ip进行限制
 # username：用户名
@@ -163,8 +168,11 @@ SELECT @@transaction_policy
 
 （3） 配置内容  
 
-```json
+```sh
 vim mycat/conf/datasources/ prototype. datasources.json
+```
+
+```json
 {
     "dbType": "mysql",
     "idleTimeout": 60000,
@@ -184,7 +192,9 @@ vim mycat/conf/datasources/ prototype. datasources.json
     "weight": 0,
     "queryTimeout":30,//mills
 } 
+```
 
+```sh
 #字段含义
 # dbType：数据库类型，mysql
 # name：用户名
@@ -216,8 +226,11 @@ READ_WRITE,READ,WRITE
 
 （6） 配置内容  
 
-```json
+```sh
 vim mycat/conf/clusters/prototype.cluster.json
+```
+
+```json
 {
     "clusterType":"MASTER_SLAVE",
     "heartbeat":{
@@ -246,6 +259,9 @@ vim mycat/conf/clusters/prototype.cluster.json
     //writeBalanceName:"BALANCE_ALL",
 } 
 
+```
+
+```shell
 #字段含义
 # clusterType：集群类型
 可选值:
@@ -269,6 +285,8 @@ BALANCE_NONE
 NOT_SWITCH:不进行主从切换
 SWITCH:进行主从切换
 ```
+
+
 
 ### 5、逻辑库表（schema）  
 
