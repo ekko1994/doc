@@ -1,6 +1,6 @@
 # 目录
 
-## [基础篇](https://github.com/ekko1994/doc/tree/master/mysql/%E5%9F%BA%E7%A1%80%E7%AF%87)
+## [基础篇](./%E5%9F%BA%E7%A1%80%E7%AF%87)
 
 ### 数据库概述与MySQL安装篇
 
@@ -48,7 +48,7 @@
 
 - 第18章_MySQL8其它新特性
 
-## [高级特性篇](https://github.com/ekko1994/doc/tree/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87)
+## [高级特性篇](./%E9%AB%98%E7%BA%A7%E7%AF%87)
 
 ### MySQL架构篇
 

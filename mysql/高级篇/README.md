@@ -4,36 +4,36 @@
 
 ### MySQL架构篇
 
-- [第01章_Linux下MySQL的安装与使用](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC01%E7%AB%A0_Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
-- [第02章_MySQL的数据目录](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC02%E7%AB%A0_MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95.md)
-- [第03章_用户与权限管理](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC03%E7%AB%A0_%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.md)
-- [第04章_逻辑架构](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC04%E7%AB%A0_%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84.md)
-- [第05章_存储引擎](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC05%E7%AB%A0_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.md)
-- [第06章_索引的数据结构](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC06%E7%AB%A0_%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md)
+- [第01章_Linux下MySQL的安装与使用](%E7%AC%AC01%E7%AB%A0_Linux%E4%B8%8BMySQL%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8.md)
+- [第02章_MySQL的数据目录](%E7%AC%AC02%E7%AB%A0_MySQL%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9B%AE%E5%BD%95.md)
+- [第03章_用户与权限管理](%E7%AC%AC03%E7%AB%A0_%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.md)
+- [第04章_逻辑架构](%E7%AC%AC04%E7%AB%A0_%E9%80%BB%E8%BE%91%E6%9E%B6%E6%9E%84.md)
+- [第05章_存储引擎](%E7%AC%AC05%E7%AB%A0_%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.md)
+- [第06章_索引的数据结构](%E7%AC%AC06%E7%AB%A0_%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84.md)
 
 ### 索引及调优篇
 
-- [第07章_InnoDB数据存储结构](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC07%E7%AB%A0_InnoDB%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.md)
-- [第08章_索引的创建与设计原则](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC08%E7%AB%A0_%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99.md)
-- [第09章_性能分析工具的使用](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC09%E7%AB%A0_%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8.md)
-- [第10章_索引优化与查询优化](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC10%E7%AB%A0_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E4%B8%8E%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96.md)
-- [第11章_数据库的设计规范](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.md)
-- [第12章_数据库其他调优策略](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC12%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B6%E5%AE%83%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5.md)
+- [第07章_InnoDB数据存储结构](%E7%AC%AC07%E7%AB%A0_InnoDB%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.md)
+- [第08章_索引的创建与设计原则](%E7%AC%AC08%E7%AB%A0_%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%9B%E5%BB%BA%E4%B8%8E%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99.md)
+- [第09章_性能分析工具的使用](%E7%AC%AC09%E7%AB%A0_%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8.md)
+- [第10章_索引优化与查询优化](%E7%AC%AC10%E7%AB%A0_%E7%B4%A2%E5%BC%95%E4%BC%98%E5%8C%96%E4%B8%8E%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96.md)
+- [第11章_数据库的设计规范](%E7%AC%AC11%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83.md)
+- [第12章_数据库其他调优策略](%E7%AC%AC12%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%B6%E5%AE%83%E8%B0%83%E4%BC%98%E7%AD%96%E7%95%A5.md)
 
 ### 事务篇
 
-- [第13章_事务基础知识](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC13%E7%AB%A0_%E4%BA%8B%E5%8A%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
+- [第13章_事务基础知识](%E7%AC%AC13%E7%AB%A0_%E4%BA%8B%E5%8A%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.md)
 
-- [第14章_MySQL事务日志](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC14%E7%AB%A0_MySQL%E4%BA%8B%E5%8A%A1%E6%97%A5%E5%BF%97.md)
+- [第14章_MySQL事务日志](%E7%AC%AC14%E7%AB%A0_MySQL%E4%BA%8B%E5%8A%A1%E6%97%A5%E5%BF%97.md)
 
-- [第15章_锁](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC15%E7%AB%A0_%E9%94%81.md)
+- [第15章_锁](%E7%AC%AC15%E7%AB%A0_%E9%94%81.md)
 
-- [第16章_多版本并发控制(MVCC)](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC16%E7%AB%A0_%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6.md)
+- [第16章_多版本并发控制(MVCC)](%E7%AC%AC16%E7%AB%A0_%E5%A4%9A%E7%89%88%E6%9C%AC%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6.md)
 
 ### 日志与备份篇
 
-- [第17章_其它数据库日志](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC17%E7%AB%A0_%E5%85%B6%E5%AE%83%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E5%BF%97.md)
+- [第17章_其它数据库日志](%E7%AC%AC17%E7%AB%A0_%E5%85%B6%E5%AE%83%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A5%E5%BF%97.md)
 
-- [第18章_主从复制](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC18%E7%AB%A0_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.md)
+- [第18章_主从复制](%E7%AC%AC18%E7%AB%A0_%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6.md)
 
-- [第19章_数据库备份与恢复](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC19%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.md)
+- [第19章_数据库备份与恢复](%E7%AC%AC19%E7%AB%A0_%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A4%87%E4%BB%BD%E4%B8%8E%E6%81%A2%E5%A4%8D.md)
