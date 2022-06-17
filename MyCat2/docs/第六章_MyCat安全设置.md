@@ -9,14 +9,15 @@
 ```json
 #root.user.json
 {
-"dialect":"mysql",
-"ip":null,
-"password":"123456",
-"transactionType":"xa",
-"username":"root"
+    "dialect":"mysql",
+    "ip":null,
+    "password":"123456",
+    "transactionType":"xa",
+    "username":"root"
 } 
-#如下图
 ```
+
+如下图
 
 ![image-20220616192723113](images/image-20220616192723113.png)
 

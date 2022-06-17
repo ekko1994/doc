@@ -21,7 +21,7 @@ http://dl.mycat.org.cn/2.0/ui/
 
 ![image-20220616193013824](images/image-20220616193013824.png)
 
-导入文件是 csv 格式,无表头
+导出文件是 csv 格式,无表头
 (6 项)  
 
 prototype,s0,t0,0,0,0
