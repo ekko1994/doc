@@ -1,25 +1,25 @@
 # 目录
 
-- [MySQL](https://github.com/ekko1994/doc/tree/master/mysql)
-- [k8s](https://github.com/ekko1994/doc/tree/master/k8s)
-- [JVM](https://github.com/ekko1994/doc/tree/master/jvm)
-- [RabbitMQ](https://github.com/ekko1994/doc/tree/master/rabbitmq)
+- [MySQL](./mysql)
+- [k8s](./k8s)
+- [JVM](./jvm)
+- [RabbitMQ](./rabbitmq)
 
-- [Docker](https://github.com/ekko1994/doc/tree/master/docker)
+- [Docker](./docker)
 
-- [Mybatis](https://github.com/ekko1994/doc/tree/master/Mybatis)
+- [Mybatis](./Mybatis)
 
-- [Mybatis-Plus](https://github.com/ekko1994/doc/tree/master/Mybatis-plus)
+- [Mybatis-Plus](./Mybatis-plus)
 
-- [Nginx](https://github.com/ekko1994/doc/tree/master/nginx)
+- [Nginx](./nginx)
 
-- [SpringMVC](https://github.com/ekko1994/doc/tree/master/SpringMVC)
+- [SpringMVC](./SpringMVC)
 
-- [ActiveMQ](https://github.com/ekko1994/doc/tree/master/ActiveMQ)
+- [ActiveMQ](./ActiveMQ)
 
-- [ShardingSphere](https://github.com/ekko1994/doc/tree/master/ShadingSphere)
+- [ShardingSphere](./ShadingSphere)
 
-- [Elasticsearch](https://github.com/ekko1994/doc/tree/master/Elasticsearch)
+- [Elasticsearch](./Elasticsearch)
 
-- [MyCat2](https://github.com/ekko1994/doc/tree/master/MyCat2)
+- [MyCat2](./MyCat2)
 
