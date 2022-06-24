@@ -23,4 +23,4 @@
 
 - [MyCat2](./MyCat2)
 
-- [Redis](./Redis)
+- [Redis](./redis)
