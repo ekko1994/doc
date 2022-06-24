@@ -140,9 +140,9 @@ public interface UserMapper {
 
 ## 5 、创建MyBatis的映射文件
 
-相关概念： ORM （ O bject R elationship M apping）对象关系映射。
+相关概念： ORM （ Object Relationship Mapping）对象关系映射。
 
-- 对象：Java的实体类对象\
+- 对象：Java的实体类对象
 - 关系：关系型数据库
 - 映射：二者之间的对应关系
 
@@ -676,8 +676,7 @@ t_student(student_id,student_name,clazz_id)
 * @param user
 * @return
 * useGeneratedKeys：设置使用自增的主键
-* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参
-数user对象的某个属性中
+* keyProperty：因为增删改有统一的返回值是受影响的行数，因此只能将获取的自增的主键放在传输的参数user对象的某个属性中
 */
 int insertUser(User user);
 ```
@@ -721,8 +720,7 @@ column：设置映射关系中表中的字段名
 <!--List<User> testMohu(@Param("mohu") String mohu);-->
 <select id="testMohu" resultMap="userMap">
     <!--select * from t_user where username like '%${mohu}%'-->
-    select id,user_name,password,age,sex from t_user where user_name like
-    concat('%',#{mohu},'%')
+    select id,user_name,password,age,sex from t_user where user_name like concat('%',#{mohu},'%')
 </select>
 ```
 > 若字段名和实体类中的属性名不一致，但是字段名符合数据库的规则（使用_），实体类中的属性名符合Java的规则（使用驼峰）

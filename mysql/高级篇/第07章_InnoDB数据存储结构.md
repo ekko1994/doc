@@ -142,7 +142,7 @@ InnoDB存储引擎以页为单位把数据加载到内存中处理，如果该�
 User Records中的这些记录按照**指定的行格式**一条一条摆在User Records部分，相互之间形成**单链表**。
 
 用户记录里的一条条数据如何记录？
-这里需要讲讲记录行格式的[**记录头信息**](https://github.com/ekko1994/doc/blob/master/mysql/%E9%AB%98%E7%BA%A7%E7%AF%87/%E7%AC%AC07%E7%AB%A0_InnoDB%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.md#3%E8%AE%B0%E5%BD%95%E5%A4%B4%E4%BF%A1%E6%81%AF5%E5%AD%97%E8%8A%82)。
+这里需要讲讲记录行格式的记录头信息。
 
 **③ Infimum + Supremum（最小最大记录）**
 

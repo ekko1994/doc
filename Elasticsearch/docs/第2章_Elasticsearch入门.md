@@ -257,7 +257,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 上面的数据创建后，由于没有指定数据唯一性标识（ID），默认情况下，ES服务器会随机生成一个。
 
-如果想要自定义唯一性标识，需要在创建时指定：http://127.0.0.1:9200/shopping/_doc/ 1
+如果想要自定义唯一性标识，需要在创建时指定：http://127.0.0.1:9200/shopping/_doc/1。
 
 ![image-20220418162025735](images/image-20220418162025735.png)
 
@@ -269,7 +269,7 @@ ES里的Index可以看做一个库，而Types相当于表，Documents则相当�
 
 查看文档时，需要指明文档的唯一性标识，类似于MySQL中数据的主键查询
 
-在 Postman中，向ES服务器发GET请求 ：http://127.0.0.1:9200/shopping/_doc/1
+在 Postman中，向ES服务器发GET请求 ：http://127.0.0.1:9200/shopping/_doc/1。http://127.0.0.1:9200/shopping/_search
 
 ![image-20220418162102619](images/image-20220418162102619.png)
 
@@ -1490,7 +1490,7 @@ System.out.println("_result:" + response.getResult());
 
 **2) 修改文档**
 
-```
+```java
 // 修改文档 - 请求对象
 UpdateRequest request = new UpdateRequest();
 // 配置修改参数

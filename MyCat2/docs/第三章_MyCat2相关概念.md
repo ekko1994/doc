@@ -187,7 +187,7 @@ vim mycat/conf/datasources/prototype.datasources.json
     "maxRetryCount": 5,
     "minCon": 1,
     "name": "prototype",
-    "password": "123456",
+    "password": "root",
     "type": "JDBC",
     "url":
     "jdbc:mysql://127.0.0.1:3306/mysql?useUnicode=true&serverTimezone=UTC",
