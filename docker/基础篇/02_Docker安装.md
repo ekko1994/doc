@@ -93,7 +93,7 @@ Docker运行的基本流程为：
 
 2. 卸载旧版本
 
-   ```
+   ```sh
     sudo yum remove docker \
                      docker-client \
                      docker-client-latest \
