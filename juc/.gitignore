@@ -1,7 +1,7 @@
 ### Java template
 # Compiled class file
 *.class
-target
+/target
 
 # Log file
 *.log
@@ -26,6 +26,7 @@ hs_err_pid*
 
 # Idea
 *.iml
+/.idea
 
 
 
