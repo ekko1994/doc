@@ -10,7 +10,7 @@
 
 ## 组件的生命周期
 
-![image-20220910004646519](D:\GitHub\doc\design-patterns\images\image-20220910004646519.png)
+![image-20220910004646519](images/image-20220910004646519.png)
 
 ## 设计的七大原则
 

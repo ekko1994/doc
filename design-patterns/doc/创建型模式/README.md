@@ -10,7 +10,7 @@
 - 它必须自行创建这个实例；（自己编写实例化逻辑）
 - 它必须自行向整个系统提供这个实例；（对外提供实例化方法）
 
-<img src="D:\GitHub\doc\design-patterns\doc\创建型模式\images\image-20220910012202848.png" alt="image-20220910012202848" style="zoom: 33%;" />
+<img src="images/image-20220910012202848.png" alt="image-20220910012202848" style="zoom: 33%;" />
 
 应用场景：
 
