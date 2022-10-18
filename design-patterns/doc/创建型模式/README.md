@@ -1,6 +1,6 @@
 # 创建型模式（Creational Patterns）
 
-## 单例（Singleton）模式
+## 1. 单例（Singleton）模式
 
 一个单一的类，负责创建自己的对象，同时确保系统中只有单个对象被创建。
 
@@ -16,7 +16,7 @@
 
 ![image-20220911184854119](images/image-20220911184854119.png)
 
-## 原型（Prototype）模式
+## 2. 原型（Prototype）模式
 
 - **原型模式（Prototype Pattern）是用于创建重复的对象，同时又能保证性能。**
 - 本体给外部提供一个克隆体进行使用
