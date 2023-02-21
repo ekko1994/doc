@@ -122,3 +122,27 @@ Subject: 抽象主体角色(抽象类或接口)
 Proxy: 代理主体角色(代理对象类)
 
 RealSubject: 真实主体角色(被代理对象类)
+
+**什么场景用到？**
+
+- MyBatis的mapper到底是什么？怎么生成的？
+- 动态代理
+  - UserMapper、CityMapper，mybatis帮我们写实现MapperProxy
+- Alibaba Seata的DataSourceProxy是什么？
+- DruidDataSource存在的Proxy模式
+  - 监控链...
+- ......
+
+## 5. 外观模式（Facade Pattern）
+
+外观（Facade）模式又叫作门面模式，是一种通过为多个复杂的子系统提供一个一致的接口，而使这些子系统更加容易被访问的模式
+
+![image-20230221160823363](images/image-20230221160823363.png)
+
+什么场景使用？
+
+- 去医院看病，可能要去挂号、门诊、划价、取药，让患者或患者家属觉得很复杂，如果有提供接待人员，只让接待人员来处理，就很方便。以此类比......
+- JAVA 的三层开发模式。
+- 分布式系统的网关
+- Tomcat源码中的RequestFacade干什么的？
+- ......
