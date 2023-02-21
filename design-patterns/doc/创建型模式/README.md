@@ -46,6 +46,28 @@
 
 ![image-20230221100313041](images/image-20230221100313041.png)
 
-![image-20230221100323643](images/image-20230221100323643.png)
+**三个角色**
 
-**缺点：违背开闭，扩展不易**
+Factory：工厂角色， WuLinFactory
+
+Product：抽象产品角色，Car
+
+ConcreteProduct：具体产品角色， VanCar、MiniCar
+
+> **缺点：违背开闭，扩展不易**
+
+### 3.2 工厂（Factory）模式-工厂方法(Factory Method)
+
+![image-20230221105233242](images/image-20230221105233242.png)
+
+**四个角色**
+
+Product：抽象产品
+
+ConcreteProduct：具体产品
+
+Factory：抽象工厂
+
+ConcreteFactory：具体工厂
+
+> **缺点：系统复杂度增加，产品单一**
