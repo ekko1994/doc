@@ -1,4 +1,4 @@
-package com.zzhh.design.creatation.factory.simplefactory;
+package com.zzhh.design.creatation.factory.factorymethod;
 
 /**
  * @ClassName AbstractCat
