@@ -91,5 +91,34 @@
 具体装饰（ConcreteDecorator）角色：
 		实现抽象装饰的相关方法，并给具体构件对象添加附加的责任。
 
-## 4. 建造者（Builder）模式
 
+
+什么场景使用？
+
+- 无处不在.....
+- SpringSession中如何进行session与redis关联？HttpRequestWrapper
+  - session：数据存在了内存
+  - session：数据存在redis
+  - HttpSession；getAttribute();
+  - Wrapper(session){
+    - getAttribute(String param){    redis.get(param) };
+  - }
+- MyBatisPlus提取了QueryWrapper，这是什么？
+- Spring中的BeanWrapper是做什么？包装了Bean。bean的功能增强？
+- Spring Webflux中的 WebHandlerDecorator？
+- 已存的类，每一天在某个功能使用的时候发现不够，就可以装饰器。
+- ......
+
+## 4. 代理模式（Proxy Pattern）
+
+代理模式(Proxy Pattern) ,给某一个对象提供一个代理，并由代理对象控制对原对象的引用,对象结构型模式。这种也是静态代理
+
+![image-20230221151604450](images/image-20230221151604450.png)
+
+代理模式包含如下角色：
+
+Subject: 抽象主体角色(抽象类或接口)
+
+Proxy: 代理主体角色(代理对象类)
+
+RealSubject: 真实主体角色(被代理对象类)
