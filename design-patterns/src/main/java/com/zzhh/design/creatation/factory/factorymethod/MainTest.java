@@ -14,7 +14,9 @@ public class MainTest {
         car1.run();
 
         WuLinMiniFactory wuLinMiniFactory = new WuLinMiniFactory();
-        MiniCar car2 = (MiniCar) wuLinMiniFactory.newCar();
-        car2.run();
+        //MiniCar car2 = (MiniCar) wuLinMiniFactory.newCar();
+        //car2.run();
+        AbstractCar abstractCar = wuLinMiniFactory.newCar();
+        abstractCar.run();
     }
 }

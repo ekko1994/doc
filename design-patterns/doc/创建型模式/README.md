@@ -71,3 +71,11 @@ Factory：抽象工厂
 ConcreteFactory：具体工厂
 
 > **缺点：系统复杂度增加，产品单一**
+
+### 3.3 工厂（Factory）模式-抽象工厂(Abstract Factory)
+
+![image-20230221111129856](images/image-20230221111129856.png)
+
+![image-20230221111157760](images/image-20230221111157760.png)
+
+**如何实现，人民需要什么，五菱就造什么**
