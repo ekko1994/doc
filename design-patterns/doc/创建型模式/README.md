@@ -79,3 +79,29 @@ ConcreteFactory：具体工厂
 ![image-20230221111157760](images/image-20230221111157760.png)
 
 **如何实现，人民需要什么，五菱就造什么**
+
+**工厂模式的退化**
+
+当抽象工厂模式中**每一个具体工厂类只创建一个产品对象**，也就是只存在一个产品等级结构时，**抽象工厂模式退化成工厂方法模式**；当工厂方法模式中抽象工厂与具体工厂合并，提供一个统一的工厂来创建产品对象，并将创建对象的工厂方法设计为静态方法时，**工厂方法模式退化成简单工厂模式**。
+
+什么场景用到？
+
+NumberFormat、SimpleDateFormat
+
+LoggerFactory：
+
+SqlSessionFactory：MyBatis
+
+BeanFactory：Spring的BeanFactory（就是为了造出bean）......
+
+## 4. 建造者（Builder）模式
+
+![image-20230221115620705](images/image-20230221115620705.png)
+
+产品角色（Product）：Phone
+
+抽象建造者（Builder）：AbstracPhoneBuilder
+
+具体建造者(Concrete Builder）：PhoneBuilder
+
+创建的东西细节复杂，还必须暴露给使用者。**屏蔽过程而不屏蔽细节**
